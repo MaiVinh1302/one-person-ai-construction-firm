@@ -24,6 +24,7 @@ if PROJECT_ROOT not in sys.path:
 from core.orchestrator import orchestrator
 from core.permissions import RBACManager
 from core.reporting_engine import reporting_engine, REPORTS_DIR
+from core.github_sync import GitHubAutoSync
 from knowledge.legal_engine import legal_engine
 
 app = FastAPI(title="One-Person AI Construction Firm Portal", version="1.2.0")
@@ -124,6 +125,21 @@ def download_report_file(filename: str):
         filename=filename,
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
+# -------------------------------------------------------------
+# GITHUB AUTO-SYNC ENDPOINTS
+# -------------------------------------------------------------
+@app.get("/api/github/status")
+def get_github_sync_status():
+    """Lấy trạng thái đồng bộ với repository GitHub"""
+    return GitHubAutoSync.get_sync_status()
+
+@app.post("/api/github/sync")
+async def sync_github_now(request: Request):
+    """Kích hoạt đồng bộ hóa tức thời lên GitHub"""
+    body = await request.json() if await request.body() else {}
+    msg = body.get("message", "auto: sync updates from Antigravity Dashboard")
+    return GitHubAutoSync.commit_and_push(msg)
 
 @app.get("/api/approvals")
 def get_approvals():
