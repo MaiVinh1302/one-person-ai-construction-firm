@@ -53,7 +53,10 @@ class ConstructionReportingEngine:
         head = personnel.get("department_head", "Trưởng phòng kiểm duyệt")
 
         report_title = f"BÁO CÁO THẨM TRA NGHIỆP VỤ CHUYÊN SÂU: {dept_name.upper()}"
-        report_code = f"BC-TT-{wf}-{datetime.datetime.now().strftime('%Y%m%d%H%M')}"
+        report_code = f"BC-TT-{wf}-{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+
+        attached_file = result_data.get("attached_file_name") or "Hồ sơ nhập trực tiếp trên hệ thống"
+        attached_link = result_data.get("attached_file_link") or "Kho dữ liệu nội bộ dự án"
 
         # Xây dựng nội dung Markdown
         md_lines = [
@@ -62,7 +65,9 @@ class ConstructionReportingEngine:
             f"**Mã báo cáo:** `{report_code}` | **Thời gian lập:** {timestamp} | **Dự án:** {project_name}",
             f"**Người phê duyệt tối cao:** Founder / CEO {cls.FOUNDER_NAME} (Level 5)\n",
             "---",
-            "### 👥 HỘI ĐỒNG THẨM TRA PHÒNG BAN (2 CẤP NHÂN SỰ)",
+            "### 📂 HỒ SƠ ĐẦU VÀO & HỘI ĐỒNG THẨM TRA PHÒNG BAN (2 CẤP NHÂN SỰ)",
+            f"- 📄 **Tệp hồ sơ giao việc:** `{attached_file}`",
+            f"- 🔗 **Đường link / Nguồn hồ sơ:** {attached_link}",
             f"- 👷 **Chuyên viên thực thi:** {specialist}",
             f"- 🧑‍⚖️ **Trưởng phòng kiểm duyệt:** {head}",
             f"- 🛡️ **LỆNH CHUYỂN BƯỚC (GATE CLEARANCE):** `[{gate_status}]` "

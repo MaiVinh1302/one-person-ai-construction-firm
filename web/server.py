@@ -10,6 +10,8 @@ Hỗ trợ:
 
 import os
 import sys
+import base64
+import datetime
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,6 +22,9 @@ import uvicorn
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
+
+UPLOADS_DIR = os.path.join(PROJECT_ROOT, "uploads")
+os.makedirs(UPLOADS_DIR, exist_ok=True)
 
 from core.orchestrator import orchestrator
 from core.permissions import RBACManager
@@ -145,6 +150,52 @@ def download_report_file(filename: str):
         filename=filename,
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
+# -------------------------------------------------------------
+# FILE UPLOAD & DOSSIER ATTACHMENT ENDPOINTS
+# -------------------------------------------------------------
+@app.post("/api/upload")
+async def upload_department_file(request: Request):
+    """Tải lên hồ sơ giao việc cho từng phòng ban (lưu vào thư mục uploads/)"""
+    body = await request.json()
+    raw_name = body.get("filename", "ho_so_giao_viec.pdf")
+    safe_name = os.path.basename(raw_name)
+    dept = body.get("department", "GENERAL")
+    content_b64 = body.get("content_base64", "")
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    saved_filename = f"{dept}_{timestamp}_{safe_name}"
+    saved_path = os.path.join(UPLOADS_DIR, saved_filename)
+
+    if content_b64:
+        try:
+            if "," in content_b64:
+                content_b64 = content_b64.split(",", 1)[1]
+            file_bytes = base64.b64decode(content_b64)
+            with open(saved_path, "wb") as f:
+                f.write(file_bytes)
+        except Exception:
+            with open(saved_path, "w", encoding="utf-8") as f:
+                f.write(f"Uploaded file metadata: {safe_name}")
+    else:
+        with open(saved_path, "w", encoding="utf-8") as f:
+            f.write(f"Uploaded file metadata: {safe_name}")
+
+    return {
+        "success": True,
+        "original_name": safe_name,
+        "saved_filename": saved_filename,
+        "download_url": f"/api/uploads/download/{saved_filename}"
+    }
+
+@app.get("/api/uploads/download/{filename}")
+def download_uploaded_file(filename: str):
+    """Tải xuống hoặc xem lại hồ sơ đã giao việc cho phòng ban"""
+    safe_name = os.path.basename(filename)
+    file_path = os.path.join(UPLOADS_DIR, safe_name)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="Không tìm thấy tệp hồ sơ đính kèm.")
+    return FileResponse(path=file_path, filename=safe_name)
 
 # -------------------------------------------------------------
 # GITHUB AUTO-SYNC ENDPOINTS

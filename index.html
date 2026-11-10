@@ -244,43 +244,92 @@
           </div>
 
           <div class="form-group">
-            <label>Chọn Phòng Ban & Cặp Nhân Sự (Chuyên viên + Trưởng phòng) nhận lệnh:</label>
-            <div class="checkbox-group">
-              <label class="checkbox-item">
-                <input type="checkbox" id="as-contract" checked>
-                <div>
-                  <b>⚖️ 1. Ban Pháp Chế</b><br>
-                  <span style="font-size:0.75rem; color:#94a3b8;">CV: Nguyễn Văn Pháp • TP: Trần Thị Tuân Thủ</span>
+            <label>Chọn Phòng Ban Nhận Lệnh & Nạp Hồ Sơ / Đường Link File Giao Việc Cho Từng Phòng Ban:</label>
+            <div class="dept-assign-grid">
+              <!-- Phòng 1: Pháp chế -->
+              <div class="dept-assign-card">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-contract" checked style="width:17px; height:17px;">
+                  <b style="color:#93c5fd;">⚖️ 1. Ban Pháp Chế & Hợp Đồng</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">👷 CV: Nguyễn Văn Pháp • 🧑‍⚖️ TP: Trần Thị Tuân Thủ</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-contract">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-contract" style="display:none;" onchange="handleDeptFileSelect('CONTRACT', this, 'tag-as-contract', 'link-as-contract')">
+                    <span id="tag-as-contract" class="file-name-tag">Hop_dong_thi_cong_TT_Tower.docx</span>
+                  </div>
+                  <input type="text" id="link-as-contract" class="input-link-small" placeholder="🔗 Dán đường link Google Drive / OneDrive / Đường dẫn file..." value="https://drive.google.com/drive/folders/HopDong_TT_Tower_2026.docx">
                 </div>
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" id="as-bidding" checked>
-                <div>
-                  <b>📋 2. Ban Đấu Thầu</b><br>
-                  <span style="font-size:0.75rem; color:#94a3b8;">CV: Lê Quang Thầu • TP: Phạm Minh Đấu</span>
+              </div>
+
+              <!-- Phòng 2: Đấu thầu -->
+              <div class="dept-assign-card">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-bidding" checked style="width:17px; height:17px;">
+                  <b style="color:#93c5fd;">📋 2. Ban Đấu Thầu & Mua Sắm</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">👷 CV: Lê Quang Thầu • 🧑‍⚖️ TP: Phạm Minh Đấu</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-bidding">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-bidding" style="display:none;" onchange="handleDeptFileSelect('BIDDING', this, 'tag-as-bidding', 'link-as-bidding')">
+                    <span id="tag-as-bidding" class="file-name-tag">Ho_so_3_bao_gia_Tram_bien_ap.xlsx</span>
+                  </div>
+                  <input type="text" id="link-as-bidding" class="input-link-small" placeholder="🔗 Dán đường link hồ sơ mời thầu / báo giá..." value="https://muasamcong.mpi.gov.vn/goi-thau-tram-bien-ap-2026.xlsx">
                 </div>
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" id="as-qs" checked>
-                <div>
-                  <b>📐 3. Ban Dự Toán QS</b><br>
-                  <span style="font-size:0.75rem; color:#94a3b8;">KS: Đỗ Văn Lượng • TP: Vũ Đình Toàn</span>
+              </div>
+
+              <!-- Phòng 3: Dự toán QS -->
+              <div class="dept-assign-card">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-qs" checked style="width:17px; height:17px;">
+                  <b style="color:#93c5fd;">📐 3. Ban Kỹ Sư Dự Toán QS & BOQ</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">👷 KS: Đỗ Văn Lượng • 🧑‍⚖️ TP: Vũ Đình Toàn</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-qs">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-qs" style="display:none;" onchange="handleDeptFileSelect('QS_BOQ', this, 'tag-as-qs', 'link-as-qs')">
+                    <span id="tag-as-qs" class="file-name-tag">Ban_ve_CAD_va_BOQ_Mong_ham.xlsx</span>
+                  </div>
+                  <input type="text" id="link-as-qs" class="input-link-small" placeholder="🔗 Dán đường link file bản vẽ CAD/DXF hoặc bảng BOQ..." value="D:/OneDrive/Du_An_TT_Tower/BOQ_Ket_Cau_Mong_2026.xlsx">
                 </div>
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" id="as-qaqc" checked>
-                <div>
-                  <b>🏗️ 4. Ban QA/QC</b><br>
-                  <span style="font-size:0.75rem; color:#94a3b8;">KS: Bùi Văn Nghiệm • TP: Hoàng Văn Chuẩn</span>
+              </div>
+
+              <!-- Phòng 4: QA/QC -->
+              <div class="dept-assign-card">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-qaqc" checked style="width:17px; height:17px;">
+                  <b style="color:#93c5fd;">🏗️ 4. Ban Quản Lý Chất Lượng QA/QC</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">👷 KS: Bùi Văn Nghiệm • 🧑‍⚖️ TP: Hoàng Văn Chuẩn</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-qaqc">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-qaqc" style="display:none;" onchange="handleDeptFileSelect('QAQC', this, 'tag-as-qaqc', 'link-as-qaqc')">
+                    <span id="tag-as-qaqc" class="file-name-tag">Bien_ban_BBNTCV_va_Nen_mau_R28.pdf</span>
+                  </div>
+                  <input type="text" id="link-as-qaqc" class="input-link-small" placeholder="🔗 Dán đường link hồ sơ nghiệm thu BBNTCV / bản vẽ hoàn công..." value="https://drive.google.com/drive/folders/QAQC_Tang3_BBNTCV.pdf">
                 </div>
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" id="as-settlement" checked>
-                <div>
-                  <b>💰 5. Ban Quyết Toán</b><br>
-                  <span style="font-size:0.75rem; color:#94a3b8;">CV: Ngô Thị Quyết • TP: Đặng Đức Toán</span>
+              </div>
+
+              <!-- Phòng 5: Quyết toán -->
+              <div class="dept-assign-card">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-settlement" checked style="width:17px; height:17px;">
+                  <b style="color:#93c5fd;">💰 5. Ban Kiểm Toán Thanh Quyết Toán</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">👷 CV: Ngô Thị Quyết • 🧑‍⚖️ TP: Đặng Đức Toán</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-settlement">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-settlement" style="display:none;" onchange="handleDeptFileSelect('SETTLEMENT', this, 'tag-as-settlement', 'link-as-settlement')">
+                    <span id="tag-as-settlement" class="file-name-tag">Ho_so_Thanh_toan_Mau_08a_Dot1.xlsx</span>
+                  </div>
+                  <input type="text" id="link-as-settlement" class="input-link-small" placeholder="🔗 Dán đường link biểu mẫu 08a / 08b đề nghị thanh toán..." value="D:/OneDrive/Du_An_TT_Tower/ThanhToan_Mau_08a_Dot1.xlsx">
                 </div>
-              </label>
+              </div>
             </div>
           </div>
 
@@ -378,6 +427,16 @@
         <p class="page-desc">Chuyên viên Nguyễn Văn Pháp bóc tách -> Trưởng phòng Trần Thị Tuân Thủ kiểm duyệt NĐ 210/2026/NĐ-CP & cấp lệnh chuyển bước.</p>
 
         <div class="card">
+          <div class="dept-attachment-banner">
+            <label style="font-size:0.86rem; font-weight:700; color:#38bdf8; display:block; margin-bottom:8px;">📂 NẠP HỒ SƠ HỢP ĐỒNG HOẶC DÁN ĐƯỜNG LINK GIAO VIỆC CHO PHÒNG PHÁP CHẾ:</label>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <label class="btn-upload-file" for="file-ct-tab">📂 Tải File Hợp Đồng (.docx/.pdf)</label>
+              <input type="file" id="file-ct-tab" style="display:none;" onchange="handleDeptFileSelect('CONTRACT', this, 'tag-ct-tab', 'link-ct-tab')">
+              <span id="tag-ct-tab" class="file-name-tag">Hop_dong_thi_cong_TT_Tower.docx</span>
+              <input type="text" id="link-ct-tab" class="form-control" style="flex:1; min-width:240px; padding:7px 12px; font-size:0.85rem;" placeholder="🔗 Hoặc dán đường link file hợp đồng (Google Drive / OneDrive / Đường dẫn máy)..." value="https://drive.google.com/drive/folders/HopDong_TT_Tower_2026.docx">
+            </div>
+          </div>
+
           <div class="form-group">
             <label>Tên hợp đồng:</label>
             <input type="text" id="ct-title" class="form-control" value="Hợp đồng thi công xây dựng Cọc và Móng hầm Toà nhà Văn phòng T&T">
@@ -409,7 +468,7 @@
             <label>Điều khoản dự thảo cần thẩm tra:</label>
             <textarea id="ct-clauses" class="form-control" rows="3">Điều 5: Chủ đầu tư tạm ứng 35% giá trị hợp đồng. Thời hạn thanh toán khối lượng hoàn thành trong vòng 45 ngày kể từ ngày nhận hồ sơ. Thời hạn quyết toán hợp đồng khi chủ đầu tư thu xếp được vốn.</textarea>
           </div>
-          <button class="btn-primary" onclick="submitContractAudit()">🚀 Chạy Quy Trình Thẩm Tra 2 Cấp & Xuất Báo Cáo Riêng</button>
+          <button class="btn-primary" onclick="submitContractAudit()">🚀 Chạy Quy Trình Thẩm Tra 2 Cấp & Xuất Báo Cáo Riêng Phòng Pháp Chế</button>
         </div>
 
         <div id="contract-result" class="result-box" style="display:none;"></div>
@@ -421,6 +480,16 @@
         <p class="page-desc">Chuyên viên Lê Quang Thầu phân tích ma trận báo giá -> Trưởng phòng Phạm Minh Đấu kiểm duyệt NĐ 349/2026 & cấp lệnh chuyển bước.</p>
 
         <div class="card">
+          <div class="dept-attachment-banner">
+            <label style="font-size:0.86rem; font-weight:700; color:#38bdf8; display:block; margin-bottom:8px;">📂 NẠP HỒ SƠ MỜI THẦU / BÁO GIÁ HOẶC DÁN LINK GIAO VIỆC CHO PHÒNG ĐẤU THẦU:</label>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <label class="btn-upload-file" for="file-bd-tab">📂 Tải Hồ Sơ Báo Giá (.xlsx/.pdf)</label>
+              <input type="file" id="file-bd-tab" style="display:none;" onchange="handleDeptFileSelect('BIDDING', this, 'tag-bd-tab', 'link-bd-tab')">
+              <span id="tag-bd-tab" class="file-name-tag">Ho_so_3_bao_gia_Tram_bien_ap.xlsx</span>
+              <input type="text" id="link-bd-tab" class="form-control" style="flex:1; min-width:240px; padding:7px 12px; font-size:0.85rem;" placeholder="🔗 Hoặc dán đường link hồ sơ thầu / báo giá..." value="https://muasamcong.mpi.gov.vn/goi-thau-tram-bien-ap-2026.xlsx">
+            </div>
+          </div>
+
           <div class="form-group">
             <label>Tên gói thầu:</label>
             <input type="text" id="bd-name" class="form-control" value="Gói thầu số 03: Thi công trạm biến áp và máy phát điện dự phòng">
@@ -455,7 +524,7 @@
               </select>
             </div>
           </div>
-          <button class="btn-primary" onclick="submitBiddingAudit()">🚀 Chạy Quy Trình Thẩm Định 2 Cấp & Xuất Báo Cáo Riêng</button>
+          <button class="btn-primary" onclick="submitBiddingAudit()">🚀 Chạy Quy Trình Thẩm Định 2 Cấp & Xuất Báo Cáo Riêng Phòng Đấu Thầu</button>
         </div>
 
         <div id="bidding-result" class="result-box" style="display:none;"></div>
@@ -467,8 +536,18 @@
         <p class="page-desc">Kỹ sư Đỗ Văn Lượng bóc tách hình học & định mức -> Trưởng phòng Vũ Đình Toàn rà soát quét gian lận trùng lặp.</p>
 
         <div class="card">
+          <div class="dept-attachment-banner">
+            <label style="font-size:0.86rem; font-weight:700; color:#38bdf8; display:block; margin-bottom:8px;">📂 NẠP FILE BẢN VẼ CAD / BẢNG DỰ TOÁN EXCEL HOẶC DÁN LINK GIAO VIỆC CHO PHÒNG QS:</label>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <label class="btn-upload-file" for="file-qs-tab">📂 Tải File BOQ / CAD (.xlsx/.dxf)</label>
+              <input type="file" id="file-qs-tab" style="display:none;" onchange="handleDeptFileSelect('QS_BOQ', this, 'tag-qs-tab', 'link-qs-tab')">
+              <span id="tag-qs-tab" class="file-name-tag">Ban_ve_CAD_va_BOQ_Mong_ham.xlsx</span>
+              <input type="text" id="link-qs-tab" class="form-control" style="flex:1; min-width:240px; padding:7px 12px; font-size:0.85rem;" placeholder="🔗 Hoặc dán đường link file BOQ Excel / Bản vẽ CAD..." value="D:/OneDrive/Du_An_TT_Tower/BOQ_Ket_Cau_Mong_2026.xlsx">
+            </div>
+          </div>
+
           <p style="margin-bottom: 12px; font-size: 0.9rem; color: #cbd5e1;">Hồ sơ BOQ dự thầu kiểm tra tự động (gồm các đầu việc đào đất, bê tông lót, cốt thép móng):</p>
-          <button class="btn-primary" onclick="submitQSBOQAudit()">🚀 Chạy Quy Trình Thẩm Tra BOQ 2 Cấp & Xuất Báo Cáo Riêng</button>
+          <button class="btn-primary" onclick="submitQSBOQAudit()">🚀 Chạy Quy Trình Thẩm Tra BOQ 2 Cấp & Xuất Báo Cáo Riêng Phòng QS</button>
         </div>
 
         <div id="qs-result" class="result-box" style="display:none;"></div>
@@ -480,6 +559,16 @@
         <p class="page-desc">Kỹ sư Bùi Văn Nghiệm kiểm tra hiện trường & BBNTCV -> Trưởng phòng Hoàng Văn Chuẩn ban hành Lệnh Chuyển Bước Thi Công.</p>
 
         <div class="card">
+          <div class="dept-attachment-banner">
+            <label style="font-size:0.86rem; font-weight:700; color:#38bdf8; display:block; margin-bottom:8px;">📂 NẠP BIÊN BẢN NGHIỆM THU BBNTCV / PHIẾU NÉN MẪU HOẶC DÁN LINK GIAO VIỆC CHO PHÒNG QA/QC:</label>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <label class="btn-upload-file" for="file-qa-tab">📂 Tải Hồ Sơ QA/QC (.pdf/.docx)</label>
+              <input type="file" id="file-qa-tab" style="display:none;" onchange="handleDeptFileSelect('QAQC', this, 'tag-qa-tab', 'link-qa-tab')">
+              <span id="tag-qa-tab" class="file-name-tag">Bien_ban_BBNTCV_va_Nen_mau_R28.pdf</span>
+              <input type="text" id="link-qa-tab" class="form-control" style="flex:1; min-width:240px; padding:7px 12px; font-size:0.85rem;" placeholder="🔗 Hoặc dán đường link hồ sơ nghiệm thu / bản vẽ hoàn công..." value="https://drive.google.com/drive/folders/QAQC_Tang3_BBNTCV.pdf">
+            </div>
+          </div>
+
           <div class="form-group">
             <label>Hạng mục nghiệm thu:</label>
             <input type="text" id="qa-item" class="form-control" value="Nghiệm thu đổ bê tông sàn dầm Tầng 3 (Trục 1-5)">
@@ -500,7 +589,7 @@
               </select>
             </div>
           </div>
-          <button class="btn-primary" onclick="submitQAQCAudit()">🚀 Chạy Quy Trình Nghiệm Thu 2 Cấp & Xuất Báo Cáo Riêng</button>
+          <button class="btn-primary" onclick="submitQAQCAudit()">🚀 Chạy Quy Trình Nghiệm Thu 2 Cấp & Xuất Báo Cáo Riêng Phòng QA/QC</button>
         </div>
 
         <div id="qaqc-result" class="result-box" style="display:none;"></div>
@@ -512,6 +601,16 @@
         <p class="page-desc">Chuyên viên Ngô Thị Quyết chiết tính -> Trưởng phòng Đặng Đức Toán kiểm toán 4 tầng & cấp lệnh giải ngân.</p>
 
         <div class="card">
+          <div class="dept-attachment-banner">
+            <label style="font-size:0.86rem; font-weight:700; color:#38bdf8; display:block; margin-bottom:8px;">📂 NẠP HỒ SƠ THANH TOÁN MẪU 08A / 08B HOẶC DÁN LINK GIAO VIỆC CHO PHÒNG QUYẾT TOÁN:</label>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <label class="btn-upload-file" for="file-st-tab">📂 Tải Bảng Tính Mẫu 08a (.xlsx/.pdf)</label>
+              <input type="file" id="file-st-tab" style="display:none;" onchange="handleDeptFileSelect('SETTLEMENT', this, 'tag-st-tab', 'link-st-tab')">
+              <span id="tag-st-tab" class="file-name-tag">Ho_so_Thanh_toan_Mau_08a_Dot1.xlsx</span>
+              <input type="text" id="link-st-tab" class="form-control" style="flex:1; min-width:240px; padding:7px 12px; font-size:0.85rem;" placeholder="🔗 Hoặc dán đường link hồ sơ thanh quyết toán Mẫu 08a..." value="D:/OneDrive/Du_An_TT_Tower/ThanhToan_Mau_08a_Dot1.xlsx">
+            </div>
+          </div>
+
           <div style="display: flex; gap: 16px; flex-wrap:wrap;">
             <div class="form-group" style="flex:1;">
               <label>Giá trị hợp đồng duyệt (VNĐ):</label>
@@ -532,7 +631,7 @@
               <input type="number" id="st-rec" class="form-control" value="1000000000">
             </div>
           </div>
-          <button class="btn-primary" onclick="submitSettlementAudit()">🚀 Chạy Quy Trình Kiểm Toán 08a 2 Cấp & Xuất Báo Cáo Riêng</button>
+          <button class="btn-primary" onclick="submitSettlementAudit()">🚀 Chạy Quy Trình Kiểm Toán 08a 2 Cấp & Xuất Báo Cáo Riêng Phòng Quyết Toán</button>
         </div>
 
         <div id="settlement-result" class="result-box" style="display:none;"></div>
@@ -627,6 +726,59 @@
       document.getElementById('login-overlay').style.display = 'none';
       const savedRole = sessionStorage.getItem('tt_role_text');
       if (savedRole) document.getElementById('active-user-badge').innerHTML = savedRole;
+    }
+
+    // Lưu trữ thông tin file tải lên / đường link giao việc của từng phòng ban
+    const DEPT_ATTACHMENTS = {
+      CONTRACT: { file_name: "Hop_dong_thi_cong_TT_Tower.docx", file_link: "https://drive.google.com/drive/folders/HopDong_TT_Tower_2026.docx" },
+      BIDDING: { file_name: "Ho_so_3_bao_gia_Tram_bien_ap.xlsx", file_link: "https://muasamcong.mpi.gov.vn/goi-thau-tram-bien-ap-2026.xlsx" },
+      QS_BOQ: { file_name: "Ban_ve_CAD_va_BOQ_Mong_ham.xlsx", file_link: "D:/OneDrive/Du_An_TT_Tower/BOQ_Ket_Cau_Mong_2026.xlsx" },
+      QAQC: { file_name: "Bien_ban_BBNTCV_va_Nen_mau_R28.pdf", file_link: "https://drive.google.com/drive/folders/QAQC_Tang3_BBNTCV.pdf" },
+      SETTLEMENT: { file_name: "Ho_so_Thanh_toan_Mau_08a_Dot1.xlsx", file_link: "D:/OneDrive/Du_An_TT_Tower/ThanhToan_Mau_08a_Dot1.xlsx" }
+    };
+
+    async function handleDeptFileSelect(dept, inputEl, tagId, linkId) {
+      if (!inputEl.files || inputEl.files.length === 0) return;
+      const file = inputEl.files[0];
+      const tagEl = document.getElementById(tagId);
+      const linkEl = document.getElementById(linkId);
+      if (tagEl) tagEl.innerText = "⏳ Đang tải: " + file.name;
+
+      DEPT_ATTACHMENTS[dept].file_name = file.name;
+
+      // Đọc base64 và gửi lên /api/upload nếu có backend FastAPI
+      const reader = new FileReader();
+      reader.onload = async function(ev) {
+        const b64 = ev.target.result;
+        try {
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              department: dept,
+              filename: file.name,
+              content_base64: b64
+            })
+          });
+          if (res.ok) {
+            const d = await res.json();
+            if (tagEl) tagEl.innerText = "✅ " + d.original_name;
+            if (linkEl) linkEl.value = window.location.origin + d.download_url;
+            DEPT_ATTACHMENTS[dept].file_link = window.location.origin + d.download_url;
+            return;
+          }
+        } catch (err) {}
+        if (tagEl) tagEl.innerText = "✅ " + file.name;
+        if (linkEl && !linkEl.value) linkEl.value = "local-upload://" + file.name;
+        DEPT_ATTACHMENTS[dept].file_link = linkEl ? linkEl.value : ("local-upload://" + file.name);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function toggleDeptPreview(boxId) {
+      const el = document.getElementById(boxId);
+      if (!el) return;
+      el.style.display = (el.style.display === 'none' || !el.style.display) ? 'block' : 'none';
     }
 
     // Tạo file Word tải trực tiếp trên trình duyệt khi chạy qua GitHub Pages
@@ -792,13 +944,20 @@
         };
       }
 
-      const md = `# T&T AI CONSTRUCTION ENTERPRISE\n## BÁO CÁO THẨM TRA: ${res.department.toUpperCase()}\nMã báo cáo: ${code} | Thời gian: ${nowStr}\nChuyên viên thực thi: ${res.personnel.specialist}\nTrưởng phòng kiểm duyệt: ${res.personnel.department_head}\nLệnh chuyển bước: [${res.gate_status}]\n\nKẾT LUẬN:\n${res.head_review.review_summary}`;
+      const attachedFile = payload.attached_file_name || DEPT_ATTACHMENTS[wf]?.file_name || "Hồ sơ nhập trực tiếp";
+      const attachedLink = payload.attached_file_link || DEPT_ATTACHMENTS[wf]?.file_link || "Kho dữ liệu nội bộ dự án";
+      res.attached_file_name = attachedFile;
+      res.attached_file_link = attachedLink;
+
+      const md = `# T&T AI CONSTRUCTION ENTERPRISE\n## BÁO CÁO THẨM TRA RIÊNG PHÒNG BAN: ${res.department.toUpperCase()}\nMã báo cáo: ${code} | Thời gian: ${nowStr}\nTệp hồ sơ giao việc: ${attachedFile}\nĐường link hồ sơ: ${attachedLink}\nChuyên viên thực thi: ${res.personnel.specialist}\nTrưởng phòng kiểm duyệt: ${res.personnel.department_head}\nLệnh chuyển bước: [${res.gate_status}]\n\nKẾT LUẬN:\n${res.head_review.review_summary}`;
       const rep = {
         report_type: "STANDALONE_DEPARTMENT",
         report_code: code,
         created_at: nowStr,
         department: res.department,
         gate_status: res.gate_status,
+        attached_file_name: attachedFile,
+        attached_file_link: attachedLink,
         markdown: md,
         docx_path: ""
       };
@@ -899,13 +1058,38 @@
         return;
       }
 
+      // Thu thập thông tin file hồ sơ tải lên & đường link giao việc của từng phòng ban
+      const customPayloads = {
+        CONTRACT: {
+          attached_file_name: (document.getElementById('tag-as-contract')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-contract')?.value || ''
+        },
+        BIDDING: {
+          attached_file_name: (document.getElementById('tag-as-bidding')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-bidding')?.value || ''
+        },
+        QS_BOQ: {
+          attached_file_name: (document.getElementById('tag-as-qs')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-qs')?.value || ''
+        },
+        QAQC: {
+          attached_file_name: (document.getElementById('tag-as-qaqc')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-qaqc')?.value || ''
+        },
+        SETTLEMENT: {
+          attached_file_name: (document.getElementById('tag-as-settlement')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-settlement')?.value || ''
+        }
+      };
+
       const payload = {
         task_title: document.getElementById('task-title').value,
         project_name: document.getElementById('task-project').value,
         priority: document.getElementById('task-priority').value,
         deadline: document.getElementById('task-deadline').value,
         founder_instruction: document.getElementById('task-instruction').value,
-        assigned_workflows: wfs
+        assigned_workflows: wfs,
+        custom_payloads: customPayloads
       };
 
       let data;
@@ -921,7 +1105,12 @@
         // Fallback chạy trực tiếp trên trình duyệt (GitHub Pages)
         const stepLogs = [];
         wfs.forEach(w => {
-          const r = simulateClientAudit(w, { project_name: payload.project_name });
+          const wfCustom = customPayloads[w] || {};
+          const r = simulateClientAudit(w, {
+            project_name: payload.project_name,
+            attached_file_name: wfCustom.attached_file_name,
+            attached_file_link: wfCustom.attached_file_link
+          });
           stepLogs.push({
             workflow: w,
             department: r.department,
@@ -929,12 +1118,15 @@
             department_head: r.personnel.department_head,
             gate_status: r.gate_status,
             summary: r.head_review.review_summary,
+            attached_file_name: r.attached_file_name,
+            attached_file_link: r.attached_file_link,
             standalone_report_code: r.standalone_report.report_code,
+            docx_path: "",
             markdown: r.standalone_report.markdown
           });
         });
         const repCode = wfs.length === 1 ? stepLogs[0].standalone_report_code : (wfs.length === 5 ? `MASTER-DOSSIER-${Date.now().toString().slice(-6)}` : `BC-MODULAR-${wfs.length}WF-${Date.now().toString().slice(-6)}`);
-        const combinedMd = `# BÁO CÁO KẾT QUẢ THỰC HIỆN NHIỆM VỤ GIAO VIỆC\nNhiệm vụ: ${payload.task_title}\nDự án: ${payload.project_name}\nChỉ đạo của Founder: ${payload.founder_instruction}\n\n` + stepLogs.map((s, i) => `### ${i+1}. ${s.department}\n- Chuyên viên: ${s.specialist}\n- Trưởng phòng: ${s.department_head}\n- Lệnh chuyển bước: [${s.gate_status}]\n- Kết luận: ${s.summary}`).join('\n\n');
+        const combinedMd = `# BÁO CÁO KẾT QUẢ THỰC HIỆN NHIỆM VỤ GIAO VIỆC\nNhiệm vụ: ${payload.task_title}\nDự án: ${payload.project_name}\nChỉ đạo của Founder: ${payload.founder_instruction}\n\n` + stepLogs.map((s, i) => `### ${i+1}. ${s.department}\n- Hồ sơ đầu vào: ${s.attached_file_name} (${s.attached_file_link})\n- Chuyên viên: ${s.specialist}\n- Trưởng phòng: ${s.department_head}\n- Lệnh chuyển bước: [${s.gate_status}]\n- Kết luận: ${s.summary}`).join('\n\n');
         const primaryRep = { report_code: repCode, markdown: combinedMd, created_at: new Date().toLocaleString('vi-VN'), report_type: wfs.length === 5 ? 'MASTER_COMPANY_REPORT' : 'MODULAR_WORKFLOW' };
         LOCAL_STATE.reports.push(primaryRep);
         data = {
@@ -969,8 +1161,8 @@
             <h3 style="margin-top:6px; color:#60a5fa;">${data.task_title}</h3>
           </div>
           ${docxFile
-            ? `<a class="btn-download" href="/api/reports/download/${docxFile}" target="_blank">📥 Tải Bộ Báo Cáo Word (.docx)</a>`
-            : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || data.task_id}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Bộ Báo Cáo Word (.doc)</button>`
+            ? `<a class="btn-download" href="/api/reports/download/${docxFile}" target="_blank">📥 Tải Bộ Báo Cáo Tổng Hợp (.docx)</a>`
+            : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || data.task_id}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Bộ Báo Cáo Tổng Hợp (.doc)</button>`
           }
         </div>
         <p style="font-size:0.88rem; color:#cbd5e1; margin-bottom:14px;">• Dự án: <b>${data.project_name}</b> | Hạn: <b>${data.deadline}</b> | Trạng thái: <b style="color:#34d399;">${data.status}</b></p>
@@ -978,19 +1170,36 @@
 
       data.step_logs.forEach((step, idx) => {
         const isOk = step.gate_status === 'APPROVED_FOR_TRANSFER';
+        const stepDocx = step.docx_path ? step.docx_path.split('\\').pop().split('/').pop() : '';
+        const previewId = `dept-preview-${data.task_id}-${idx}`;
+        const fName = step.attached_file_name || 'Hồ sơ mặc định';
+        const fLink = step.attached_file_link || '';
+
         html += `
           <div class="step-card" style="border-color:${isOk ? '#10b981' : '#ef4444'};">
-            <div class="step-header">
+            <div class="step-header" style="flex-wrap:wrap; gap:8px;">
               <b style="color:#93c5fd;">PHÒNG BAN ${idx + 1}: ${step.department}</b>
               <span class="gate-badge ${isOk ? 'gate-badge-approved' : 'gate-badge-blocked'}" style="margin:0; padding:3px 10px; font-size:0.78rem;">
                 ${isOk ? '✅ ĐỦ ĐIỀU KIỆN CHUYỂN BƯỚC' : '🛑 CHẶN LẠI YÊU CẦU SỬA ĐỔI'}
               </span>
             </div>
+            <p style="font-size:0.82rem; color:#cbd5e1; margin-bottom:4px;">
+              📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code>
+              ${fLink ? ` • 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8; text-decoration:underline;">Mở đường link file</a>` : ''}
+            </p>
             <p style="font-size:0.85rem; color:#38bdf8;">👷 <b>Bước 1 (Chuyên viên thực thi):</b> ${step.specialist}</p>
             <p style="font-size:0.85rem; color:#fbbf24; margin-top:3px;">🧑‍⚖️ <b>Bước 2 (Trưởng phòng kiểm duyệt):</b> ${step.department_head}</p>
             <p style="font-size:0.86rem; color:#e2e8f0; margin-top:6px; background:rgba(255,255,255,0.04); padding:8px; border-radius:6px;">
               📋 <b>Kết luận & Lệnh điều hành:</b> ${step.summary}
             </p>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.08);">
+              ${stepDocx
+                ? `<a class="btn-dept-report" href="/api/reports/download/${stepDocx}" target="_blank">📥 Tải Báo Cáo Riêng Phòng Này (${step.standalone_report_code}.docx)</a>`
+                : `<button class="btn-dept-report" onclick='downloadClientDoc("${step.standalone_report_code || step.workflow}", ${JSON.stringify(step.markdown || step.summary || "")})'>📥 Tải Báo Cáo Riêng Phòng Này (.doc)</button>`
+              }
+              <button class="btn-dept-preview" onclick="toggleDeptPreview('${previewId}')">👁️ Xem Báo Cáo Riêng Phòng Này</button>
+            </div>
+            <div id="${previewId}" class="report-preview-box" style="display:none; margin-top:10px;">${escapeHtml(step.markdown || step.summary || '')}</div>
           </div>
         `;
       });
@@ -1238,7 +1447,9 @@
         contract_value: parseFloat(document.getElementById('ct-val').value),
         requested_advance: parseFloat(document.getElementById('ct-adv').value),
         has_bank_guarantee: document.getElementById('ct-guarantee').value === 'true',
-        clause_texts: [document.getElementById('ct-clauses').value]
+        clause_texts: [document.getElementById('ct-clauses').value],
+        attached_file_name: (document.getElementById('tag-ct-tab')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+        attached_file_link: document.getElementById('link-ct-tab')?.value || ''
       };
       const data = await dispatchAuditRequest('CONTRACT', payload);
       renderContractResult(data);
@@ -1251,15 +1462,18 @@
       const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
       const rep = data.standalone_report || {};
       const docxName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+      const fName = data.attached_file_name || rep.attached_file_name || 'Hop_dong_thi_cong_TT_Tower.docx';
+      const fLink = data.attached_file_link || rep.attached_file_link || '';
 
       let html = `<h3>Kết Quả Thẩm Tra: ${data.contract_title}</h3>`;
+      html += `<p style="font-size:0.84rem; color:#cbd5e1; margin:4px 0 10px 0;">📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code> ${fLink ? `• 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8;">Mở đường link file</a>` : ''}</p>`;
       html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
           ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: ĐỦ ĐIỀU KIỆN CHUYỂN GIAO' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN LẠI YÊU CẦU SỬA ĐỔI'}
         </div>
         ${docxName
-          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>`
-          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-CONTRACT"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Riêng (.doc)</button>`
+          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Phòng Pháp Chế (.docx)</a>`
+          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-CONTRACT"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Phòng Pháp Chế (.doc)</button>`
         }
       </div>`;
 
@@ -1301,6 +1515,8 @@
         estimated_budget: parseFloat(document.getElementById('bd-budget').value),
         is_direct_award: document.getElementById('bd-direct').value === 'true',
         posted_on_procurement_network: document.getElementById('bd-posted').value === 'true',
+        attached_file_name: (document.getElementById('tag-bd-tab')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+        attached_file_link: document.getElementById('link-bd-tab')?.value || '',
         vendor_quotes: [
           { vendor: "Công ty Cơ điện ALPHA", price: 4750000000 },
           { vendor: "Công ty Thiết bị BETA", price: 4850000000 },
@@ -1318,15 +1534,18 @@
       const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
       const rep = data.standalone_report || {};
       const docxName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+      const fName = data.attached_file_name || rep.attached_file_name || 'Ho_so_3_bao_gia_Tram_bien_ap.xlsx';
+      const fLink = data.attached_file_link || rep.attached_file_link || '';
 
       let html = `<h3>Kết Quả Thẩm Định Gói Thầu: ${data.package_name}</h3>`;
+      html += `<p style="font-size:0.84rem; color:#cbd5e1; margin:4px 0 10px 0;">📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code> ${fLink ? `• 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8;">Mở đường link file</a>` : ''}</p>`;
       html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
           ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: ĐỦ ĐIỀU KIỆN CHUYỂN GIAO' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN LẠI DO VI PHẠM THỦ TỤC'}
         </div>
         ${docxName
-          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>`
-          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-BIDDING"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Riêng (.doc)</button>`
+          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Phòng Đấu Thầu (.docx)</a>`
+          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-BIDDING"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Phòng Đấu Thầu (.doc)</button>`
         }
       </div>`;
 
@@ -1352,6 +1571,8 @@
     async function submitQSBOQAudit() {
       const payload = {
         project_name: "Tổ hợp Thương mại T&T",
+        attached_file_name: (document.getElementById('tag-qs-tab')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+        attached_file_link: document.getElementById('link-qs-tab')?.value || '',
         boq_items: [
           { name: "Đào đất móng công trình bằng máy đào 1.25m3", unit: "m3", qty: 2500, unit_price: 65000, norm_code: "AB.11111" },
           { name: "Bê tông lót móng đá 4x6 mác 100", unit: "m3", qty: 320, unit_price: 1150000, norm_code: "AF.11111" },
@@ -1365,15 +1586,18 @@
       const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
       const rep = data.standalone_report || {};
       const docxName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+      const fName = data.attached_file_name || rep.attached_file_name || 'Ban_ve_CAD_va_BOQ_Mong_ham.xlsx';
+      const fLink = data.attached_file_link || rep.attached_file_link || '';
 
       let html = `<h3>Kết Quả Thẩm Tra BOQ: ${data.project_name}</h3>`;
+      html += `<p style="font-size:0.84rem; color:#cbd5e1; margin:4px 0 10px 0;">📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code> ${fLink ? `• 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8;">Mở đường link file</a>` : ''}</p>`;
       html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
           ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: BẢNG BOQ ĐẠT CHUẨN' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN LẠI DO TRÙNG LẶP / LỖI ĐỊNH MỨC'}
         </div>
         ${docxName
-          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>`
-          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-QS"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Riêng (.doc)</button>`
+          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Phòng Dự Toán QS (.docx)</a>`
+          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-QS"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Phòng Dự Toán QS (.doc)</button>`
         }
       </div>`;
 
@@ -1401,6 +1625,8 @@
         inspection_date: "2026-11-10",
         test_results_passed: document.getElementById('qa-passed').value === 'true',
         logbook_updated: document.getElementById('qa-logbook').value === 'true',
+        attached_file_name: (document.getElementById('tag-qa-tab')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+        attached_file_link: document.getElementById('link-qa-tab')?.value || '',
         asbuilt_stamp_signatures: ["Người lập bản vẽ hoàn công", "Chủ nhiệm giám sát thi công xây dựng"]
       };
       const data = await dispatchAuditRequest('QAQC', payload);
@@ -1409,15 +1635,18 @@
       const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
       const rep = data.standalone_report || {};
       const docxName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+      const fName = data.attached_file_name || rep.attached_file_name || 'Bien_ban_BBNTCV_va_Nen_mau_R28.pdf';
+      const fLink = data.attached_file_link || rep.attached_file_link || '';
 
       let html = `<h3>Kết Quả Nghiệm Thu: ${data.work_item}</h3>`;
+      html += `<p style="font-size:0.84rem; color:#cbd5e1; margin:4px 0 10px 0;">📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code> ${fLink ? `• 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8;">Mở đường link file</a>` : ''}</p>`;
       html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
           ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: CHO PHÉP THI CÔNG TIẾP' : '🛑 LỆNH CHUYỂN BƯỚC: ĐÌNH CHỈ / KHÔNG CHO PHÉP CHUYỂN BƯỚC'}
         </div>
         ${docxName
-          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>`
-          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-QAQC"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Riêng (.doc)</button>`
+          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Phòng QA/QC (.docx)</a>`
+          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-QAQC"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Phòng QA/QC (.doc)</button>`
         }
       </div>`;
 
@@ -1439,7 +1668,9 @@
         current_claim: parseFloat(document.getElementById('st-curr').value),
         advance_recovered: parseFloat(document.getElementById('st-rec').value),
         warranty_percent: 5.0,
-        has_bbntcv: true
+        has_bbntcv: true,
+        attached_file_name: (document.getElementById('tag-st-tab')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+        attached_file_link: document.getElementById('link-st-tab')?.value || ''
       };
       const data = await dispatchAuditRequest('SETTLEMENT', payload);
       const box = document.getElementById('settlement-result');
@@ -1447,15 +1678,18 @@
       const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
       const rep = data.standalone_report || {};
       const docxName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+      const fName = data.attached_file_name || rep.attached_file_name || 'Ho_so_Thanh_toan_Mau_08a_Dot1.xlsx';
+      const fLink = data.attached_file_link || rep.attached_file_link || '';
 
       let html = `<h3>Kết Quả Kiểm Toán Mẫu 08a: HĐ ${data.contract_no}</h3>`;
+      html += `<p style="font-size:0.84rem; color:#cbd5e1; margin:4px 0 10px 0;">📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code> ${fLink ? `• 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8;">Mở đường link file</a>` : ''}</p>`;
       html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
         <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
           ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: HỒ SƠ 08A HỢP LỆ' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN THANH TOÁN DO VI PHẠM TÀI CHÍNH'}
         </div>
         ${docxName
-          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>`
-          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-SETTLEMENT"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Riêng (.doc)</button>`
+          ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Phòng Quyết Toán (.docx)</a>`
+          : `<button class="btn-download" onclick='downloadClientDoc("${rep.report_code || "BC-SETTLEMENT"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Phòng Quyết Toán (.doc)</button>`
         }
       </div>`;
 

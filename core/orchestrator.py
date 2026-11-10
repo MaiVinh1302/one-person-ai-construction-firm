@@ -184,6 +184,10 @@ class ConstructionCompanyOrchestrator:
         else:
             return {"status": "ERROR", "message": f"Loại quy trình không xác định: {workflow_type}"}
 
+        # Lưu thông tin file đính kèm / đường link hồ sơ giao việc cho phòng ban
+        result["attached_file_name"] = payload.get("attached_file_name", "")
+        result["attached_file_link"] = payload.get("attached_file_link", "")
+
         # Lưu trữ kết quả mới nhất của phòng ban
         self.latest_dept_results[wf] = result
 
@@ -379,10 +383,13 @@ class ConstructionCompanyOrchestrator:
         dept_results = {}
 
         for wf in wfs:
-            payload = (custom_payloads or {}).get(wf) or self._get_default_payload_for_wf(wf)
-            payload["project_name"] = project_name
-            res = self.dispatch_audit(wf, payload, generate_doc=True)
+            custom_wf_payload = (custom_payloads or {}).get(wf) or {}
+            base_payload = self._get_default_payload_for_wf(wf)
+            base_payload.update(custom_wf_payload)
+            base_payload["project_name"] = project_name
+            res = self.dispatch_audit(wf, base_payload, generate_doc=True)
             dept_results[wf] = res
+            standalone_rep = res.get("standalone_report", {})
             step_logs.append({
                 "workflow": wf,
                 "department": res.get("department", wf),
@@ -390,8 +397,11 @@ class ConstructionCompanyOrchestrator:
                 "department_head": res.get("personnel", {}).get("department_head", ""),
                 "gate_status": res.get("gate_status", "APPROVED_FOR_TRANSFER"),
                 "summary": res.get("summary", ""),
-                "standalone_report_code": res.get("standalone_report", {}).get("report_code", ""),
-                "docx_path": res.get("standalone_report", {}).get("docx_path", "")
+                "attached_file_name": res.get("attached_file_name", ""),
+                "attached_file_link": res.get("attached_file_link", ""),
+                "standalone_report_code": standalone_rep.get("report_code", ""),
+                "docx_path": standalone_rep.get("docx_path", ""),
+                "markdown": standalone_rep.get("markdown", "")
             })
 
         # Xuất báo cáo tổng hợp tương ứng với phạm vi giao việc
