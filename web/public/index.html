@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T&T AI Construction Consulting - One-Person Enterprise Portal</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-group">
+      <h1>🏢 T&T ONE-PERSON AI CONSTRUCTION ENTERPRISE</h1>
+      <p>Hệ Thống Đa Đại Lý AI Điều Hành Công Ty Xây Dựng 1 Người • Căn Cứ Pháp Luật Xây Dựng 2026</p>
+    </div>
+    <div class="founder-badge">
+      <span>👑 FOUNDER / CEO: <b>Mai Quang Vinh</b> (Level 5)</span>
+      <span style="color:#10b981;">● Trực tuyến</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- ASIDE NAVIGATION -->
+    <aside>
+      <div class="nav-item active" onclick="switchTab('overview')">📊 Tổng Quan Điều Hành</div>
+      <div class="nav-item" onclick="switchTab('roster')">👥 Sơ Đồ 10 Nhân Sự AI</div>
+      <div class="nav-item" onclick="switchTab('reports')" style="color:#38bdf8;">📑 Trung Tâm Báo Cáo</div>
+      <div class="nav-item" onclick="switchTab('contract')">⚖️ Thẩm Tra Hợp Đồng</div>
+      <div class="nav-item" onclick="switchTab('bidding')">📋 Đấu Thầu & Báo Giá</div>
+      <div class="nav-item" onclick="switchTab('qs_boq')">📐 Dự Toán QS & BOQ</div>
+      <div class="nav-item" onclick="switchTab('qaqc')">🏗️ Nghiệm Thu QA/QC</div>
+      <div class="nav-item" onclick="switchTab('settlement')">💰 Thanh Quyết Toán 08a</div>
+      <div class="nav-item" onclick="switchTab('approvals')" style="color:#f59e0b;">
+        🛡️ Cổng Duyệt Founder <span id="approval-badge" class="badge-count">0</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('legal_search')">🔍 Tra Cứu Luật 2026</div>
+      <div class="nav-item" onclick="switchTab('rbac')">🔐 Ma Trận Phân Quyền</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+      <!-- 1. TAB: OVERVIEW -->
+      <section id="pane-overview" class="tab-pane active">
+        <h2 class="page-title">Bàn Làm Việc Giám Đốc (Executive AI Dashboard)</h2>
+        <p class="page-desc">Mô hình vận hành 2 cấp nhân sự: 01 Chuyên viên thực thi chuyên môn + 01 Trưởng phòng kiểm duyệt quy trình trước khi chuyển bước.</p>
+
+        <div class="grid-cards">
+          <!-- Card 1 -->
+          <div class="card">
+            <h3>⚖️ Ban Pháp Chế & Hợp Đồng</h3>
+            <p>Rà soát 12 bẫy điều khoản, kiểm soát trần tạm ứng 30% & bảo lãnh theo NĐ 210/2026/NĐ-CP.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist">👷 Chuyên viên</span>
+                <span><b>Nguyễn Văn Pháp</b> (Soạn thảo & Rà soát HĐ)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head">🧑‍⚖️ Trưởng phòng</span>
+                <span><b>Trần Thị Tuân Thủ</b> (Kiểm duyệt NĐ 210 & Chuyển bước)</span>
+              </div>
+            </div>
+            <span class="dept-badge" style="margin-top:10px;">2 Nhân sự AI Trực tuyến</span>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="card">
+            <h3>📋 Ban Đấu Thầu & Mua Sắm</h3>
+            <p>Kiểm soát trần chỉ định thầu 5 tỷ (NĐ 349/2026/NĐ-CP), tự động lọc báo giá dị biệt lệch > 30%.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist">👷 Chuyên viên</span>
+                <span><b>Lê Quang Thầu</b> (Thẩm tra Hồ sơ & Giá Mua sắm)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head">🧑‍⚖️ Trưởng phòng</span>
+                <span><b>Phạm Minh Đấu</b> (Kiểm duyệt NĐ 349 & Chuyển bước)</span>
+              </div>
+            </div>
+            <span class="dept-badge" style="margin-top:10px;">2 Nhân sự AI Trực tuyến</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="card">
+            <h3>📐 Ban Kỹ Sư Dự Toán QS</h3>
+            <p>Bóc tách hình học CAD/DXF, áp mã chuẩn Thông tư 09/2024/TT-BXD, phát hiện tính trùng và gian lận khối lượng.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist">👷 Chuyên viên</span>
+                <span><b>Đỗ Văn Lượng</b> (Bóc tách CAD & Áp Định mức)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head">🧑‍⚖️ Trưởng phòng</span>
+                <span><b>Vũ Đình Toàn</b> (Quét trùng lặp & Chuyển bước)</span>
+              </div>
+            </div>
+            <span class="dept-badge" style="margin-top:10px;">2 Nhân sự AI Trực tuyến</span>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="card">
+            <h3>🏗️ Ban Quản Lý Chất Lượng QA/QC</h3>
+            <p>Kiểm soát biên bản BBNTCV theo Điều 13 NĐ 06/2021 & TT 10/2021. Thẩm tra dấu hoàn công 4 bên Phụ lục II.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist">👷 Chuyên viên</span>
+                <span><b>Bùi Văn Nghiệm</b> (Hiện trường & Hồ sơ BBNTCV)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head">🧑‍⚖️ Trưởng phòng</span>
+                <span><b>Hoàng Văn Chuẩn</b> (Kiểm duyệt Điều 13 & Lệnh chuyển bước)</span>
+              </div>
+            </div>
+            <span class="dept-badge" style="margin-top:10px;">2 Nhân sự AI Trực tuyến</span>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="card">
+            <h3>💰 Ban Kiểm Toán Thanh Toán</h3>
+            <p>Kiểm toán 4 tầng biểu mẫu Mẫu 08a, khấu trừ tạm ứng 08b và bảo hành 5% theo NĐ 99/2021 & TT 96/2021.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist">👷 Chuyên viên</span>
+                <span><b>Ngô Thị Quyết</b> (Chiết tính Mẫu 08a & Khấu trừ)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head">🧑‍⚖️ Trưởng phòng</span>
+                <span><b>Đặng Đức Toán</b> (Kiểm toán 4 tầng & Trình giải ngân)</span>
+              </div>
+            </div>
+            <span class="dept-badge" style="margin-top:10px;">2 Nhân sự AI Trực tuyến</span>
+          </div>
+
+          <!-- Card 6: Legal RAG -->
+          <div class="card" style="border-color: #3b82f6;">
+            <h3>📚 Thư Viện Pháp Luật 2026</h3>
+            <p>Đã nạp 100% dữ liệu gốc tại D:\...\THU_VIEN_PHAP_LUAT_XAY_DUNG_2026. Truy vết chính xác 100% từng Điều Khoản.</p>
+            <span class="dept-badge" style="background: rgba(59,130,246,0.2); color:#60a5fa; margin-top:20px;">Đã Kết Nối Local RAG</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: ROSTER (SƠ ĐỒ NHÂN SỰ) -->
+      <section id="pane-roster" class="tab-pane">
+        <h2 class="page-title">Sơ Đồ Tổ Chức 2 Cấp Nhân Sự (Department Personnel Roster)</h2>
+        <p class="page-desc">Cơ chế phối hợp nội bộ: Chuyên viên bóc tách thực thi -> Trưởng phòng kiểm duyệt quy trình, quy chuẩn, quy chế trước khi chuyển giao.</p>
+
+        <div id="roster-container">
+          <p style="color:var(--text-muted);">Đang tải danh bạ nhân sự...</p>
+        </div>
+      </section>
+
+      <!-- TAB 3: TRUNG TÂM BÁO CÁO (REPORTS CENTER) -->
+      <section id="pane-reports" class="tab-pane">
+        <h2 class="page-title">Trung Tâm Báo Cáo & Xuất Bản Hồ Sơ Thẩm Tra</h2>
+        <p class="page-desc">Hỗ trợ xuất bản Báo Cáo Tổng Thể Công Ty, Báo Cáo Riêng Từng Phòng Ban, và Báo Cáo Chuyên Đề Theo Yêu Cầu chuẩn Nghị định 30/2020/NĐ-CP.</p>
+
+        <!-- Block 1: Master Report -->
+        <div class="card" style="border-left: 4px solid #3b82f6; margin-bottom: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h3 style="color:#60a5fa;">👑 1. BẢN BÁO CÁO TỔNG THỂ CÔNG TY (MASTER EXECUTIVE DOSSIER)</h3>
+              <p style="font-size:0.88rem; color:#94a3b8; margin-top:4px;">Tổng hợp toàn diện 5 phòng ban: Hợp đồng, Đấu thầu, QS BOQ, QA/QC hiện trường, Thanh quyết toán Mẫu 08a.</p>
+            </div>
+            <button class="btn-primary" onclick="generateMasterReport()">📄 Xuất Bản Báo Cáo Tổng Thể</button>
+          </div>
+          <div id="master-report-preview" style="display:none; margin-top:16px;"></div>
+        </div>
+
+        <!-- Block 2: Modular Custom Report -->
+        <div class="card" style="border-left: 4px solid #10b981; margin-bottom: 24px;">
+          <h3 style="color:#34d399;">📑 2. BÁO CÁO TỔNG HỢP CHUYÊN ĐỀ THEO YÊU CẦU (MODULAR REPORT)</h3>
+          <p style="font-size:0.88rem; color:#94a3b8; margin-top:4px;">Lựa chọn một hoặc một vài quy trình để tổng hợp báo cáo độc lập (không cần chạy đủ 5 phòng ban):</p>
+          
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" id="mod-contract" checked> ⚖️ Ban Pháp Chế & Hợp Đồng
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="mod-bidding" checked> 📋 Ban Đấu Thầu & Mua Sắm
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="mod-qs"> 📐 Ban Dự Toán QS & BOQ
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="mod-qaqc"> 🏗️ Ban Quản Lý Chất Lượng QA/QC
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" id="mod-settlement"> 💰 Ban Kiểm Toán Quyết Toán
+            </label>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-top:12px;">
+            <input type="text" id="mod-theme" class="form-control" style="flex:1;" placeholder="Nhập chủ đề báo cáo (Ví dụ: Thẩm định Pháp lý & Đấu thầu gói thầu cơ điện)" value="Báo Cáo Thẩm Định Lựa Chọn Nhà Thầu & Rà Soát Hợp Đồng">
+            <button class="btn-primary" style="background:#10b981;" onclick="generateModularReport()">⚡ Tạo Báo Cáo Chuyên Đề</button>
+          </div>
+          <div id="modular-report-preview" style="display:none; margin-top:16px;"></div>
+        </div>
+
+        <!-- Block 3: List of generated reports -->
+        <div class="card">
+          <h3 style="color:#cbd5e1; margin-bottom:12px;">📂 DANH MỤC CÁC BÁO CÁO ĐÃ PHÁT HÀNH TRONG PHIÊN LÀM VIỆC</h3>
+          <div id="reports-list-container">
+            <p style="color:var(--text-muted);">Chưa có báo cáo nào được xuất bản. Hãy chạy thẩm tra hoặc bấm nút xuất bản ở trên.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: CONTRACT AUDIT -->
+      <section id="pane-contract" class="tab-pane">
+        <h2 class="page-title">Phòng Pháp Chế & Đàm Phán Hợp Đồng</h2>
+        <p class="page-desc">Chuyên viên Nguyễn Văn Pháp bóc tách -> Trưởng phòng Trần Thị Tuân Thủ kiểm duyệt NĐ 210/2026/NĐ-CP & cấp lệnh chuyển bước.</p>
+
+        <div class="card">
+          <div class="form-group">
+            <label>Tên hợp đồng:</label>
+            <input type="text" id="ct-title" class="form-control" value="Hợp đồng thi công xây dựng Cọc và Móng hầm Toà nhà Văn phòng T&T">
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Ngày ký hợp đồng (YYYY-MM-DD):</label>
+              <input type="text" id="ct-date" class="form-control" value="2026-08-15">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Giá trị hợp đồng (VNĐ):</label>
+              <input type="number" id="ct-val" class="form-control" value="10000000000">
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Mức tạm ứng đề nghị (VNĐ):</label>
+              <input type="number" id="ct-adv" class="form-control" value="3500000000">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Có nộp Bảo lãnh tạm ứng ngân hàng?</label>
+              <select id="ct-guarantee" class="form-control">
+                <option value="false" selected>Không có (Chưa nộp bảo lãnh)</option>
+                <option value="true">Đã nộp Thư bảo lãnh tạm ứng</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Điều khoản dự thảo cần thẩm tra:</label>
+            <textarea id="ct-clauses" class="form-control" rows="3">Điều 5: Chủ đầu tư tạm ứng 35% giá trị hợp đồng. Thời hạn thanh toán khối lượng hoàn thành trong vòng 45 ngày kể từ ngày nhận hồ sơ. Thời hạn quyết toán hợp đồng khi chủ đầu tư thu xếp được vốn.</textarea>
+          </div>
+          <button class="btn-primary" onclick="submitContractAudit()">🚀 Chạy Quy Trình Thẩm Tra 2 Cấp</button>
+        </div>
+
+        <div id="contract-result" class="result-box" style="display:none;"></div>
+      </section>
+
+      <!-- TAB 5: BIDDING -->
+      <section id="pane-bidding" class="tab-pane">
+        <h2 class="page-title">Phòng Đấu Thầu & Mua Sắm (Procurement)</h2>
+        <p class="page-desc">Chuyên viên Lê Quang Thầu phân tích ma trận báo giá -> Trưởng phòng Phạm Minh Đấu kiểm duyệt NĐ 349/2026 & cấp lệnh chuyển bước.</p>
+
+        <div class="card">
+          <div class="form-group">
+            <label>Tên gói thầu:</label>
+            <input type="text" id="bd-name" class="form-control" value="Gói thầu số 03: Thi công trạm biến áp và máy phát điện dự phòng">
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Loại gói thầu:</label>
+              <select id="bd-type" class="form-control">
+                <option value="CONSTRUCTION" selected>Xây lắp (Trần chỉ định thầu 5 tỷ - NĐ 349)</option>
+                <option value="CONSULTANCY">Tư vấn (Trần chỉ định thầu 3 tỷ - NĐ 349)</option>
+                <option value="GOODS">Mua sắm hàng hóa (Trần 2 tỷ)</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Giá trị dự toán gói thầu (VNĐ):</label>
+              <input type="number" id="bd-budget" class="form-control" value="4800000000">
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Hình thức:</label>
+              <select id="bd-direct" class="form-control">
+                <option value="true" selected>Chỉ định thầu rút gọn</option>
+                <option value="false">Đấu thầu rộng rãi qua mạng</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Đã đăng tải yêu cầu báo giá trên Mạng Đấu thầu Quốc gia?</label>
+              <select id="bd-posted" class="form-control">
+                <option value="true" selected>Đã đăng tải công khai</option>
+                <option value="false">Chưa đăng tải (Vi phạm NĐ 349)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="submitBiddingAudit()">🚀 Chạy Quy Trình Thẩm Định 2 Cấp</button>
+        </div>
+
+        <div id="bidding-result" class="result-box" style="display:none;"></div>
+      </section>
+
+      <!-- TAB 6: QS BOQ -->
+      <section id="pane-qs_boq" class="tab-pane">
+        <h2 class="page-title">Phòng Kỹ Sư Dự Toán QS & Bóc Tách BOQ</h2>
+        <p class="page-desc">Kỹ sư Đỗ Văn Lượng bóc tách hình học & định mức -> Trưởng phòng Vũ Đình Toàn rà soát quét gian lận trùng lặp.</p>
+
+        <div class="card">
+          <p style="margin-bottom: 12px; font-size: 0.9rem; color: #cbd5e1;">Hồ sơ BOQ dự thầu kiểm tra tự động (gồm các đầu việc đào đất, bê tông lót, cốt thép móng):</p>
+          <button class="btn-primary" onclick="submitQSBOQAudit()">🚀 Chạy Quy Trình Thẩm Tra BOQ 2 Cấp</button>
+        </div>
+
+        <div id="qs-result" class="result-box" style="display:none;"></div>
+      </section>
+
+      <!-- TAB 7: QAQC -->
+      <section id="pane-qaqc" class="tab-pane">
+        <h2 class="page-title">Phòng Quản Lý Chất Lượng QA/QC Hiện Trường</h2>
+        <p class="page-desc">Kỹ sư Bùi Văn Nghiệm kiểm tra hiện trường & BBNTCV -> Trưởng phòng Hoàng Văn Chuẩn ban hành Lệnh Chuyển Bước Thi Công.</p>
+
+        <div class="card">
+          <div class="form-group">
+            <label>Hạng mục nghiệm thu:</label>
+            <input type="text" id="qa-item" class="form-control" value="Nghiệm thu đổ bê tông sàn dầm Tầng 3 (Trục 1-5)">
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Kết quả thí nghiệm cường độ R28:</label>
+              <select id="qa-passed" class="form-control">
+                <option value="true" selected>Đạt yêu cầu mác thiết kế B25</option>
+                <option value="false">Không đạt hoặc chưa có phiếu kết quả</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Nhật ký thi công đã ký xác nhận?</label>
+              <select id="qa-logbook" class="form-control">
+                <option value="true" selected>Đã ký đủ TVGS và Chỉ huy trưởng</option>
+                <option value="false">Chưa ký nhật ký ngày</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="submitQAQCAudit()">🚀 Chạy Quy Trình Nghiệm Thu 2 Cấp</button>
+        </div>
+
+        <div id="qaqc-result" class="result-box" style="display:none;"></div>
+      </section>
+
+      <!-- TAB 8: SETTLEMENT 08A -->
+      <section id="pane-settlement" class="tab-pane">
+        <h2 class="page-title">Phòng Kiểm Toán Thanh & Quyết Toán (Mẫu 08a)</h2>
+        <p class="page-desc">Chuyên viên Ngô Thị Quyết chiết tính -> Trưởng phòng Đặng Đức Toán kiểm toán 4 tầng & cấp lệnh giải ngân.</p>
+
+        <div class="card">
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Giá trị hợp đồng duyệt (VNĐ):</label>
+              <input type="number" id="st-contract" class="form-control" value="12000000000">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Lũy kế thanh toán kỳ trước (VNĐ):</label>
+              <input type="number" id="st-prev" class="form-control" value="8500000000">
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px;">
+            <div class="form-group" style="flex:1;">
+              <label>Giá trị đề nghị kỳ này (VNĐ):</label>
+              <input type="number" id="st-curr" class="form-control" value="4200000000">
+            </div>
+            <div class="form-group" style="flex:1;">
+              <label>Thu hồi tạm ứng kỳ này (Mẫu 08b VNĐ):</label>
+              <input type="number" id="st-rec" class="form-control" value="1000000000">
+            </div>
+          </div>
+          <button class="btn-primary" onclick="submitSettlementAudit()">🚀 Chạy Quy Trình Kiểm Toán 08a 2 Cấp</button>
+        </div>
+
+        <div id="settlement-result" class="result-box" style="display:none;"></div>
+      </section>
+
+      <!-- TAB 9: FOUNDER APPROVALS -->
+      <section id="pane-approvals" class="tab-pane">
+        <h2 class="page-title">Cổng Phê Duyệt Của Founder (Human-in-the-Loop)</h2>
+        <p class="page-desc">Các hồ sơ vượt ngưỡng thẩm quyền của AI bắt buộc Founder duy nhất ra quyết định phê duyệt cấp cao.</p>
+
+        <div id="approvals-list" class="card">
+          <p style="color:var(--text-muted);">Đang tải danh sách chờ phê duyệt...</p>
+        </div>
+      </section>
+
+      <!-- TAB 10: LEGAL SEARCH -->
+      <section id="pane-legal_search" class="tab-pane">
+        <h2 class="page-title">Tra Cứu Thư Viện Pháp Luật Xây Dựng 2026 Tại Chỗ</h2>
+        <p class="page-desc">Truy xuất dữ liệu trực tiếp từ file BANG_TRA_CUU_PHAP_LUAT_XAY_DUNG_2026.xlsx.</p>
+
+        <div class="card">
+          <div style="display:flex; gap:12px;">
+            <input type="text" id="legal-kw" class="form-control" placeholder="Nhập từ khóa tra cứu (ví dụ: tạm ứng, chỉ định thầu, 210, 349, 08a, nghiệm thu...)" value="tạm ứng">
+            <button class="btn-primary" onclick="searchLaw()">Tra Cứu Ngay</button>
+          </div>
+        </div>
+
+        <div id="legal-results" style="margin-top:20px;"></div>
+      </section>
+
+      <!-- TAB 11: RBAC MATRIX -->
+      <section id="pane-rbac" class="tab-pane">
+        <h2 class="page-title">Ma Trận Phân Quyền & Giới Hạn Thẩm Quyền (RBAC)</h2>
+        <p class="page-desc">Nguyên tắc phân tầng 5 cấp độ: Chuyên viên thực thi -> Trưởng phòng kiểm duyệt -> Founder quyết định tối cao.</p>
+
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Hành động / Nghiệp vụ</th>
+                <th>Cấp thẩm quyền tối thiểu</th>
+                <th>Người có quyền phê duyệt</th>
+                <th>Yêu cầu phê duyệt Founder?</th>
+              </tr>
+            </thead>
+            <tbody id="rbac-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+      const pane = document.getElementById('pane-' + tabId);
+      if (pane) pane.classList.add('active');
+
+      const navs = document.querySelectorAll('.nav-item');
+      navs.forEach(nav => {
+        if (nav.getAttribute('onclick') && nav.getAttribute('onclick').includes(tabId)) {
+          nav.classList.add('active');
+        }
+      });
+
+      if (tabId === 'roster') loadRoster();
+      if (tabId === 'reports') loadReportsList();
+      if (tabId === 'approvals') loadApprovals();
+      if (tabId === 'rbac') loadRBAC();
+      if (tabId === 'legal_search') searchLaw();
+    }
+
+    async function loadRoster() {
+      const res = await fetch('/api/roster');
+      const data = await res.json();
+      const container = document.getElementById('roster-container');
+
+      let html = `<div style="background:rgba(59,130,246,0.1); border:1px solid #3b82f6; padding:16px; border-radius:10px; margin-bottom:20px;">
+        <h3 style="color:#60a5fa;">👑 LÃNH ĐẠO CAO NHẤT: Founder / CEO ${data.founder}</h3>
+        <p style="font-size:0.9rem; color:#cbd5e1; margin-top:4px;">Quyền hạn tối cao (Level 5): Ký duyệt giải ngân > 500M VNĐ, phê duyệt kết quả đấu thầu, ký kết hợp đồng và phụ lục.</p>
+      </div>`;
+
+      html += '<div style="display:flex; flex-direction:column; gap:16px;">';
+      data.roster.forEach(dept => {
+        html += `<div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; margin-bottom:12px;">
+            <h3 style="color:#93c5fd;">${dept.department_name}</h3>
+            <span style="font-size:0.8rem; background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:4px;">Mã: ${dept.code}</span>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div style="background:rgba(14,165,233,0.08); border:1px solid #0ea5e9; border-radius:8px; padding:12px;">
+              <span class="badge-specialist">👷 1. CHUYÊN VIÊN CHUYÊN MÔN (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#38bdf8;">${dept.specialist.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ thực thi:</b> ${dept.specialist.mission}</p>
+            </div>
+            <div style="background:rgba(245,158,11,0.08); border:1px solid #f59e0b; border-radius:8px; padding:12px;">
+              <span class="badge-head">🧑‍⚖️ 2. TRƯỞNG PHÒNG KIỂM DUYỆT (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
+            </div>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // --- REPORTING SYSTEM FUNCTIONS ---
+    async function generateMasterReport() {
+      const btn = event.target;
+      btn.innerText = "⏳ Đang tổng hợp báo cáo 5 phòng ban...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/reports/master', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            project_name: "Tổ hợp Thương mại & Văn phòng T&T Tower",
+            project_code: "DA-TT-2026-HQ"
+          })
+        });
+        const data = await res.json();
+        const preview = document.getElementById('master-report-preview');
+        preview.style.display = 'block';
+
+        const docxFileName = data.docx_path ? data.docx_path.split('\\').pop().split('/').pop() : '';
+        preview.innerHTML = `
+          <div style="background:#0c1322; border:1px solid #3b82f6; border-radius:8px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <b style="color:#60a5fa; font-size:1.05rem;">✅ BẢN BÁO CÁO TỔNG THỂ CÔNG TY ĐÃ XUẤT BẢN THÀNH CÔNG!</b>
+              ${docxFileName ? `<a class="btn-download" href="/api/reports/download/${docxFileName}" target="_blank">📥 Tải File Word .docx (Chuẩn NĐ 30/2020)</a>` : ''}
+            </div>
+            <p style="font-size:0.88rem; color:#cbd5e1; margin-top:8px;">
+              • Mã báo cáo: <code>${data.report_code}</code> | Phòng ban đạt chuẩn: <b>${data.approved_departments}/5</b> | Bị chặn sửa đổi: <b>${data.blocked_departments}</b>
+            </p>
+            <div class="report-preview-box">${escapeHtml(data.markdown)}</div>
+          </div>
+        `;
+        loadReportsList();
+      } catch (err) {
+        alert("Lỗi xuất bản báo cáo: " + err);
+      } finally {
+        btn.innerText = "📄 Xuất Bản Báo Cáo Tổng Thể";
+        btn.disabled = false;
+      }
+    }
+
+    async function generateModularReport() {
+      const selectedWfs = [];
+      if (document.getElementById('mod-contract').checked) selectedWfs.push("CONTRACT");
+      if (document.getElementById('mod-bidding').checked) selectedWfs.push("BIDDING");
+      if (document.getElementById('mod-qs').checked) selectedWfs.push("QS_BOQ");
+      if (document.getElementById('mod-qaqc').checked) selectedWfs.push("QAQC");
+      if (document.getElementById('mod-settlement').checked) selectedWfs.push("SETTLEMENT");
+
+      if (selectedWfs.length === 0) {
+        alert("Vui lòng chọn ít nhất 01 phòng ban để xuất báo cáo!");
+        return;
+      }
+
+      const theme = document.getElementById('mod-theme').value || "Báo Cáo Tổng Hợp Chuyên Đề";
+      const btn = event.target;
+      btn.innerText = "⏳ Đang tạo...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/reports/modular', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            workflows: selectedWfs,
+            theme: theme,
+            project_name: "Dự án Tổ hợp T&T Tower"
+          })
+        });
+        const data = await res.json();
+        const preview = document.getElementById('modular-report-preview');
+        preview.style.display = 'block';
+
+        const docxFileName = data.docx_path ? data.docx_path.split('\\').pop().split('/').pop() : '';
+        preview.innerHTML = `
+          <div style="background:#0c1322; border:1px solid #10b981; border-radius:8px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <b style="color:#34d399; font-size:1.05rem;">✅ BÁO CÁO CHUYÊN ĐỀ (${selectedWfs.length} PHÒNG BAN) ĐÃ TẠO XONG!</b>
+              ${docxFileName ? `<a class="btn-download" style="background:#059669;" href="/api/reports/download/${docxFileName}" target="_blank">📥 Tải File Word .docx (Chuẩn NĐ 30/2020)</a>` : ''}
+            </div>
+            <p style="font-size:0.88rem; color:#cbd5e1; margin-top:8px;">
+              • Mã báo cáo: <code>${data.report_code}</code> | Tổng số cảnh báo: <b>${data.total_alerts}</b>
+            </p>
+            <div class="report-preview-box">${escapeHtml(data.markdown)}</div>
+          </div>
+        `;
+        loadReportsList();
+      } catch (err) {
+        alert("Lỗi tạo báo cáo chuyên đề: " + err);
+      } finally {
+        btn.innerText = "⚡ Tạo Báo Cáo Chuyên Đề";
+        btn.disabled = false;
+      }
+    }
+
+    async function loadReportsList() {
+      const res = await fetch('/api/reports');
+      const data = await res.json();
+      const container = document.getElementById('reports-list-container');
+
+      if (!data.reports || data.reports.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted);">Chưa có báo cáo nào được lưu trữ trong phiên làm việc.</p>';
+        return;
+      }
+
+      let html = '<div style="display:flex; flex-direction:column; gap:10px;">';
+      data.reports.slice().reverse().forEach((rep, idx) => {
+        const docxFileName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+        const isMaster = rep.report_type === 'MASTER_COMPANY_REPORT';
+        const isModular = rep.report_type === 'MODULAR_WORKFLOW';
+
+        html += `
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#0b1120; border:1px solid #1e293b; padding:12px 16px; border-radius:8px;">
+            <div>
+              <span style="font-size:0.75rem; font-weight:bold; padding:2px 8px; border-radius:4px; margin-right:8px; background:${isMaster ? '#2563eb' : (isModular ? '#059669' : '#64748b')}; color:#fff;">
+                ${isMaster ? 'TỔNG THỂ CÔNG TY' : (isModular ? 'CHUYÊN ĐỀ THEO YÊU CẦU' : 'RIÊNG PHÒNG BAN')}
+              </span>
+              <b style="color:#e2e8f0;">[${rep.report_code}]</b>
+              <span style="color:#94a3b8; font-size:0.85rem; margin-left:8px;">(${rep.created_at || 'Mới nhất'})</span>
+            </div>
+            ${docxFileName ? `<a class="btn-download" style="padding:4px 12px; font-size:0.8rem;" href="/api/reports/download/${docxFileName}" target="_blank">📥 Tải Word .docx</a>` : ''}
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return "";
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // --- AUDIT SUBMISSION FUNCTIONS ---
+    async function submitContractAudit() {
+      const payload = {
+        contract_title: document.getElementById('ct-title').value,
+        contract_date: document.getElementById('ct-date').value,
+        contract_value: parseFloat(document.getElementById('ct-val').value),
+        requested_advance: parseFloat(document.getElementById('ct-adv').value),
+        has_bank_guarantee: document.getElementById('ct-guarantee').value === 'true',
+        clause_texts: [document.getElementById('ct-clauses').value]
+      };
+
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ workflow: 'CONTRACT', payload: payload })
+      });
+      const data = await res.json();
+      renderContractResult(data);
+      updateApprovalCount();
+    }
+
+    function renderContractResult(data) {
+      const box = document.getElementById('contract-result');
+      box.style.display = 'block';
+
+      const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
+      const docxName = data.standalone_report && data.standalone_report.docx_path ? data.standalone_report.docx_path.split('\\').pop().split('/').pop() : '';
+
+      let html = `<h3>Kết Quả Thẩm Tra: ${data.contract_title}</h3>`;
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
+          ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: ĐỦ ĐIỀU KIỆN CHUYỂN GIAO' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN LẠI YÊU CẦU SỬA ĐỔI'}
+        </div>
+        ${docxName ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>` : ''}
+      </div>`;
+
+      // Step 1 Specialist
+      html += `<div class="step-card">
+        <div class="step-header">
+          <span class="badge-specialist">BƯỚC 1: CHUYÊN VIÊN THỰC THI BÓC TÁCH</span>
+          <b style="color:#38bdf8;">${data.personnel.specialist}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Tỷ lệ tạm ứng: <b>${data.specialist_dossier.advance_analysis.advance_ratio_percent}%</b> (Mức đề nghị: ${data.specialist_dossier.advance_analysis.requested_advance.toLocaleString('vi-VN')} VNĐ)</p>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Phát hiện: <b>${data.specialist_dossier.clause_findings.length} điều khoản rủi ro</b> cần đàm phán sửa đổi.</p>
+      </div>`;
+
+      // Step 2 Head
+      html += `<div class="step-card" style="border-color:${isApproved ? '#10b981' : '#ef4444'};">
+        <div class="step-header">
+          <span class="badge-head">BƯỚC 2: TRƯỞNG PHÒNG KIỂM DUYỆT & CẤP LỆNH CHUYỂN BƯỚC</span>
+          <b style="color:#fbbf24;">${data.personnel.department_head}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#93c5fd;">• Căn cứ luật định: <b>${data.applicable_law}</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Kết luận kiểm duyệt:</b> ${data.head_review.review_summary}</p>
+      </div>`;
+
+      if (data.critical_alerts && data.critical_alerts.length > 0) {
+        html += `<h4 style="color:#ef4444; margin:14px 0 8px 0;">⚠️ DANH MỤC CẢNH BÁO PHÁP LÝ & HƯỚNG XỬ LÝ (${data.critical_alerts.length} điểm):</h4>`;
+        data.critical_alerts.forEach(a => {
+          html += `<div class="alert-item alert-${a.severity}">
+            <b>[${a.severity}] ${a.issue}</b><br>
+            • Căn cứ pháp lý: <i>${a.legal_ground}</i><br>
+            • Giải pháp đàm phán: <b>${a.recommendation}</b>
+          </div>`;
+        });
+      }
+
+      if (data.requires_founder_approval) {
+        html += `<div style="background:rgba(245,158,11,0.2); border:1px solid #f59e0b; padding:12px; border-radius:8px; margin-top:14px;">
+          🛡️ <b>HỒ SƠ ĐÃ ĐƯỢC CHUYỂN VÀO CỔNG DUYỆT CỦA FOUNDER (Mã: ${data.approval_id || 'Chờ duyệt'})</b>
+        </div>`;
+      }
+
+      box.innerHTML = html;
+    }
+
+    async function submitBiddingAudit() {
+      const payload = {
+        package_name: document.getElementById('bd-name').value,
+        package_type: document.getElementById('bd-type').value,
+        estimated_budget: parseFloat(document.getElementById('bd-budget').value),
+        is_direct_award: document.getElementById('bd-direct').value === 'true',
+        posted_on_procurement_network: document.getElementById('bd-posted').value === 'true',
+        vendor_quotes: [
+          { vendor: "Công ty Cơ điện ALPHA", price: 4750000000 },
+          { vendor: "Công ty Thiết bị BETA", price: 4850000000 },
+          { vendor: "Công ty Cổ phần GAMMA (Báo giá ảo)", price: 7200000000 }
+        ]
+      };
+
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ workflow: 'BIDDING', payload: payload })
+      });
+      const data = await res.json();
+      renderBiddingResult(data);
+      updateApprovalCount();
+    }
+
+    function renderBiddingResult(data) {
+      const box = document.getElementById('bidding-result');
+      box.style.display = 'block';
+
+      const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
+      const docxName = data.standalone_report && data.standalone_report.docx_path ? data.standalone_report.docx_path.split('\\').pop().split('/').pop() : '';
+
+      let html = `<h3>Kết Quả Thẩm Định Gói Thầu: ${data.package_name}</h3>`;
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
+          ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: ĐỦ ĐIỀU KIỆN CHUYỂN GIAO' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN LẠI DO VI PHẠM THỦ TỤC'}
+        </div>
+        ${docxName ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>` : ''}
+      </div>`;
+
+      // Step 1 Specialist
+      html += `<div class="step-card">
+        <div class="step-header">
+          <span class="badge-specialist">BƯỚC 1: CHUYÊN VIÊN THỰC THI BÓC TÁCH BÁO GIÁ</span>
+          <b style="color:#38bdf8;">${data.personnel.specialist}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Đã thu thập và tính toán: <b>${data.specialist_dossier.vendor_count} báo giá</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Giá trung bình thị trường: <b>${data.specialist_dossier.average_price.toLocaleString('vi-VN')} VNĐ</b></p>
+      </div>`;
+
+      // Step 2 Head
+      html += `<div class="step-card" style="border-color:${isApproved ? '#10b981' : '#ef4444'};">
+        <div class="step-header">
+          <span class="badge-head">BƯỚC 2: TRƯỞNG PHÒNG KIỂM DUYỆT QUY TRÌNH & CẤP LỆNH CHUYỂN BƯỚC</span>
+          <b style="color:#fbbf24;">${data.personnel.department_head}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#93c5fd;">• Căn cứ luật định: <b>${data.head_review.applicable_law}</b></p>
+        <p style="font-size:0.88rem; color:#34d399; margin-top:4px;">• <b>Giá gói thầu đề xuất duyệt:</b> ${data.recommended_package_price.toLocaleString('vi-VN')} VNĐ</p>
+        <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Kết luận kiểm duyệt:</b> ${data.head_review.review_summary}</p>
+      </div>`;
+
+      if (data.head_review.excluded_quotes && data.head_review.excluded_quotes.length > 0) {
+        html += `<h4 style="color:#f59e0b; margin:14px 0 8px 0;">🚫 BÁO GIÁ BỊ LOẠI TRỪ THEO NĐ 349/2026/NĐ-CP (Lệch > 30%):</h4>`;
+        data.head_review.excluded_quotes.forEach(q => {
+          html += `<div class="alert-item alert-HIGH">
+            <b>Nhà thầu: ${q.vendor}</b> - Giá chào: ${q.price.toLocaleString('vi-VN')} VNĐ (Lệch ${q.deviation_percent}%)<br>
+            • Lý do loại trừ: ${q.reason}
+          </div>`;
+        });
+      }
+
+      if (data.alerts && data.alerts.length > 0) {
+        data.alerts.forEach(a => {
+          html += `<div class="alert-item alert-${a.severity}">
+            <b>${a.issue}</b><br>
+            • Căn cứ: <i>${a.legal_ground}</i><br>
+            • Yêu cầu: <b>${a.action}</b>
+          </div>`;
+        });
+      }
+
+      box.innerHTML = html;
+    }
+
+    async function submitQSBOQAudit() {
+      const payload = {
+        project_name: "Tổ hợp Thương mại T&T",
+        boq_items: [
+          { name: "Đào đất móng công trình bằng máy đào 1.25m3", unit: "m3", qty: 2500, unit_price: 65000, norm_code: "AB.11111" },
+          { name: "Bê tông lót móng đá 4x6 mác 100", unit: "m3", qty: 320, unit_price: 1150000, norm_code: "AF.11111" },
+          { name: "Bê tông lót móng đá 4x6 mác 100", unit: "m3", qty: 320, unit_price: 1150000, norm_code: "AF.11111" },
+          { name: "Gia công lắp dựng cốt thép móng đường kính <= 18mm", unit: "tấn", qty: 45, unit_price: 21500000, norm_code: "" }
+        ]
+      };
+
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ workflow: 'QS_BOQ', payload: payload })
+      });
+      const data = await res.json();
+      
+      const box = document.getElementById('qs-result');
+      box.style.display = 'block';
+
+      const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
+      const docxName = data.standalone_report && data.standalone_report.docx_path ? data.standalone_report.docx_path.split('\\').pop().split('/').pop() : '';
+
+      let html = `<h3>Kết Quả Thẩm Tra BOQ: ${data.project_name}</h3>`;
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
+          ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: BẢNG BOQ ĐẠT CHUẨN' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN LẠI DO TRÙNG LẶP / LỖI ĐỊNH MỨC'}
+        </div>
+        ${docxName ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>` : ''}
+      </div>`;
+
+      // Step 1 Specialist
+      html += `<div class="step-card">
+        <div class="step-header">
+          <span class="badge-specialist">BƯỚC 1: KỸ SƯ QS THỰC THI BÓC TÁCH</span>
+          <b style="color:#38bdf8;">${data.personnel.specialist}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Đã bóc tách: <b>${data.total_items} công tác xây dựng</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Tổng giá trị dự toán thô: <b>${data.total_boq_value.toLocaleString('vi-VN')} VNĐ</b></p>
+      </div>`;
+
+      // Step 2 Head
+      html += `<div class="step-card" style="border-color:${isApproved ? '#10b981' : '#ef4444'};">
+        <div class="step-header">
+          <span class="badge-head">BƯỚC 2: TRƯỞNG PHÒNG DỰ TOÁN KIỂM DUYỆT & CẤP LỆNH CHUYỂN BƯỚC</span>
+          <b style="color:#fbbf24;">${data.personnel.department_head}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#93c5fd;">• Căn cứ quy chuẩn: <b>${data.head_review.applicable_law}</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Kết luận kiểm duyệt:</b> ${data.head_review.review_summary}</p>
+      </div>`;
+
+      if (data.anomalies && data.anomalies.length > 0) {
+        html += `<h4 style="color:#ef4444; margin:14px 0 8px 0;">⚠️ PHÁT HIỆN GIAN LẬN / TRÙNG LẶP KHỐI LƯỢNG (${data.anomalies.length} điểm):</h4>`;
+        data.anomalies.forEach(a => {
+          html += `<div class="alert-item alert-${a.severity}">
+            <b>Dòng ${a.item_index}: ${a.item_name}</b><br>
+            • Lỗi phát hiện: ${a.issue}<br>
+            • Biện pháp xử lý: <b>${a.remedy}</b>
+          </div>`;
+        });
+      }
+      box.innerHTML = html;
+    }
+
+    async function submitQAQCAudit() {
+      const payload = {
+        work_item: document.getElementById('qa-item').value,
+        inspection_date: "2026-11-05",
+        test_results_passed: document.getElementById('qa-passed').value === 'true',
+        logbook_updated: document.getElementById('qa-logbook').value === 'true',
+        asbuilt_stamp_signatures: ["Người lập bản vẽ hoàn công", "Chủ nhiệm giám sát thi công xây dựng"]
+      };
+
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ workflow: 'QAQC', payload: payload })
+      });
+      const data = await res.json();
+
+      const box = document.getElementById('qaqc-result');
+      box.style.display = 'block';
+
+      const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
+      const docxName = data.standalone_report && data.standalone_report.docx_path ? data.standalone_report.docx_path.split('\\').pop().split('/').pop() : '';
+
+      let html = `<h3>Kết Quả Nghiệm Thu: ${data.work_item}</h3>`;
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
+          ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: CHO PHÉP THI CÔNG TIẾP & BÀN GIAO THANH TOÁN' : '🛑 LỆNH CHUYỂN BƯỚC: ĐÌNH CHỈ / KHÔNG CHO PHÉP CHUYỂN BƯỚC'}
+        </div>
+        ${docxName ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>` : ''}
+      </div>`;
+
+      // Step 1 Specialist
+      html += `<div class="step-card">
+        <div class="step-header">
+          <span class="badge-specialist">BƯỚC 1: KỸ SƯ QA/QC HIỆN TRƯỜNG THỰC THI</span>
+          <b style="color:#38bdf8;">${data.personnel.specialist}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Ngày kiểm tra: <b>${data.inspection_date}</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Thu thập chữ ký mẫu dấu: <b>${data.specialist_dossier.signatures_collected.length} chữ ký</b></p>
+      </div>`;
+
+      // Step 2 Head
+      html += `<div class="step-card" style="border-color:${isApproved ? '#10b981' : '#ef4444'};">
+        <div class="step-header">
+          <span class="badge-head">BƯỚC 2: TRƯỞNG PHÒNG QA/QC KIỂM DUYỆT & RA LỆNH CHUYỂN BƯỚC</span>
+          <b style="color:#fbbf24;">${data.personnel.department_head}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#93c5fd;">• Căn cứ luật định: <b>${data.head_review.applicable_law}</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Lệnh ban hành:</b> ${data.head_review.review_summary}</p>
+      </div>`;
+
+      if (data.defects && data.defects.length > 0) {
+        html += `<h4 style="color:#ef4444; margin:14px 0 8px 0;">🚨 DANH MỤC LỖI THỦ TỤC / KỸ THUẬT NGHIỆM THU (${data.defects.length} lỗi):</h4>`;
+        data.defects.forEach(d => {
+          html += `<div class="alert-item alert-CRITICAL">
+            <b>${d.issue}</b><br>
+            • Căn cứ: <i>${d.rule}</i><br>
+            • Lệnh khắc phục: <b>${d.order}</b>
+          </div>`;
+        });
+      }
+      box.innerHTML = html;
+    }
+
+    async function submitSettlementAudit() {
+      const payload = {
+        contract_no: "HĐ-TT-2026-08",
+        contract_value: parseFloat(document.getElementById('st-contract').value),
+        previous_paid: parseFloat(document.getElementById('st-prev').value),
+        current_claim: parseFloat(document.getElementById('st-curr').value),
+        advance_recovered: parseFloat(document.getElementById('st-rec').value),
+        warranty_percent: 5.0,
+        has_bbntcv: true
+      };
+
+      const res = await fetch('/api/audit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ workflow: 'SETTLEMENT', payload: payload })
+      });
+      const data = await res.json();
+
+      const box = document.getElementById('settlement-result');
+      box.style.display = 'block';
+
+      const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
+      const docxName = data.standalone_report && data.standalone_report.docx_path ? data.standalone_report.docx_path.split('\\').pop().split('/').pop() : '';
+
+      let html = `<h3>Kết Quả Kiểm Toán Mẫu 08a: HĐ ${data.contract_no}</h3>`;
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
+          ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: HỒ SƠ 08A HỢP LỆ' : '🛑 LỆNH CHUYỂN BƯỚC: CHẶN THANH TOÁN DO VI PHẠM TÀI CHÍNH'}
+        </div>
+        ${docxName ? `<a class="btn-download" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Riêng (.docx)</a>` : ''}
+      </div>`;
+
+      // Step 1 Specialist
+      html += `<div class="step-card">
+        <div class="step-header">
+          <span class="badge-specialist">BƯỚC 1: CHUYÊN VIÊN QUYẾT TOÁN THỰC THI CHIẾT TÍNH</span>
+          <b style="color:#38bdf8;">${data.personnel.specialist}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Lũy kế đề nghị thanh toán: <b>${data.cumulative_completed.toLocaleString('vi-VN')} VNĐ (${data.completion_ratio_percent}%)</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0;">• Trích giữ bảo hành 5%: <b>${data.warranty_retained.toLocaleString('vi-VN')} VNĐ</b> | Thu hồi tạm ứng: <b>${data.advance_recovered.toLocaleString('vi-VN')} VNĐ</b></p>
+        <p style="font-size:0.88rem; color:#34d399; margin-top:4px;">• <b>Thực thanh toán kỳ này:</b> ${data.net_payable_amount.toLocaleString('vi-VN')} VNĐ</p>
+      </div>`;
+
+      // Step 2 Head
+      html += `<div class="step-card" style="border-color:${isApproved ? '#10b981' : '#ef4444'};">
+        <div class="step-header">
+          <span class="badge-head">BƯỚC 2: TRƯỞNG PHÒNG KIỂM TOÁN KIỂM DUYỆT 4 TẦNG & TRÌNH GIẢI NGÂN</span>
+          <b style="color:#fbbf24;">${data.personnel.department_head}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#93c5fd;">• Căn cứ luật định: <b>${data.head_review.applicable_law}</b></p>
+        <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Kết luận kiểm toán:</b> ${data.head_review.review_summary}</p>
+      </div>`;
+
+      if (data.red_flags && data.red_flags.length > 0) {
+        html += `<h4 style="color:#ef4444; margin:14px 0 8px 0;">🚨 CẢNH BÁO KIỂM TOÁN TÀI CHÍNH (${data.red_flags.length} điểm):</h4>`;
+        data.red_flags.forEach(rf => {
+          html += `<div class="alert-item alert-${rf.severity}">
+            <b>${rf.issue}</b><br>
+            • Căn cứ pháp lý: <i>${rf.legal_ground}</i><br>
+            • Hướng xử lý: <b>${rf.action}</b>
+          </div>`;
+        });
+      }
+      box.innerHTML = html;
+      updateApprovalCount();
+    }
+
+    async function loadApprovals() {
+      const res = await fetch('/api/approvals');
+      const data = await res.json();
+      const list = document.getElementById('approvals-list');
+
+      if (!data.approvals || data.approvals.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted);">Không có hồ sơ nào đang chờ duyệt.</p>';
+        return;
+      }
+
+      let html = '';
+      data.approvals.forEach(app => {
+        html += `<div style="background:#090d16; border:1px solid #334155; padding:16px; border-radius:8px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <b style="color:#60a5fa;">[${app.id}] ${app.department}</b>
+            <span style="background:#f59e0b; color:#000; padding:2px 8px; border-radius:4px; font-weight:bold; font-size:0.8rem;">${app.status}</span>
+          </div>
+          <p style="font-size:0.92rem; margin-bottom:12px;">${app.summary}</p>
+          ${app.status.includes('CHỜ') ? `
+            <div style="display:flex; gap:10px;">
+              <button class="btn-approve" onclick="handleFounderAction('${app.id}', 'APPROVE')">✅ Phê Duyệt Hồ Sơ</button>
+              <button class="btn-reject" onclick="handleFounderAction('${app.id}', 'REJECT')">❌ Bác Bỏ / Từ Chối</button>
+            </div>
+          ` : `<p style="color:#34d399; font-size:0.85rem;">Ghi chú: ${app.note || 'Đã xử lý'}</p>`}
+        </div>`;
+      });
+      list.innerHTML = html;
+    }
+
+    async function handleFounderAction(id, action) {
+      const res = await fetch(`/api/approvals/${id}/action`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ action: action, note: "Phê duyệt bởi Founder Mai Quang Vinh" })
+      });
+      const data = await res.json();
+      alert(data.message);
+      loadApprovals();
+      updateApprovalCount();
+    }
+
+    async function updateApprovalCount() {
+      const res = await fetch('/api/status');
+      const data = await res.json();
+      document.getElementById('approval-badge').innerText = data.pending_approvals_count;
+    }
+
+    async function searchLaw() {
+      const kw = document.getElementById('legal-kw').value;
+      const res = await fetch(`/api/legal/search?keyword=${encodeURIComponent(kw)}`);
+      const data = await res.json();
+
+      const box = document.getElementById('legal-results');
+      if (data.results.length === 0) {
+        box.innerHTML = '<p style="color:var(--text-muted);">Không tìm thấy văn bản pháp luật phù hợp.</p>';
+        return;
+      }
+
+      let html = `<h4>Tìm thấy ${data.count} văn bản pháp luật xây dựng liên quan:</h4>`;
+      data.results.forEach((item, idx) => {
+        html += `<div class="card" style="margin-bottom:12px;">
+          <h4 style="color:#60a5fa;">[${idx + 1}] ${item.so_hieu} - ${item.ten_vb}</h4>
+          <p style="font-size:0.85rem; color:#94a3b8; margin:4px 0;">• Lĩnh vực: <b>${item.linh_vuc}</b> | Hiệu lực: <b>${item.ngay_hl}</b> | Tình trạng: <b>${item.tinh_trang}</b></p>
+          <p style="font-size:0.88rem; color:#e2e8f0; background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; margin-top:6px;">
+            💡 <b>Điểm mới & Điều khoản áp dụng:</b> ${item.diem_moi}
+          </p>
+        </div>`;
+      });
+      box.innerHTML = html;
+    }
+
+    async function loadRBAC() {
+      const res = await fetch('/api/permissions');
+      const data = await res.json();
+      const tbody = document.getElementById('rbac-tbody');
+
+      let html = '';
+      data.matrix.forEach(item => {
+        html += `<tr>
+          <td><b>${item.action}</b></td>
+          <td><span style="color:#93c5fd;">${item.required_level} (Level ${item.level_number})</span></td>
+          <td>${item.is_founder_only ? '👑 FOUNDER DUY NHẤT' : (item.level_number === 3 ? '🧑‍⚖️ Trưởng phòng Kiểm duyệt' : (item.level_number === 2 ? '👷 Chuyên viên Chuyên môn' : '🤖 AI Engine'))}</td>
+          <td>${item.is_founder_only ? '<b style="color:#ef4444;">BẮT BUỘC</b>' : 'Tự động theo quy trình'}</td>
+        </tr>`;
+      });
+      tbody.innerHTML = html;
+    }
+
+    // Khởi tạo
+    updateApprovalCount();
+  </script>
+</body>
+</html>
