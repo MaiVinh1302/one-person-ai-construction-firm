@@ -78,6 +78,26 @@ async def run_audit(request: Request):
     res = orchestrator.dispatch_audit(wf_type, payload)
     return res
 
+@app.get("/api/tasks")
+def get_assigned_tasks():
+    """Trả về danh sách các nhiệm vụ Founder đã giao cho các phòng ban AI"""
+    return {"tasks": orchestrator.assigned_tasks}
+
+@app.post("/api/tasks")
+async def create_assigned_task(request: Request):
+    """Giao việc mới từ Founder cho 1 hoặc nhiều phòng ban"""
+    body = await request.json()
+    res = orchestrator.assign_task(
+        task_title=body.get("task_title", "Thẩm tra hồ sơ dự án trọng điểm"),
+        project_name=body.get("project_name", "Dự án Tổ hợp T&T Tower"),
+        assigned_workflows=body.get("assigned_workflows", ["CONTRACT"]),
+        priority=body.get("priority", "URGENT"),
+        deadline=body.get("deadline", "2026-11-15"),
+        founder_instruction=body.get("founder_instruction", ""),
+        custom_payloads=body.get("custom_payloads")
+    )
+    return res
+
 # -------------------------------------------------------------
 # REPORTING API ENDPOINTS
 # -------------------------------------------------------------

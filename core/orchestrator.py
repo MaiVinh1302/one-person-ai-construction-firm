@@ -29,6 +29,7 @@ class ConstructionCompanyOrchestrator:
         self.gate_transfer_log = []
         self.latest_dept_results = {}
         self.generated_reports = []
+        self.assigned_tasks = []
 
     def get_firm_roster(self) -> List[Dict[str, Any]]:
         """
@@ -348,6 +349,86 @@ class ConstructionCompanyOrchestrator:
                 "has_bbntcv": True
             }
         return {}
+
+    def assign_task(
+        self,
+        task_title: str,
+        project_name: str,
+        assigned_workflows: List[str],
+        priority: str = "URGENT",
+        deadline: str = "2026-11-15",
+        founder_instruction: str = "",
+        custom_payloads: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
+        """
+        Founder Mai Quang Vinh giao việc trực tiếp cho 1 phòng ban, một nhóm phòng ban hoặc toàn bộ công ty.
+        Hệ thống tự động điều phối:
+        1. Chuyên viên chuyên môn thực thi bóc tách kỹ thuật
+        2. Trưởng phòng kiểm duyệt quy trình, quy chuẩn 2026 & cấp lệnh Gate Clearance
+        3. Xuất báo cáo tương ứng (Báo cáo riêng phòng ban / Báo cáo chuyên đề / Báo cáo tổng thể công ty)
+        """
+        import datetime
+        task_id = f"TASK-{len(self.assigned_tasks) + 1:04d}"
+        created_at = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
+
+        wfs = [w.upper() for w in assigned_workflows if w]
+        if not wfs:
+            wfs = ["CONTRACT"]
+
+        step_logs = []
+        dept_results = {}
+
+        for wf in wfs:
+            payload = (custom_payloads or {}).get(wf) or self._get_default_payload_for_wf(wf)
+            payload["project_name"] = project_name
+            res = self.dispatch_audit(wf, payload, generate_doc=True)
+            dept_results[wf] = res
+            step_logs.append({
+                "workflow": wf,
+                "department": res.get("department", wf),
+                "specialist": res.get("personnel", {}).get("specialist", ""),
+                "department_head": res.get("personnel", {}).get("department_head", ""),
+                "gate_status": res.get("gate_status", "APPROVED_FOR_TRANSFER"),
+                "summary": res.get("summary", ""),
+                "standalone_report_code": res.get("standalone_report", {}).get("report_code", ""),
+                "docx_path": res.get("standalone_report", {}).get("docx_path", "")
+            })
+
+        # Xuất báo cáo tổng hợp tương ứng với phạm vi giao việc
+        if len(wfs) == 1:
+            only_wf = wfs[0]
+            primary_report = dept_results[only_wf].get("standalone_report", {})
+            execution_mode = "GIAO VIỆC ĐỘC LẬP 01 PHÒNG BAN"
+        elif len(wfs) >= 5:
+            primary_report = self.generate_master_company_report(
+                project_name=project_name,
+                project_code=f"DA-{task_id}"
+            )
+            execution_mode = "GIAO VIỆC TỔNG THỂ TOÀN CÔNG TY (5 PHÒNG BAN)"
+        else:
+            primary_report = self.generate_modular_report(
+                selected_workflows=wfs,
+                report_theme=f"Báo Cáo Thực Hiện Nhiệm Vụ: {task_title}",
+                project_name=project_name
+            )
+            execution_mode = f"GIAO VIỆC LIÊN PHÒNG BAN ({len(wfs)} PHÒNG BAN)"
+
+        task_record = {
+            "task_id": task_id,
+            "task_title": task_title,
+            "project_name": project_name,
+            "priority": priority,
+            "deadline": deadline,
+            "founder_instruction": founder_instruction,
+            "execution_mode": execution_mode,
+            "assigned_workflows": wfs,
+            "created_at": created_at,
+            "status": "ĐÃ HOÀN THÀNH THẨM TRA & XUẤT BÁO CÁO",
+            "step_logs": step_logs,
+            "primary_report": primary_report
+        }
+        self.assigned_tasks.append(task_record)
+        return task_record
 
     def founder_action(self, approval_id: str, action: str, note: str = "") -> Dict[str, Any]:
         """

@@ -437,3 +437,103 @@ th {
   width: 16px;
   height: 16px;
 }
+
+
+/* Executive Login Overlay & Task Assignment Styles */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-box {
+  background: #151d30;
+  border: 1px solid #3b82f6;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.login-box h2 {
+  color: #60a5fa;
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.login-box p.sub {
+  color: #94a3b8;
+  font-size: 0.86rem;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.preset-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.btn-preset {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid #3b82f6;
+  color: #93c5fd;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-preset:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.btn-quick-assign {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #34d399;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-quick-assign:hover {
+  background: #10b981;
+  color: #000;
+}
+
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .container {
+    flex-direction: column;
+  }
+  aside {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+  .nav-item {
+    white-space: nowrap;
+  }
+}
