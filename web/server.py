@@ -32,8 +32,9 @@ from core.reporting_engine import reporting_engine, REPORTS_DIR
 from core.github_sync import GitHubAutoSync
 from knowledge.legal_engine import legal_engine
 from knowledge.corporate_sops import corporate_sop_engine
+from knowledge.gdrive_connector import gdrive_connector
 
-app = FastAPI(title="One-Person AI Construction Firm Portal", version="1.3.0")
+app = FastAPI(title="One-Person AI Construction Firm Portal", version="1.4.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -234,6 +235,70 @@ def search_legal_library(keyword: str = "", domain: str = None):
 def get_corporate_sops():
     """Trả về toàn bộ Hệ thống Quy trình, Quy chế & Biểu mẫu nội bộ Tập đoàn T&T đã chắt lọc"""
     return corporate_sop_engine.get_all_pillars_summary()
+
+# -------------------------------------------------------------
+# GOOGLE DRIVE AUTOMATION API ENDPOINTS
+# -------------------------------------------------------------
+@app.get("/api/drive/structure")
+def get_drive_structure():
+    """Trả về toàn bộ cây thư mục Google Drive đã đồng bộ theo từng dự án, phòng ban và cá nhân"""
+    return gdrive_connector.get_structure_summary()
+
+@app.post("/api/drive/setup-project")
+async def setup_drive_project(request: Request):
+    """Khởi tạo cây thư mục chuẩn hóa trên Google Drive cho một dự án mới"""
+    body = await request.json()
+    proj_key = body.get("project_key", "DU_AN_3")
+    proj_name = body.get("project_name", "Dự án 3: Tổ hợp Đô thị Mới")
+    return gdrive_connector.setup_project_repository(proj_key, proj_name)
+
+@app.post("/api/drive/upload-file")
+async def upload_file_to_drive(request: Request):
+    """Tải một tài liệu cụ thể lên khu vực của phòng ban hoặc cá nhân trên Google Drive"""
+    body = await request.json()
+    proj_key = body.get("project_key", "DU_AN_1")
+    dept_code = body.get("department_code", "CONTRACT")
+    is_head = body.get("is_head", False)
+    file_path = body.get("file_path", "")
+    return gdrive_connector.upload_department_report(proj_key, dept_code, is_head, file_path)
+
+@app.post("/api/drive/sync-reports")
+async def sync_all_reports_to_drive(request: Request):
+    """Tự động đồng bộ toàn bộ các báo cáo thẩm tra Word .docx của các phòng ban lên Google Drive"""
+    body = await request.json() if await request.body() else {}
+    proj_key = body.get("project_key", "DU_AN_1")
+
+    uploaded = []
+    if os.path.exists(REPORTS_DIR):
+        for fname in os.listdir(REPORTS_DIR):
+            if fname.endswith(".docx"):
+                fpath = os.path.join(REPORTS_DIR, fname)
+                dept = "MASTER_EXECUTIVE"
+                if "CONTRACT" in fname: dept = "CONTRACT"
+                elif "BIDDING" in fname: dept = "BIDDING"
+                elif "QS" in fname: dept = "QS_BOQ"
+                elif "QAQC" in fname: dept = "QAQC"
+                elif "SETTLEMENT" in fname: dept = "SETTLEMENT"
+
+                res = gdrive_connector.upload_department_report(
+                    project_key=proj_key,
+                    dept_code=dept,
+                    is_head=True,
+                    file_path=fpath
+                )
+                if res.get("success"):
+                    uploaded.append({
+                        "file_name": fname,
+                        "department": dept,
+                        "drive_url": res.get("drive_url")
+                    })
+
+    return {
+        "success": True,
+        "synced_count": len(uploaded),
+        "synced_files": uploaded,
+        "root_drive_url": gdrive_connector.get_structure_summary()["root_url"]
+    }
 
 @app.get("/", response_class=HTMLResponse)
 def serve_dashboard():

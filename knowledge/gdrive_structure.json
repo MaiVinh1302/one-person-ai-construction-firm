@@ -1,0 +1,538 @@
+{
+  "root_folder_id": "1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+  "root_folder_name": "KHO_LUU_TRU_HO_SO_DOANH_NGHIEP_AI_XAY_DUNG",
+  "projects": {
+    "DU_AN_1": {
+      "project_key": "DU_AN_1",
+      "project_display_name": "Dự án 1 (Tổ hợp Thương mại & Văn phòng T&T Tower)",
+      "folder_name": "📁 DU_AN_1 - Dự án 1 (Tổ hợp Thương mại & Văn phòng T&T Tower)",
+      "folder_id": "1oEalEeN9lJUPaeLS0lPyvwrgfWQZwFDd",
+      "drive_url": "https://drive.google.com/drive/folders/1oEalEeN9lJUPaeLS0lPyvwrgfWQZwFDd",
+      "departments": {
+        "CONTRACT": {
+          "dept_code": "CONTRACT",
+          "dept_name": "Phòng Pháp chế & Đàm phán Hợp đồng",
+          "folder_name": "🏛️ 01_BAN_PHAP_CHE_HOP_DONG - Phòng Pháp chế & Đàm phán Hợp đồng",
+          "folder_id": "1UrMyFxG2aNxoYiYd1dbmxvsb6KtCxLLv",
+          "drive_url": "https://drive.google.com/drive/folders/1UrMyFxG2aNxoYiYd1dbmxvsb6KtCxLLv",
+          "staff": {
+            "01_Chuyen_vien_Nguyen_Van_Phap": {
+              "staff_name": "01_Chuyen_vien_Nguyen_Van_Phap",
+              "role": "Chuyên viên Soạn thảo & Rà soát Hợp đồng",
+              "folder_id": "1JiI34OIb5LKP0Or73J3NHs0aTqtKvBV_",
+              "drive_url": "https://drive.google.com/drive/folders/1JiI34OIb5LKP0Or73J3NHs0aTqtKvBV_",
+              "subfolders": {
+                "Ho_So_Giao_Viec_Dau_Vao": {
+                  "folder_name": "📁 Ho_So_Giao_Viec_Dau_Vao",
+                  "folder_id": "1990QOj84mSHV83WgdyK8Ig8J3rck2_Op",
+                  "drive_url": "https://drive.google.com/drive/folders/1990QOj84mSHV83WgdyK8Ig8J3rck2_Op"
+                },
+                "Du_Thao_Dieu_Khoan_Va_Phu_Luc": {
+                  "folder_name": "📁 Du_Thao_Dieu_Khoan_Va_Phu_Luc",
+                  "folder_id": "1rH7fSsp6nd8_tHdHhSnxhxIvMjI0QA19",
+                  "drive_url": "https://drive.google.com/drive/folders/1rH7fSsp6nd8_tHdHhSnxhxIvMjI0QA19"
+                }
+              }
+            },
+            "02_Truong_phong_Tran_Thi_Tuan_Thu": {
+              "staff_name": "02_Truong_phong_Tran_Thi_Tuan_Thu",
+              "role": "Trưởng phòng Pháp chế & Quản trị Rủi ro",
+              "folder_id": "1EgI3PdzOqlvvSsSRgsPspocigZ-Zkzqn",
+              "drive_url": "https://drive.google.com/drive/folders/1EgI3PdzOqlvvSsSRgsPspocigZ-Zkzqn",
+              "subfolders": {
+                "Bao_Cao_Tham_Tra_Phap_Ly_ND210": {
+                  "folder_name": "📁 Bao_Cao_Tham_Tra_Phap_Ly_ND210",
+                  "folder_id": "1qt1us_J3lIFighNUfkunVO3PdOB6aF15",
+                  "drive_url": "https://drive.google.com/drive/folders/1qt1us_J3lIFighNUfkunVO3PdOB6aF15"
+                },
+                "Hop_Dong_Mau_QD690_QD560_Da_Duyet": {
+                  "folder_name": "📁 Hop_Dong_Mau_QD690_QD560_Da_Duyet",
+                  "folder_id": "1BQE89ZoEvNjBhTQB0WpyBbKBAh8-CAMa",
+                  "drive_url": "https://drive.google.com/drive/folders/1BQE89ZoEvNjBhTQB0WpyBbKBAh8-CAMa"
+                }
+              }
+            }
+          }
+        },
+        "BIDDING": {
+          "dept_code": "BIDDING",
+          "dept_name": "Phòng Quản lý Đấu thầu & Mua sắm",
+          "folder_name": "🏛️ 02_BAN_DAU_THAU_MUA_SAM - Phòng Quản lý Đấu thầu & Mua sắm",
+          "folder_id": "1AMvqNnDD35A1ZVIvwDrDCO5TFnvtTazW",
+          "drive_url": "https://drive.google.com/drive/folders/1AMvqNnDD35A1ZVIvwDrDCO5TFnvtTazW",
+          "staff": {
+            "01_Chuyen_vien_Le_Quang_Thau": {
+              "staff_name": "01_Chuyen_vien_Le_Quang_Thau",
+              "role": "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm",
+              "folder_id": "11GbrJ_1kbHHMQgrZysEBbOCnUUGO0Xv0",
+              "drive_url": "https://drive.google.com/drive/folders/11GbrJ_1kbHHMQgrZysEBbOCnUUGO0Xv0",
+              "subfolders": {
+                "Ho_So_Moi_Thau_HSMT_QD458": {
+                  "folder_name": "📁 Ho_So_Moi_Thau_HSMT_QD458",
+                  "folder_id": "1VG8kQaZVXOcyaEj4VrtGEIO7VflIw1bq",
+                  "drive_url": "https://drive.google.com/drive/folders/1VG8kQaZVXOcyaEj4VrtGEIO7VflIw1bq"
+                },
+                "Bao_Gia_Va_Ho_So_Du_Thau": {
+                  "folder_name": "📁 Bao_Gia_Va_Ho_So_Du_Thau",
+                  "folder_id": "1FNVUOPbawOBFIxC-aSHeO6fsq1E_OAdy",
+                  "drive_url": "https://drive.google.com/drive/folders/1FNVUOPbawOBFIxC-aSHeO6fsq1E_OAdy"
+                }
+              }
+            },
+            "02_Truong_phong_Pham_Minh_Dau": {
+              "staff_name": "02_Truong_phong_Pham_Minh_Dau",
+              "role": "Trưởng phòng Quản lý Đấu thầu & Hợp đồng Mua sắm",
+              "folder_id": "1O0ewQTUbfBMpdbZGjpmKgEfYkpSfBshX",
+              "drive_url": "https://drive.google.com/drive/folders/1O0ewQTUbfBMpdbZGjpmKgEfYkpSfBshX",
+              "subfolders": {
+                "Bien_Ban_Dam_Phan_BM07": {
+                  "folder_name": "📁 Bien_Ban_Dam_Phan_BM07",
+                  "folder_id": "1bXiW9z-knlv2kKjbrjkZUPSRXb3ErNQZ",
+                  "drive_url": "https://drive.google.com/drive/folders/1bXiW9z-knlv2kKjbrjkZUPSRXb3ErNQZ"
+                },
+                "To_Trinh_Phe_Duyet_KQLCNT_BM08": {
+                  "folder_name": "📁 To_Trinh_Phe_Duyet_KQLCNT_BM08",
+                  "folder_id": "1S0V1G22M6fgaCO8lSr6gSC9CYGRClH3q",
+                  "drive_url": "https://drive.google.com/drive/folders/1S0V1G22M6fgaCO8lSr6gSC9CYGRClH3q"
+                }
+              }
+            }
+          }
+        },
+        "QS_BOQ": {
+          "dept_code": "QS_BOQ",
+          "dept_name": "Phòng Kỹ sư Dự toán QS & BOQ",
+          "folder_name": "🏛️ 03_BAN_KY_SU_DU_TOAN_QS - Phòng Kỹ sư Dự toán QS & BOQ",
+          "folder_id": "1GFt914S5daNxn9iZCZb6asM4_XwjZVCT",
+          "drive_url": "https://drive.google.com/drive/folders/1GFt914S5daNxn9iZCZb6asM4_XwjZVCT",
+          "staff": {
+            "01_Chuyen_vien_Do_Van_Luong": {
+              "staff_name": "01_Chuyen_vien_Do_Van_Luong",
+              "role": "Kỹ sư QS Bóc tách Khối lượng & Áp Định mức",
+              "folder_id": "1hKPO2-BALucmU3IJ_ZKfjox1agR4SEEA",
+              "drive_url": "https://drive.google.com/drive/folders/1hKPO2-BALucmU3IJ_ZKfjox1agR4SEEA",
+              "subfolders": {
+                "Ban_Ve_CAD_DXF": {
+                  "folder_name": "📁 Ban_Ve_CAD_DXF",
+                  "folder_id": "1DrJT5sokVY-ocFC90NY-0Wi4YohEsMMq",
+                  "drive_url": "https://drive.google.com/drive/folders/1DrJT5sokVY-ocFC90NY-0Wi4YohEsMMq"
+                },
+                "Bang_Tinh_Khoi_Luong_8_Bill_HSMT": {
+                  "folder_name": "📁 Bang_Tinh_Khoi_Luong_8_Bill_HSMT",
+                  "folder_id": "1hPjH5KxeDH9vlXzGYun1xcRJyrEVuhGZ",
+                  "drive_url": "https://drive.google.com/drive/folders/1hPjH5KxeDH9vlXzGYun1xcRJyrEVuhGZ"
+                }
+              }
+            },
+            "02_Truong_phong_Vu_Dinh_Toan": {
+              "staff_name": "02_Truong_phong_Vu_Dinh_Toan",
+              "role": "Trưởng phòng Thẩm tra Dự toán & Kiểm soát Chi phí",
+              "folder_id": "1InM5foQsarZ_jfRWGjv0VVZp6DxGRktR",
+              "drive_url": "https://drive.google.com/drive/folders/1InM5foQsarZ_jfRWGjv0VVZp6DxGRktR",
+              "subfolders": {
+                "Ho_So_Phat_Sinh_12_Buoc_QT01": {
+                  "folder_name": "📁 Ho_So_Phat_Sinh_12_Buoc_QT01",
+                  "folder_id": "1uAqHxpfRb2_3wt7TwD8cSIWmJhULwbFC",
+                  "drive_url": "https://drive.google.com/drive/folders/1uAqHxpfRb2_3wt7TwD8cSIWmJhULwbFC"
+                },
+                "Bao_Cao_Tham_Tra_BOQ_TT09": {
+                  "folder_name": "📁 Bao_Cao_Tham_Tra_BOQ_TT09",
+                  "folder_id": "1kQ9jLKSqIOkxZoFcsi3OtNHWWwgFwcXH",
+                  "drive_url": "https://drive.google.com/drive/folders/1kQ9jLKSqIOkxZoFcsi3OtNHWWwgFwcXH"
+                }
+              }
+            }
+          }
+        },
+        "QAQC": {
+          "dept_code": "QAQC",
+          "dept_name": "Phòng Quản lý Chất lượng QA/QC",
+          "folder_name": "🏛️ 04_BAN_QUAN_LY_CHAT_LUONG_QAQC - Phòng Quản lý Chất lượng QA/QC",
+          "folder_id": "19z0qB5esdWiTRiAoJ-3Cmz2ccgSYrvAy",
+          "drive_url": "https://drive.google.com/drive/folders/19z0qB5esdWiTRiAoJ-3Cmz2ccgSYrvAy",
+          "staff": {
+            "01_Chuyen_vien_Bui_Van_Nghiem": {
+              "staff_name": "01_Chuyen_vien_Bui_Van_Nghiem",
+              "role": "Kỹ sư QA/QC Giám sát Hiện trường & Hồ sơ Nghiệm thu",
+              "folder_id": "1SGyjK1IjSIXw3ISNQo0jwcnusPgJ2qJX",
+              "drive_url": "https://drive.google.com/drive/folders/1SGyjK1IjSIXw3ISNQo0jwcnusPgJ2qJX",
+              "subfolders": {
+                "Ket_Qua_Thi_Nghiem_LAS_XD": {
+                  "folder_name": "📁 Ket_Qua_Thi_Nghiem_LAS_XD",
+                  "folder_id": "1owTCH_gNjRxR52gaNOiSW329CcBqu8Xt",
+                  "drive_url": "https://drive.google.com/drive/folders/1owTCH_gNjRxR52gaNOiSW329CcBqu8Xt"
+                },
+                "Chung_Chi_CO_CQ_Vat_Tu": {
+                  "folder_name": "📁 Chung_Chi_CO_CQ_Vat_Tu",
+                  "folder_id": "1S0AzsL1b5A6zlwZGUoD-mb6XPfW27uz9",
+                  "drive_url": "https://drive.google.com/drive/folders/1S0AzsL1b5A6zlwZGUoD-mb6XPfW27uz9"
+                },
+                "Nhat_Ky_Thi_Cong_15BM": {
+                  "folder_name": "📁 Nhat_Ky_Thi_Cong_15BM",
+                  "folder_id": "1xjpBb61U2WGTGe6qu_ZWgExG4-crYip_",
+                  "drive_url": "https://drive.google.com/drive/folders/1xjpBb61U2WGTGe6qu_ZWgExG4-crYip_"
+                }
+              }
+            },
+            "02_Truong_phong_Hoang_Van_Chuan": {
+              "staff_name": "02_Truong_phong_Hoang_Van_Chuan",
+              "role": "Trưởng phòng Quản lý Chất lượng & An toàn Công trình",
+              "folder_id": "1ZtQmIfEwcr6fLY6sL9o8-F6nuPN4L3AY",
+              "drive_url": "https://drive.google.com/drive/folders/1ZtQmIfEwcr6fLY6sL9o8-F6nuPN4L3AY",
+              "subfolders": {
+                "Bien_Ban_Nghiem_Thu_BBNTCV_10BM": {
+                  "folder_name": "📁 Bien_Ban_Nghiem_Thu_BBNTCV_10BM",
+                  "folder_id": "1wmmLIIwFfCOmaxOmhZxQ59IBbmju8ogO",
+                  "drive_url": "https://drive.google.com/drive/folders/1wmmLIIwFfCOmaxOmhZxQ59IBbmju8ogO"
+                },
+                "Ban_Ve_Hoan_Cong_4_Chu_Ky_ND06": {
+                  "folder_name": "📁 Ban_Ve_Hoan_Cong_4_Chu_Ky_ND06",
+                  "folder_id": "1FcN_eQehoBZqPP9INJlPwSPtLASSZfCq",
+                  "drive_url": "https://drive.google.com/drive/folders/1FcN_eQehoBZqPP9INJlPwSPtLASSZfCq"
+                }
+              }
+            }
+          }
+        },
+        "SETTLEMENT": {
+          "dept_code": "SETTLEMENT",
+          "dept_name": "Phòng Kiểm toán Thanh & Quyết toán",
+          "folder_name": "🏛️ 05_BAN_KIEM_TOAN_THANH_QUYET_TOAN - Phòng Kiểm toán Thanh & Quyết toán",
+          "folder_id": "10AwQe88U60_UmXkIuYGAJQDkSx59hJgj",
+          "drive_url": "https://drive.google.com/drive/folders/10AwQe88U60_UmXkIuYGAJQDkSx59hJgj",
+          "staff": {
+            "01_Chuyen_vien_Ngo_Thi_Quyet": {
+              "staff_name": "01_Chuyen_vien_Ngo_Thi_Quyet",
+              "role": "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a",
+              "folder_id": "1xmCxSPetdUkBBRng1CMfVlY-p2kSNrTS",
+              "drive_url": "https://drive.google.com/drive/folders/1xmCxSPetdUkBBRng1CMfVlY-p2kSNrTS",
+              "subfolders": {
+                "Ho_So_De_Nghi_Thanh_Toan": {
+                  "folder_name": "📁 Ho_So_De_Nghi_Thanh_Toan",
+                  "folder_id": "1a0Dak82ROMv1yZSe2iL1mtnvRWTbF5_0",
+                  "drive_url": "https://drive.google.com/drive/folders/1a0Dak82ROMv1yZSe2iL1mtnvRWTbF5_0"
+                },
+                "Bang_Chi_Tinh_Mau_08a_08b": {
+                  "folder_name": "📁 Bang_Chi_Tinh_Mau_08a_08b",
+                  "folder_id": "1tR1TF7oOdqEkiIdrfSs7h_xwVe3JMtq4",
+                  "drive_url": "https://drive.google.com/drive/folders/1tR1TF7oOdqEkiIdrfSs7h_xwVe3JMtq4"
+                }
+              }
+            },
+            "02_Truong_phong_Dang_Duc_Toan": {
+              "staff_name": "02_Truong_phong_Dang_Duc_Toan",
+              "role": "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ",
+              "folder_id": "1EWA5I7xNDUd5hU2-SesmDrPY64F_P5Vi",
+              "drive_url": "https://drive.google.com/drive/folders/1EWA5I7xNDUd5hU2-SesmDrPY64F_P5Vi",
+              "subfolders": {
+                "Bao_Cao_Tham_Dinh_KTXD_BM07_BM14": {
+                  "folder_name": "📁 Bao_Cao_Tham_Dinh_KTXD_BM07_BM14",
+                  "folder_id": "1HN9y427SeQwa6CzLGrFOE2zuJu4ePbdp",
+                  "drive_url": "https://drive.google.com/drive/folders/1HN9y427SeQwa6CzLGrFOE2zuJu4ePbdp"
+                },
+                "To_Trinh_CTDH_BM16_Trinh_Founder": {
+                  "folder_name": "📁 To_Trinh_CTDH_BM16_Trinh_Founder",
+                  "folder_id": "1mc3Fd7ZesUaIDfhAof_mt2eRTOMTYXG1",
+                  "drive_url": "https://drive.google.com/drive/folders/1mc3Fd7ZesUaIDfhAof_mt2eRTOMTYXG1"
+                }
+              }
+            }
+          }
+        },
+        "MASTER_EXECUTIVE": {
+          "dept_code": "MASTER_EXECUTIVE",
+          "dept_name": "Hồ sơ Tổng thể & Quyết nghị Founder",
+          "folder_name": "🏛️ 06_HO_SO_TONG_THE_FOUNDER_DUYET - Hồ sơ Tổng thể & Quyết nghị Founder",
+          "folder_id": "1EiMXjcvV2WHIUUIKGgK2oYTRoQsxL2tm",
+          "drive_url": "https://drive.google.com/drive/folders/1EiMXjcvV2WHIUUIKGgK2oYTRoQsxL2tm",
+          "staff": {
+            "Founder_CEO_Mai_Quang_Vinh": {
+              "staff_name": "Founder_CEO_Mai_Quang_Vinh",
+              "role": "Chủ tịch / Founder điều hành (Level 5)",
+              "folder_id": "1o7Jy-0terTO5LFQy_u3182qLfkIG9zay",
+              "drive_url": "https://drive.google.com/drive/folders/1o7Jy-0terTO5LFQy_u3182qLfkIG9zay",
+              "subfolders": {
+                "Master_Executive_Dossiers_Word": {
+                  "folder_name": "📁 Master_Executive_Dossiers_Word",
+                  "folder_id": "1er5UXn1kyh-5lpVDYVX_TF-m2A80Hm3y",
+                  "drive_url": "https://drive.google.com/drive/folders/1er5UXn1kyh-5lpVDYVX_TF-m2A80Hm3y"
+                },
+                "Quyet_Dinh_Phe_Duyet_Giai_Ngan_Trao_Thau": {
+                  "folder_name": "📁 Quyet_Dinh_Phe_Duyet_Giai_Ngan_Trao_Thau",
+                  "folder_id": "1wDdwRfEWCghzSYkDQLNaopUPKRPpFFm3",
+                  "drive_url": "https://drive.google.com/drive/folders/1wDdwRfEWCghzSYkDQLNaopUPKRPpFFm3"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "DU_AN_2": {
+      "project_key": "DU_AN_2",
+      "project_display_name": "Dự án 2 (Khu Đô thị Sinh thái Nghỉ dưỡng T&T Eco City)",
+      "folder_name": "📁 DU_AN_2 - Dự án 2 (Khu Đô thị Sinh thái Nghỉ dưỡng T&T Eco City)",
+      "folder_id": "1AkndKnqPAfbCjEkqv_ixgDS6V983NMA6",
+      "drive_url": "https://drive.google.com/drive/folders/1AkndKnqPAfbCjEkqv_ixgDS6V983NMA6",
+      "departments": {
+        "CONTRACT": {
+          "dept_code": "CONTRACT",
+          "dept_name": "Phòng Pháp chế & Đàm phán Hợp đồng",
+          "folder_name": "🏛️ 01_BAN_PHAP_CHE_HOP_DONG - Phòng Pháp chế & Đàm phán Hợp đồng",
+          "folder_id": "1E7e_OudzntADFtLRKEsSge1dSsez82fU",
+          "drive_url": "https://drive.google.com/drive/folders/1E7e_OudzntADFtLRKEsSge1dSsez82fU",
+          "staff": {
+            "01_Chuyen_vien_Nguyen_Van_Phap": {
+              "staff_name": "01_Chuyen_vien_Nguyen_Van_Phap",
+              "role": "Chuyên viên Soạn thảo & Rà soát Hợp đồng",
+              "folder_id": "1vuyMPLqNtNXm_880wDKf4BV1zuR85dlf",
+              "drive_url": "https://drive.google.com/drive/folders/1vuyMPLqNtNXm_880wDKf4BV1zuR85dlf",
+              "subfolders": {
+                "Ho_So_Giao_Viec_Dau_Vao": {
+                  "folder_name": "📁 Ho_So_Giao_Viec_Dau_Vao",
+                  "folder_id": "14RxhPePSJn8XQ7lt0zO_PEGus2q2NzVs",
+                  "drive_url": "https://drive.google.com/drive/folders/14RxhPePSJn8XQ7lt0zO_PEGus2q2NzVs"
+                },
+                "Du_Thao_Dieu_Khoan_Va_Phu_Luc": {
+                  "folder_name": "📁 Du_Thao_Dieu_Khoan_Va_Phu_Luc",
+                  "folder_id": "1-hzf87Byf_o5whPZSaPJbg8MbAkE87hy",
+                  "drive_url": "https://drive.google.com/drive/folders/1-hzf87Byf_o5whPZSaPJbg8MbAkE87hy"
+                }
+              }
+            },
+            "02_Truong_phong_Tran_Thi_Tuan_Thu": {
+              "staff_name": "02_Truong_phong_Tran_Thi_Tuan_Thu",
+              "role": "Trưởng phòng Pháp chế & Quản trị Rủi ro",
+              "folder_id": "1GxdRdXXB4cXra5oS-viYWibpBTsFACrM",
+              "drive_url": "https://drive.google.com/drive/folders/1GxdRdXXB4cXra5oS-viYWibpBTsFACrM",
+              "subfolders": {
+                "Bao_Cao_Tham_Tra_Phap_Ly_ND210": {
+                  "folder_name": "📁 Bao_Cao_Tham_Tra_Phap_Ly_ND210",
+                  "folder_id": "1jvenThd2Cuzb9HZ4G3IwjDJfsmau-SCj",
+                  "drive_url": "https://drive.google.com/drive/folders/1jvenThd2Cuzb9HZ4G3IwjDJfsmau-SCj"
+                },
+                "Hop_Dong_Mau_QD690_QD560_Da_Duyet": {
+                  "folder_name": "📁 Hop_Dong_Mau_QD690_QD560_Da_Duyet",
+                  "folder_id": "1G0wdFz7XNVpQ5cYwRKIRwTycPmrHlmt3",
+                  "drive_url": "https://drive.google.com/drive/folders/1G0wdFz7XNVpQ5cYwRKIRwTycPmrHlmt3"
+                }
+              }
+            }
+          }
+        },
+        "BIDDING": {
+          "dept_code": "BIDDING",
+          "dept_name": "Phòng Quản lý Đấu thầu & Mua sắm",
+          "folder_name": "🏛️ 02_BAN_DAU_THAU_MUA_SAM - Phòng Quản lý Đấu thầu & Mua sắm",
+          "folder_id": "15o5HRrpM0YWfHReYX0X4a70SAkBgjd-b",
+          "drive_url": "https://drive.google.com/drive/folders/15o5HRrpM0YWfHReYX0X4a70SAkBgjd-b",
+          "staff": {
+            "01_Chuyen_vien_Le_Quang_Thau": {
+              "staff_name": "01_Chuyen_vien_Le_Quang_Thau",
+              "role": "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm",
+              "folder_id": "1JCSlqfgWT5GP71LffzR-EBltosz4uEOo",
+              "drive_url": "https://drive.google.com/drive/folders/1JCSlqfgWT5GP71LffzR-EBltosz4uEOo",
+              "subfolders": {
+                "Ho_So_Moi_Thau_HSMT_QD458": {
+                  "folder_name": "📁 Ho_So_Moi_Thau_HSMT_QD458",
+                  "folder_id": "1UsvJ2IjB5LzT5miryNfRw4xAlcq-P-r6",
+                  "drive_url": "https://drive.google.com/drive/folders/1UsvJ2IjB5LzT5miryNfRw4xAlcq-P-r6"
+                },
+                "Bao_Gia_Va_Ho_So_Du_Thau": {
+                  "folder_name": "📁 Bao_Gia_Va_Ho_So_Du_Thau",
+                  "folder_id": "1VZ2dnSJ64NwpGKFnOtnA9nx8V0m5xieG",
+                  "drive_url": "https://drive.google.com/drive/folders/1VZ2dnSJ64NwpGKFnOtnA9nx8V0m5xieG"
+                }
+              }
+            },
+            "02_Truong_phong_Pham_Minh_Dau": {
+              "staff_name": "02_Truong_phong_Pham_Minh_Dau",
+              "role": "Trưởng phòng Quản lý Đấu thầu & Hợp đồng Mua sắm",
+              "folder_id": "1xGSZO6giFYw0r75ewiqJqNqD3SDjfNAN",
+              "drive_url": "https://drive.google.com/drive/folders/1xGSZO6giFYw0r75ewiqJqNqD3SDjfNAN",
+              "subfolders": {
+                "Bien_Ban_Dam_Phan_BM07": {
+                  "folder_name": "📁 Bien_Ban_Dam_Phan_BM07",
+                  "folder_id": "17LH3yC66Lx1jxIph_OlW3OjWlqc5Kxv-",
+                  "drive_url": "https://drive.google.com/drive/folders/17LH3yC66Lx1jxIph_OlW3OjWlqc5Kxv-"
+                },
+                "To_Trinh_Phe_Duyet_KQLCNT_BM08": {
+                  "folder_name": "📁 To_Trinh_Phe_Duyet_KQLCNT_BM08",
+                  "folder_id": "1Qk8pHdvMk5qDXw0MrhFkFPD7_wrbtoEC",
+                  "drive_url": "https://drive.google.com/drive/folders/1Qk8pHdvMk5qDXw0MrhFkFPD7_wrbtoEC"
+                }
+              }
+            }
+          }
+        },
+        "QS_BOQ": {
+          "dept_code": "QS_BOQ",
+          "dept_name": "Phòng Kỹ sư Dự toán QS & BOQ",
+          "folder_name": "🏛️ 03_BAN_KY_SU_DU_TOAN_QS - Phòng Kỹ sư Dự toán QS & BOQ",
+          "folder_id": "1pJrmtLYT4NcT1r-G-8QNCsPRUa2d1Cy7",
+          "drive_url": "https://drive.google.com/drive/folders/1pJrmtLYT4NcT1r-G-8QNCsPRUa2d1Cy7",
+          "staff": {
+            "01_Chuyen_vien_Do_Van_Luong": {
+              "staff_name": "01_Chuyen_vien_Do_Van_Luong",
+              "role": "Kỹ sư QS Bóc tách Khối lượng & Áp Định mức",
+              "folder_id": "15dXVoHDKaO46YUlcTBoSn44gus1bea7k",
+              "drive_url": "https://drive.google.com/drive/folders/15dXVoHDKaO46YUlcTBoSn44gus1bea7k",
+              "subfolders": {
+                "Ban_Ve_CAD_DXF": {
+                  "folder_name": "📁 Ban_Ve_CAD_DXF",
+                  "folder_id": "19fseAsbhK9GMpI2NWfBIwJIWRNYoT9bG",
+                  "drive_url": "https://drive.google.com/drive/folders/19fseAsbhK9GMpI2NWfBIwJIWRNYoT9bG"
+                },
+                "Bang_Tinh_Khoi_Luong_8_Bill_HSMT": {
+                  "folder_name": "📁 Bang_Tinh_Khoi_Luong_8_Bill_HSMT",
+                  "folder_id": "1ogQxYVUGJMOiMbFJmY_2ylUce989rr8X",
+                  "drive_url": "https://drive.google.com/drive/folders/1ogQxYVUGJMOiMbFJmY_2ylUce989rr8X"
+                }
+              }
+            },
+            "02_Truong_phong_Vu_Dinh_Toan": {
+              "staff_name": "02_Truong_phong_Vu_Dinh_Toan",
+              "role": "Trưởng phòng Thẩm tra Dự toán & Kiểm soát Chi phí",
+              "folder_id": "1z3_ixDGQGfnpoVn6TiefPnklcvcR0gco",
+              "drive_url": "https://drive.google.com/drive/folders/1z3_ixDGQGfnpoVn6TiefPnklcvcR0gco",
+              "subfolders": {
+                "Ho_So_Phat_Sinh_12_Buoc_QT01": {
+                  "folder_name": "📁 Ho_So_Phat_Sinh_12_Buoc_QT01",
+                  "folder_id": "1wallvJcjcqHPXnCwmslHhWHu3sberUG1",
+                  "drive_url": "https://drive.google.com/drive/folders/1wallvJcjcqHPXnCwmslHhWHu3sberUG1"
+                },
+                "Bao_Cao_Tham_Tra_BOQ_TT09": {
+                  "folder_name": "📁 Bao_Cao_Tham_Tra_BOQ_TT09",
+                  "folder_id": "1zl4ePaC0QoIMjbzQPkuiO3G4lbBXjqCD",
+                  "drive_url": "https://drive.google.com/drive/folders/1zl4ePaC0QoIMjbzQPkuiO3G4lbBXjqCD"
+                }
+              }
+            }
+          }
+        },
+        "QAQC": {
+          "dept_code": "QAQC",
+          "dept_name": "Phòng Quản lý Chất lượng QA/QC",
+          "folder_name": "🏛️ 04_BAN_QUAN_LY_CHAT_LUONG_QAQC - Phòng Quản lý Chất lượng QA/QC",
+          "folder_id": "1lYWAFx_15XPsCF49QXAaOo2FYSSmOZ3p",
+          "drive_url": "https://drive.google.com/drive/folders/1lYWAFx_15XPsCF49QXAaOo2FYSSmOZ3p",
+          "staff": {
+            "01_Chuyen_vien_Bui_Van_Nghiem": {
+              "staff_name": "01_Chuyen_vien_Bui_Van_Nghiem",
+              "role": "Kỹ sư QA/QC Giám sát Hiện trường & Hồ sơ Nghiệm thu",
+              "folder_id": "1PqI0hk3PyQ1KD_lGY9Bm_2qLj7ECdKL6",
+              "drive_url": "https://drive.google.com/drive/folders/1PqI0hk3PyQ1KD_lGY9Bm_2qLj7ECdKL6",
+              "subfolders": {
+                "Ket_Qua_Thi_Nghiem_LAS_XD": {
+                  "folder_name": "📁 Ket_Qua_Thi_Nghiem_LAS_XD",
+                  "folder_id": "1rBWvKyUFiXCrlxDWGFKTU-iTFcqqztpY",
+                  "drive_url": "https://drive.google.com/drive/folders/1rBWvKyUFiXCrlxDWGFKTU-iTFcqqztpY"
+                },
+                "Chung_Chi_CO_CQ_Vat_Tu": {
+                  "folder_name": "📁 Chung_Chi_CO_CQ_Vat_Tu",
+                  "folder_id": "1DbG667iwnCGG3zH8C-0XbcHGHMKI4LB5",
+                  "drive_url": "https://drive.google.com/drive/folders/1DbG667iwnCGG3zH8C-0XbcHGHMKI4LB5"
+                },
+                "Nhat_Ky_Thi_Cong_15BM": {
+                  "folder_name": "📁 Nhat_Ky_Thi_Cong_15BM",
+                  "folder_id": "1p1i6WPiAQDZ-QsHmIaoQRvjQoHUKj6eX",
+                  "drive_url": "https://drive.google.com/drive/folders/1p1i6WPiAQDZ-QsHmIaoQRvjQoHUKj6eX"
+                }
+              }
+            },
+            "02_Truong_phong_Hoang_Van_Chuan": {
+              "staff_name": "02_Truong_phong_Hoang_Van_Chuan",
+              "role": "Trưởng phòng Quản lý Chất lượng & An toàn Công trình",
+              "folder_id": "1SVhX0eYUtqOquJB44CezShQnE2gNWdKP",
+              "drive_url": "https://drive.google.com/drive/folders/1SVhX0eYUtqOquJB44CezShQnE2gNWdKP",
+              "subfolders": {
+                "Bien_Ban_Nghiem_Thu_BBNTCV_10BM": {
+                  "folder_name": "📁 Bien_Ban_Nghiem_Thu_BBNTCV_10BM",
+                  "folder_id": "1IVCYVIU8JfJ9bi_jhDqWnK5bsjHGqhRX",
+                  "drive_url": "https://drive.google.com/drive/folders/1IVCYVIU8JfJ9bi_jhDqWnK5bsjHGqhRX"
+                },
+                "Ban_Ve_Hoan_Cong_4_Chu_Ky_ND06": {
+                  "folder_name": "📁 Ban_Ve_Hoan_Cong_4_Chu_Ky_ND06",
+                  "folder_id": "1nXsHFXmwn8F1-fq6U5y3JEDj2WkwFJsM",
+                  "drive_url": "https://drive.google.com/drive/folders/1nXsHFXmwn8F1-fq6U5y3JEDj2WkwFJsM"
+                }
+              }
+            }
+          }
+        },
+        "SETTLEMENT": {
+          "dept_code": "SETTLEMENT",
+          "dept_name": "Phòng Kiểm toán Thanh & Quyết toán",
+          "folder_name": "🏛️ 05_BAN_KIEM_TOAN_THANH_QUYET_TOAN - Phòng Kiểm toán Thanh & Quyết toán",
+          "folder_id": "1hhN5ILiS4UD-v4DQcoA2oXjx4tTh7jh_",
+          "drive_url": "https://drive.google.com/drive/folders/1hhN5ILiS4UD-v4DQcoA2oXjx4tTh7jh_",
+          "staff": {
+            "01_Chuyen_vien_Ngo_Thi_Quyet": {
+              "staff_name": "01_Chuyen_vien_Ngo_Thi_Quyet",
+              "role": "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a",
+              "folder_id": "1RKrNpPklFekvZxd8a_0u_EAUSmY55e_L",
+              "drive_url": "https://drive.google.com/drive/folders/1RKrNpPklFekvZxd8a_0u_EAUSmY55e_L",
+              "subfolders": {
+                "Ho_So_De_Nghi_Thanh_Toan": {
+                  "folder_name": "📁 Ho_So_De_Nghi_Thanh_Toan",
+                  "folder_id": "1qjQdwn9frMtA_CwFZzsTGmO_CB-q1cEZ",
+                  "drive_url": "https://drive.google.com/drive/folders/1qjQdwn9frMtA_CwFZzsTGmO_CB-q1cEZ"
+                },
+                "Bang_Chi_Tinh_Mau_08a_08b": {
+                  "folder_name": "📁 Bang_Chi_Tinh_Mau_08a_08b",
+                  "folder_id": "1F8-nMWV4EjAmFbshr16zANhsYYPbeUh8",
+                  "drive_url": "https://drive.google.com/drive/folders/1F8-nMWV4EjAmFbshr16zANhsYYPbeUh8"
+                }
+              }
+            },
+            "02_Truong_phong_Dang_Duc_Toan": {
+              "staff_name": "02_Truong_phong_Dang_Duc_Toan",
+              "role": "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ",
+              "folder_id": "1dGSTwLfSh1j7fUvuLar8l1nH8i7La_R0",
+              "drive_url": "https://drive.google.com/drive/folders/1dGSTwLfSh1j7fUvuLar8l1nH8i7La_R0",
+              "subfolders": {
+                "Bao_Cao_Tham_Dinh_KTXD_BM07_BM14": {
+                  "folder_name": "📁 Bao_Cao_Tham_Dinh_KTXD_BM07_BM14",
+                  "folder_id": "10Pd4ztHzxmSuuU3e90b24j3wAPbS3XPK",
+                  "drive_url": "https://drive.google.com/drive/folders/10Pd4ztHzxmSuuU3e90b24j3wAPbS3XPK"
+                },
+                "To_Trinh_CTDH_BM16_Trinh_Founder": {
+                  "folder_name": "📁 To_Trinh_CTDH_BM16_Trinh_Founder",
+                  "folder_id": "1Hxxmx18gmSFoeEP0-vyIr1LQBfzPT6_e",
+                  "drive_url": "https://drive.google.com/drive/folders/1Hxxmx18gmSFoeEP0-vyIr1LQBfzPT6_e"
+                }
+              }
+            }
+          }
+        },
+        "MASTER_EXECUTIVE": {
+          "dept_code": "MASTER_EXECUTIVE",
+          "dept_name": "Hồ sơ Tổng thể & Quyết nghị Founder",
+          "folder_name": "🏛️ 06_HO_SO_TONG_THE_FOUNDER_DUYET - Hồ sơ Tổng thể & Quyết nghị Founder",
+          "folder_id": "1GW7K_k399YyutkoRLG9F5KlruqZT--5L",
+          "drive_url": "https://drive.google.com/drive/folders/1GW7K_k399YyutkoRLG9F5KlruqZT--5L",
+          "staff": {
+            "Founder_CEO_Mai_Quang_Vinh": {
+              "staff_name": "Founder_CEO_Mai_Quang_Vinh",
+              "role": "Chủ tịch / Founder điều hành (Level 5)",
+              "folder_id": "1jlFuhpmNMaeS4bNmiA_jXv-c9x4cav4P",
+              "drive_url": "https://drive.google.com/drive/folders/1jlFuhpmNMaeS4bNmiA_jXv-c9x4cav4P",
+              "subfolders": {
+                "Master_Executive_Dossiers_Word": {
+                  "folder_name": "📁 Master_Executive_Dossiers_Word",
+                  "folder_id": "1sE6puZM8Be9vw-5wyxgGmOEQtfrAr8Bw",
+                  "drive_url": "https://drive.google.com/drive/folders/1sE6puZM8Be9vw-5wyxgGmOEQtfrAr8Bw"
+                },
+                "Quyet_Dinh_Phe_Duyet_Giai_Ngan_Trao_Thau": {
+                  "folder_name": "📁 Quyet_Dinh_Phe_Duyet_Giai_Ngan_Trao_Thau",
+                  "folder_id": "1CUuLjFyVgOSQHfCXb37qlJLsgIs-Ilmr",
+                  "drive_url": "https://drive.google.com/drive/folders/1CUuLjFyVgOSQHfCXb37qlJLsgIs-Ilmr"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

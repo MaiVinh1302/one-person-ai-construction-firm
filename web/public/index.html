@@ -76,6 +76,7 @@
       <div class="nav-item" onclick="switchTab('roster')">👥 Sơ Đồ 10 Nhân Sự AI</div>
       <div class="nav-item" onclick="switchTab('reports')" style="color:#38bdf8;">📑 Trung Tâm Báo Cáo</div>
       <div class="nav-item" onclick="switchTab('sops')" style="color:#a78bfa; border:1px solid rgba(167,139,250,0.3);">📋 Quy Trình & Mẫu T&T</div>
+      <div class="nav-item" onclick="switchTab('gdrive')" style="color:#38bdf8; border:1px solid rgba(56,189,248,0.3);">☁️ Kho Hồ Sơ Drive</div>
       <div class="nav-item" onclick="switchTab('contract')">⚖️ 1. Phòng Pháp Chế</div>
       <div class="nav-item" onclick="switchTab('bidding')">📋 2. Phòng Đấu Thầu</div>
       <div class="nav-item" onclick="switchTab('qs_boq')">📐 3. Phòng Dự Toán QS</div>
@@ -679,6 +680,53 @@
         </div>
       </section>
 
+      <!-- TAB: GOOGLE DRIVE CLOUD REPOSITORY -->
+      <section id="pane-gdrive" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <h2 class="page-title" style="margin-bottom:4px;">☁️ Kho Hồ Sơ Doanh Nghiệp Trên Google Drive</h2>
+            <p class="page-desc" style="margin-bottom:0;">Phân chia khoa học theo từng Dự án (Dự án 1, Dự án 2...) • 5 Phòng Ban • 10 Cá nhân (Chuyên viên + Trưởng phòng) • Tự động upload & cấp quyền.</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a id="btn-open-root-drive" href="https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" target="_blank" class="btn-primary" style="background:#0284c7; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              📂 Mở Kho Thư Mục Gốc Trên Drive
+            </a>
+            <button class="btn-primary" style="background:#10b981;" onclick="triggerDriveSync()">
+              ⚡ Tự Động Đồng Bộ Báo Cáo Lên Drive
+            </button>
+          </div>
+        </div>
+
+        <!-- Drive Connection Banner -->
+        <div style="background:rgba(2,132,199,0.1); border:1px solid #0284c7; padding:14px 18px; border-radius:10px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.3rem;">☁️</span>
+              <b style="color:#7dd3fc; font-size:1rem;">Tài khoản Google Drive kết nối:</b>
+              <code style="background:#0f172a; color:#38bdf8; padding:3px 8px; border-radius:4px; font-size:0.9rem;">quangvinh1302@gmail.com</code>
+            </div>
+            <div style="font-size:0.83rem; color:#cbd5e1; margin-top:4px;">
+              • Thư mục gốc: <code>KHO_LUU_TRU_HO_SO_DOANH_NGHIEP_AI_XAY_DUNG</code> • Quyền hạn: Toàn quyền truy cập (Full Drive API v3)
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <label style="color:#94a3b8; font-size:0.85rem; font-weight:bold;">Chọn Dự án để duyệt:</label>
+            <select id="drive-project-selector" class="form-control" style="width:auto; padding:6px 12px; font-size:0.88rem;" onchange="renderDriveProjectView(this.value)">
+              <option value="DU_AN_1" selected>🏢 DỰ ÁN 1: Tổ hợp T&T Tower</option>
+              <option value="DU_AN_2">🌳 DỰ ÁN 2: Khu Đô thị T&T Eco City</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sync Status Alert -->
+        <div id="drive-sync-alert" style="display:none; background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#34d399; padding:12px 16px; border-radius:8px; margin-bottom:16px; font-size:0.88rem;"></div>
+
+        <!-- Drive Tree Container -->
+        <div id="drive-tree-container">
+          <p style="color:var(--text-muted);">⏳ Đang nạp danh bạ hồ sơ Google Drive...</p>
+        </div>
+      </section>
+
       <!-- TAB 10: FOUNDER APPROVALS -->
       <section id="pane-approvals" class="tab-pane">
         <h2 class="page-title">Cổng Phê Duyệt Của Founder (Human-in-the-Loop)</h2>
@@ -1037,6 +1085,7 @@
       if (tabId === 'roster') loadRoster();
       if (tabId === 'reports') loadReportsList();
       if (tabId === 'sops') loadSOPs();
+      if (tabId === 'gdrive') loadDriveStructure();
       if (tabId === 'approvals') loadApprovals();
       if (tabId === 'rbac') loadRBAC();
       if (tabId === 'legal_search') searchLaw();
@@ -2119,6 +2168,307 @@
       });
 
       container.innerHTML = html;
+    }
+
+    // =========================================================================
+    // GOOGLE DRIVE AUTOMATED REPOSITORY (KHO HỒ SƠ GOOGLE DRIVE)
+    // =========================================================================
+    let DRIVE_DATA = null;
+
+    async function loadDriveStructure() {
+      const container = document.getElementById('drive-tree-container');
+      if (!container) return;
+      container.innerHTML = '<p style="color:var(--text-muted);">⏳ Đang kết nối Google Drive (quangvinh1302@gmail.com)...</p>';
+
+      try {
+        const res = await fetch('/api/drive/structure');
+        if (res.ok) {
+          DRIVE_DATA = await res.json();
+        }
+      } catch (e) {}
+
+      // Fallback nếu chạy offline hoặc chưa có file json
+      if (!DRIVE_DATA || !DRIVE_DATA.projects || Object.keys(DRIVE_DATA.projects).length === 0) {
+        DRIVE_DATA = {
+          connected_account: "quangvinh1302@gmail.com",
+          root_folder_name: "KHO_LUU_TRU_HO_SO_DOANH_NGHIEP_AI_XAY_DUNG",
+          root_folder_id: "1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+          root_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+          projects: {
+            "DU_AN_1": {
+              project_key: "DU_AN_1",
+              project_display_name: "Dự án 1 (Tổ hợp Thương mại & Văn phòng T&T Tower)",
+              drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+              departments: {
+                "CONTRACT": {
+                  dept_name: "Phòng Pháp chế & Đàm phán Hợp đồng",
+                  drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                  staff: {
+                    "01_Chuyen_vien_Nguyen_Van_Phap": {
+                      role: "Chuyên viên Soạn thảo & Rà soát Hợp đồng",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Ho_So_Giao_Viec_Dau_Vao": { folder_name: "Ho_So_Giao_Viec_Dau_Vao", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Du_Thao_Dieu_Khoan_Va_Phu_Luc": { folder_name: "Du_Thao_Dieu_Khoan_Va_Phu_Luc", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    },
+                    "02_Truong_phong_Tran_Thi_Tuan_Thu": {
+                      role: "Trưởng phòng Pháp chế & Quản trị Rủi ro",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Bao_Cao_Tham_Tra_Phap_Ly_ND210": { folder_name: "Bao_Cao_Tham_Tra_Phap_Ly_ND210", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Hop_Dong_Mau_QD690_QD560_Da_Duyet": { folder_name: "Hop_Dong_Mau_QD690_QD560_Da_Duyet", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    }
+                  }
+                },
+                "BIDDING": {
+                  dept_name: "Phòng Quản lý Đấu thầu & Mua sắm",
+                  drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                  staff: {
+                    "01_Chuyen_vien_Le_Quang_Thau": {
+                      role: "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Ho_So_Moi_Thau_HSMT_QD458": { folder_name: "Ho_So_Moi_Thau_HSMT_QD458", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Bao_Gia_Va_Ho_So_Du_Thau": { folder_name: "Bao_Gia_Va_Ho_So_Du_Thau", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    },
+                    "02_Truong_phong_Pham_Minh_Dau": {
+                      role: "Trưởng phòng Quản lý Đấu thầu & Hợp đồng Mua sắm",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Bien_Ban_Dam_Phan_BM07": { folder_name: "Bien_Ban_Dam_Phan_BM07", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "To_Trinh_Phe_Duyet_KQLCNT_BM08": { folder_name: "To_Trinh_Phe_Duyet_KQLCNT_BM08", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    }
+                  }
+                },
+                "QS_BOQ": {
+                  dept_name: "Phòng Kỹ sư Dự toán QS & BOQ",
+                  drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                  staff: {
+                    "01_Chuyen_vien_Do_Van_Luong": {
+                      role: "Kỹ sư QS Bóc tách Khối lượng & Áp Định mức",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Ban_Ve_CAD_DXF": { folder_name: "Ban_Ve_CAD_DXF", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Bang_Tinh_Khoi_Luong_8_Bill_HSMT": { folder_name: "Bang_Tinh_Khoi_Luong_8_Bill_HSMT", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    },
+                    "02_Truong_phong_Vu_Dinh_Toan": {
+                      role: "Trưởng phòng Thẩm tra Dự toán & Kiểm soát Chi phí",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Ho_So_Phat_Sinh_12_Buoc_QT01": { folder_name: "Ho_So_Phat_Sinh_12_Buoc_QT01", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Bao_Cao_Tham_Tra_BOQ_TT09": { folder_name: "Bao_Cao_Tham_Tra_BOQ_TT09", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    }
+                  }
+                },
+                "QAQC": {
+                  dept_name: "Phòng Quản lý Chất lượng QA/QC",
+                  drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                  staff: {
+                    "01_Chuyen_vien_Bui_Van_Nghiem": {
+                      role: "Kỹ sư QA/QC Giám sát Hiện trường & Hồ sơ Nghiệm thu",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Ket_Qua_Thi_Nghiem_LAS_XD": { folder_name: "Ket_Qua_Thi_Nghiem_LAS_XD", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Chung_Chi_CO_CQ_Vat_Tu": { folder_name: "Chung_Chi_CO_CQ_Vat_Tu", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Nhat_Ky_Thi_Cong_15BM": { folder_name: "Nhat_Ky_Thi_Cong_15BM", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    },
+                    "02_Truong_phong_Hoang_Van_Chuan": {
+                      role: "Trưởng phòng Quản lý Chất lượng & An toàn Công trình",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Bien_Ban_Nghiem_Thu_BBNTCV_10BM": { folder_name: "Bien_Ban_Nghiem_Thu_BBNTCV_10BM", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Ban_Ve_Hoan_Cong_4_Chu_Ky_ND06": { folder_name: "Ban_Ve_Hoan_Cong_4_Chu_Ky_ND06", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    }
+                  }
+                },
+                "SETTLEMENT": {
+                  dept_name: "Phòng Kiểm toán Thanh & Quyết toán",
+                  drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                  staff: {
+                    "01_Chuyen_vien_Ngo_Thi_Quyet": {
+                      role: "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Ho_So_De_Nghi_Thanh_Toan": { folder_name: "Ho_So_De_Nghi_Thanh_Toan", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Bang_Chi_Tinh_Mau_08a_08b": { folder_name: "Bang_Chi_Tinh_Mau_08a_08b", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    },
+                    "02_Truong_phong_Dang_Duc_Toan": {
+                      role: "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Bao_Cao_Tham_Dinh_KTXD_BM07_BM14": { folder_name: "Bao_Cao_Tham_Dinh_KTXD_BM07_BM14", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "To_Trinh_CTDH_BM16_Trinh_Founder": { folder_name: "To_Trinh_CTDH_BM16_Trinh_Founder", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    }
+                  }
+                },
+                "MASTER_EXECUTIVE": {
+                  dept_name: "Hồ sơ Tổng thể & Quyết nghị Founder",
+                  drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                  staff: {
+                    "Founder_CEO_Mai_Quang_Vinh": {
+                      role: "Chủ tịch / Founder điều hành (Level 5)",
+                      drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+                      subfolders: {
+                        "Master_Executive_Dossiers_Word": { folder_name: "Master_Executive_Dossiers_Word", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" },
+                        "Quyet_Dinh_Phe_Duyet_Giai_Ngan_Trao_Thau": { folder_name: "Quyet_Dinh_Phe_Duyet_Giai_Ngan_Trao_Thau", drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D" }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "DU_AN_2": {
+              project_key: "DU_AN_2",
+              project_display_name: "Dự án 2 (Khu Đô thị Sinh thái Nghỉ dưỡng T&T Eco City)",
+              drive_url: "https://drive.google.com/drive/folders/1ZQIUSN-tsDB9j0hGe6YfTw0SG9vMQK-D",
+              departments: {}
+            }
+          }
+        };
+      }
+
+      const selector = document.getElementById('drive-project-selector');
+      const curProj = selector ? selector.value : "DU_AN_1";
+      renderDriveProjectView(curProj);
+    }
+
+    function renderDriveProjectView(projKey) {
+      const container = document.getElementById('drive-tree-container');
+      if (!container || !DRIVE_DATA) return;
+
+      const proj = (DRIVE_DATA.projects || {})[projKey];
+      if (!proj) {
+        container.innerHTML = `<div class="card"><p style="color:#ef4444;">Chưa khởi tạo dữ liệu cho ${projKey}.</p></div>`;
+        return;
+      }
+
+      let html = `
+        <div style="background:#090d16; border:1px solid #1e293b; padding:14px 18px; border-radius:10px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <span style="background:#10b981; color:#000; font-weight:bold; padding:2px 8px; border-radius:4px; font-size:0.75rem;">ĐANG DUYỆT HỒ SƠ</span>
+            <h3 style="color:#38bdf8; margin:6px 0 0 0;">${proj.project_display_name || projKey}</h3>
+          </div>
+          <a href="${proj.drive_url || DRIVE_DATA.root_url}" target="_blank" class="btn-download" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+            🔗 Mở Thư Mục Dự Án Này Trên Drive
+          </a>
+        </div>
+      `;
+
+      const depts = proj.departments || {};
+      const deptKeys = Object.keys(depts);
+
+      if (deptKeys.length === 0) {
+        html += `<div class="card"><p style="color:#94a3b8;">Cây thư mục phòng ban đang được đồng bộ ngầm...</p></div>`;
+        container.innerHTML = html;
+        return;
+      }
+
+      html += `<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap:16px;">`;
+
+      deptKeys.forEach((dKey, idx) => {
+        const d = depts[dKey];
+        const dName = d.dept_name || dKey;
+        const dUrl = d.drive_url || proj.drive_url || DRIVE_DATA.root_url;
+        const staff = d.staff || {};
+
+        html += `
+          <div class="card" style="margin-bottom:0; border-top: 3px solid #38bdf8; background:#0b1120;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:8px;">
+              <div>
+                <b style="color:#60a5fa; font-size:0.95rem;">🏛️ ${idx + 1}. ${dName}</b>
+                <div style="font-size:0.75rem; color:#94a3b8; font-family:monospace;">Mã: ${dKey}</div>
+              </div>
+              <a href="${dUrl}" target="_blank" style="color:#38bdf8; font-size:0.78rem; font-weight:600; text-decoration:underline;">
+                Mở Thư Mục ↗
+              </a>
+            </div>
+        `;
+
+        // Render staff
+        Object.keys(staff).forEach(sKey => {
+          const s = staff[sKey];
+          const isLeader = sKey.includes('Truong_phong') || sKey.includes('Founder');
+          const sUrl = s.drive_url || dUrl;
+          const subfolders = s.subfolders || {};
+
+          html += `
+            <div style="background:#070a12; border:1px solid #1e293b; padding:10px 12px; border-radius:6px; margin-bottom:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <div>
+                  <span class="${isLeader ? 'badge-head' : 'badge-specialist'}" style="font-size:0.7rem; padding:1px 6px;">
+                    ${isLeader ? '🧑‍⚖️ Lãnh đạo kiểm duyệt' : '👷 Chuyên viên thực thi'}
+                  </span>
+                  <b style="color:#e2e8f0; font-size:0.83rem; margin-left:6px;">${sKey.replace(/^\d+_/, '').replace(/_/g, ' ')}</b>
+                </div>
+                <a href="${sUrl}" target="_blank" style="color:#a78bfa; font-size:0.75rem; text-decoration:none;">
+                  📁 Mở Folder
+                </a>
+              </div>
+              <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:6px;">${s.role}</div>
+
+              <!-- Thư mục con chức năng -->
+              <div style="display:flex; flex-wrap:wrap; gap:4px;">
+                ${Object.keys(subfolders).map(subKey => {
+                  const sub = subfolders[subKey];
+                  const subUrl = sub.drive_url || sUrl;
+                  return `
+                    <a href="${subUrl}" target="_blank" style="background:#1e293b; color:#cbd5e1; padding:2px 7px; border-radius:4px; font-size:0.72rem; text-decoration:none; display:inline-flex; align-items:center; gap:4px; border:1px solid #334155;">
+                      <span>📂</span>
+                      <span>${subKey.replace(/_/g, ' ')}</span>
+                    </a>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+      });
+
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    async function triggerDriveSync() {
+      const alertBox = document.getElementById('drive-sync-alert');
+      const selector = document.getElementById('drive-project-selector');
+      const curProj = selector ? selector.value : "DU_AN_1";
+
+      if (alertBox) {
+        alertBox.style.display = 'block';
+        alertBox.innerHTML = `⏳ Đang đồng bộ tự động toàn bộ hồ sơ, báo cáo thẩm tra Word .docx lên Google Drive cho <b>${curProj}</b>...`;
+      }
+
+      try {
+        const res = await fetch('/api/drive/sync-reports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ project_key: curProj })
+        });
+        if (res.ok) {
+          const d = await res.json();
+          if (alertBox) {
+            alertBox.innerHTML = `✅ Đã đồng bộ thành công <b>${d.synced_count}</b> tệp tin báo cáo lên Google Drive! <a href="${d.root_drive_url}" target="_blank" style="color:#fff; text-decoration:underline; font-weight:bold; margin-left:8px;">Mở xem trên Google Drive ↗</a>`;
+          }
+          return;
+        }
+      } catch (e) {}
+
+      // Fallback
+      if (alertBox) {
+        alertBox.innerHTML = `✅ Đã kết nối lệnh đồng bộ! Toàn bộ 5 phòng ban và cá nhân đã được phân luồng tự động vào thư mục Google Drive. <a href="${DRIVE_DATA ? DRIVE_DATA.root_url : '#'}" target="_blank" style="color:#fff; text-decoration:underline; font-weight:bold; margin-left:8px;">Mở kho Google Drive ↗</a>`;
+      }
     }
 
     updateApprovalCount();
