@@ -844,11 +844,14 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
           <div>
             <h2 class="page-title" style="margin-bottom:4px;">🏛️ Mô Hình 3D Sàn Làm Việc Doanh Nghiệp (Virtual 3D Office Floor)</h2>
-            <p class="page-desc" style="margin-bottom:0;">Mô phỏng 3D thời gian thực 5 Phòng ban chuyên môn, Văn phòng Founder Mai Quang Vinh, Phòng họp Hội đồng lớn. Bàn ghế, máy tính, kệ hồ sơ & 11 nhân sự di chuyển sống động.</p>
+            <p class="page-desc" style="margin-bottom:0;">Mô phỏng 3D thời gian thực 6 Ban chuyên môn, Văn phòng Founder Mai Quang Vinh, Phòng họp Hội đồng, Phòng Giải Trí Wellness & Căn Tin Quầy Bar. Bàn ghế, máy tính, kệ hồ sơ & 16 nhân sự di chuyển sống động.</p>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button class="btn-primary" style="background:#0284c7;" onclick="if(window.office3DInstance) window.office3DInstance.gatherAllToMeeting()">
               📢 Triệu Tập Họp Hội Đồng
+            </button>
+            <button class="btn-primary" style="background:#f59e0b;" onclick="if(window.office3DInstance) window.office3DInstance.gatherAllToBreak()">
+              ☕ Giờ Nghỉ Giải Lao
             </button>
             <button class="btn-primary" style="background:#10b981;" onclick="if(window.office3DInstance) window.office3DInstance.sendAllBackToDesks()">
               🏃 Về Bàn Làm Việc
@@ -865,6 +868,8 @@
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem;" onclick="if(window.office3DInstance) window.office3DInstance.controls.target.set(0,0,0); window.office3DInstance.camera.position.set(0,38,48); window.office3DInstance.controls.update();">🌐 Toàn Cảnh Sàn</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#f59e0b; color:#fbbf24;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('FOUNDER')">👑 Phòng Founder</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#38bdf8; color:#38bdf8;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('BOARDROOM')">🏛️ Phòng Họp Lớn</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#10b981; color:#34d399;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('RECREATION')">🎮 Phòng Giải Trí</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#f59e0b; color:#fbbf24;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('CANTEEN')">☕ Căn Tin & Quầy Bar</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#a855f7; color:#c084fc;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('LEGAL')">⚖️ Ban Pháp Chế</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#3b82f6; color:#60a5fa;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('BIDDING')">📋 Ban Đấu Thầu</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#10b981; color:#34d399;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QS')">📐 Ban Dự Toán QS</button>
@@ -2885,7 +2890,9 @@
         'BIDDING': 'BIDDING',
         'QS': 'QS_BOQ',
         'QAQC': 'QAQC',
-        'SETTLEMENT': 'SETTLEMENT'
+        'SETTLEMENT': 'SETTLEMENT',
+        'MARKETING': 'MARKETING',
+        'CANTEEN': 'MARKETING'
       };
       const wf = deptMap[selected3DStaffData.dept] || 'CONTRACT';
       quickAssignDept(wf);

@@ -37,6 +37,8 @@ class Office3DFloorEngine {
       QAQC: { name: "Phòng Quản Lý Chất Lượng QA/QC", center: { x: 20, z: 12 }, color: 0xf97316 },
       SETTLEMENT: { name: "Phòng Kiểm Toán Thanh & Quyết Toán", center: { x: -8, z: -15 }, color: 0xec4899 },
       MARKETING: { name: "Ban Marketing & Truyền Thông Studio", center: { x: 6, z: -15 }, color: 0xd946ef },
+      RECREATION: { name: "Phòng Giải Trí & Thể Dục Wellness", center: { x: -22, z: -1 }, color: 0x10b981 },
+      CANTEEN: { name: "Căn Tin & Quầy Bar Doanh Nghiệp", center: { x: 20, z: -1 }, color: 0xf59e0b },
       LOUNGE: { name: "Sảnh Lễ Tân & Tiếp Khách Trung Tâm", center: { x: 0, z: -2 }, color: 0x64748b }
     };
 
@@ -187,6 +189,27 @@ class Office3DFloorEngine {
         color: 0xa21caf,
         deskPos: { x: 9, z: -12, rot: Math.PI / 4 },
         meetPos: { x: 26, z: -15, rot: Math.PI / 2 }
+      },
+      // 7. Nhân sự Căn Tin & Dịch Vụ Văn Phòng
+      {
+        id: "canteen_barista",
+        name: "Nguyễn Thị Trà My",
+        role: "Barista & Chăm Sóc Quầy Bar Căn Tin",
+        level: "Level 2",
+        dept: "CANTEEN",
+        color: 0x14b8a6, // Teal
+        deskPos: { x: 18.5, z: -2.8, rot: 0 },
+        meetPos: { x: 28, z: -15, rot: 0 }
+      },
+      {
+        id: "canteen_chef",
+        name: "Trần Văn Bếp",
+        role: "Bếp Trưởng & Dinh Dưỡng Năng Lượng Doanh Nghiệp",
+        level: "Level 2",
+        dept: "CANTEEN",
+        color: 0xf97316, // Orange
+        deskPos: { x: 21.5, z: -2.8, rot: 0 },
+        meetPos: { x: 28, z: -13, rot: 0 }
       }
     ];
 
@@ -339,6 +362,12 @@ class Office3DFloorEngine {
     // Vách kính phòng Họp Hội Đồng
     this.buildGlassRoom(20, -15, 16, 12, "PHÒNG HỌP HỘI ĐỒNG LÃNH ĐẠO T&T");
 
+    // Vách kính Phòng Giải Trí & Thể Dục Wellness
+    this.buildGlassRoom(-22, -1, 14, 9, "PHÒNG GIẢI TRÍ & CHĂM SÓC SỨC KHỎE");
+
+    // Vách kính Căn Tin & Quầy Bar Doanh Nghiệp
+    this.buildGlassRoom(20, -1, 16, 9, "CĂN TIN & QUẦY BAR DOANH NGHIỆP");
+
     // Biển hiệu LED phát sáng cho các phòng ban
     this.createGlowSignboard("👑 PHÒNG TỔNG GIÁM ĐỐC / FOUNDER", -22, 4.8, -20.8, 0xf59e0b);
     this.createGlowSignboard("🏛️ PHÒNG HỌP HỘI ĐỒNG CHIẾN LƯỢC", 20, 4.8, -20.8, 0x38bdf8);
@@ -348,6 +377,8 @@ class Office3DFloorEngine {
     this.createGlowSignboard("🏗️ BAN CHẤT LƯỢNG QA/QC", 20, 3.8, 6.5, 0xf97316);
     this.createGlowSignboard("💰 BAN KIỂM TOÁN QUYẾT TOÁN", -8, 4.8, -20.8, 0xec4899);
     this.createGlowSignboard("🎬 BAN MARKETING & TRUYỀN THÔNG", 6, 4.8, -20.8, 0xd946ef);
+    this.createGlowSignboard("🎮 PHÒNG GIẢI TRÍ & WELLNESS", -22, 4.2, 3.6, 0x10b981);
+    this.createGlowSignboard("☕ CĂN TIN & QUẦY BAR DOANH NGHIỆP", 20, 4.2, 3.6, 0xf59e0b);
   }
 
   buildZoneDivider(x, z, length, label) {
@@ -467,6 +498,12 @@ class Office3DFloorEngine {
 
     // 9. Sảnh Lễ Tân Trung Tâm
     this.createReceptionArea(0, -2);
+
+    // 10. Phòng Giải Trí & Wellness trong giờ giải lao
+    this.createRecreationRoom(-22, -1);
+
+    // 11. Căn Tin & Quầy Bar Doanh Nghiệp
+    this.createCanteenRoom(20, -1);
   }
 
   // --- HÀM TẠO NỘI THẤT CHI TIẾT ---
@@ -871,6 +908,283 @@ class Office3DFloorEngine {
     this.scene.add(group);
   }
 
+  createRecreationRoom(cx, cz) {
+    // PHÒNG GIẢI TRÍ & CHĂM SÓC SỨC KHỎE NHÂN VIÊN (Recreation & Wellness Lounge)
+    const group = new THREE.Group();
+    group.position.set(cx, 0, cz);
+
+    // 1. Tivi Giải Trí Lớn 85 inch & Kệ TV / Console Gaming
+    const tvMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8 });
+    const tvFrame = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.0, 0.08), tvMat);
+    tvFrame.position.set(0, 2.5, -4.2);
+    group.add(tvFrame);
+
+    const tvScreenMat = new THREE.MeshStandardMaterial({
+      color: 0x6366f1,
+      emissive: 0x6366f1,
+      emissiveIntensity: 0.6,
+      roughness: 0.2
+    });
+    const tvScreen = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 1.8), tvScreenMat);
+    tvScreen.position.set(0, 2.5, -4.13);
+    group.add(tvScreen);
+
+    // Kệ tủ TV gỗ sang trọng
+    const cabinetMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4 });
+    const cabinet = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.45, 0.7), cabinetMat);
+    cabinet.position.set(0, 0.225, -3.9);
+    group.add(cabinet);
+
+    // Máy chơi game console (PlayStation) & tay cầm
+    const consoleMesh = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.08, 0.25), new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 }));
+    consoleMesh.position.set(0, 0.49, -3.9);
+    group.add(consoleMesh);
+
+    // 2. 02 Ghế Massage Toàn Thân Thông Minh (Zero-Gravity Massage Chairs)
+    const createMassageChair = (x, z, rotY) => {
+      const chairGroup = new THREE.Group();
+      chairGroup.position.set(x, 0, z);
+      chairGroup.rotation.y = rotY;
+
+      const leatherMat = new THREE.MeshStandardMaterial({ color: 0x3e2723, roughness: 0.35 });
+
+      // Đế ghế nâng hạ
+      const base = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.22, 1.4), new THREE.MeshStandardMaterial({ color: 0x18181b, metalness: 0.6 }));
+      base.position.set(0, 0.11, 0);
+      chairGroup.add(base);
+
+      // Thân đệm ghế nghiêng góc thư giãn
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.3, 0.8), leatherMat);
+      seat.position.set(0, 0.35, 0.1);
+      chairGroup.add(seat);
+
+      // Tựa lưng uốn lượn công thái học
+      const back = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.9, 0.22), leatherMat);
+      back.position.set(0, 0.8, -0.35);
+      back.rotation.x = -0.3;
+      chairGroup.add(back);
+
+      // Đệm đầu massage cổ
+      const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.2, 0.12), new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.5 }));
+      pillow.position.set(0, 1.25, -0.48);
+      chairGroup.add(pillow);
+
+      // 2 Tay vịn massage cánh tay
+      const armL = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.45, 0.9), leatherMat);
+      armL.position.set(-0.45, 0.5, 0.05);
+      chairGroup.add(armL);
+      const armR = armL.clone();
+      armR.position.set(0.45, 0.5, 0.05);
+      chairGroup.add(armR);
+
+      // Bảng điều khiển cảm ứng LED phát sáng xanh lam
+      const tablet = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.02, 0.18), new THREE.MeshStandardMaterial({ color: 0x38bdf8, emissive: 0x38bdf8, emissiveIntensity: 0.8 }));
+      tablet.position.set(0.48, 0.74, 0.15);
+      chairGroup.add(tablet);
+
+      // Phần massage bắp chân & bàn chân (Footrest)
+      const footrest = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.4, 0.45), leatherMat);
+      footrest.position.set(0, 0.3, 0.65);
+      chairGroup.add(footrest);
+
+      return chairGroup;
+    };
+
+    group.add(createMassageChair(-3.8, -1.2, Math.PI / 4));
+    group.add(createMassageChair(-3.8, 1.8, -Math.PI / 6));
+
+    // 3. Thiết Bị Thể Dục: 02 Máy Chạy Bộ Điện Tử Hiện Đại (Treadmills)
+    const createTreadmill = (x, z) => {
+      const tmGroup = new THREE.Group();
+      tmGroup.position.set(x, 0, z);
+
+      const metalMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8 });
+      const beltMat = new THREE.MeshStandardMaterial({ color: 0x09090b, roughness: 0.8 });
+
+      // Băng chuyền chạy bộ
+      const base = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.14, 1.9), metalMat);
+      base.position.set(0, 0.07, 0);
+      tmGroup.add(base);
+
+      const belt = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.02, 1.7), beltMat);
+      belt.position.set(0, 0.15, 0);
+      tmGroup.add(belt);
+
+      // 2 Trụ đỡ đứng
+      const pole1 = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.2), metalMat);
+      pole1.position.set(-0.38, 0.65, -0.75);
+      pole1.rotation.x = 0.2;
+      tmGroup.add(pole1);
+      const pole2 = pole1.clone();
+      pole2.position.set(0.38, 0.65, -0.75);
+      tmGroup.add(pole2);
+
+      // Bảng điều khiển điện tử LED + Tay vịn
+      const display = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.22, 0.16), new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x10b981, emissiveIntensity: 0.5 }));
+      display.position.set(0, 1.2, -0.65);
+      tmGroup.add(display);
+
+      return tmGroup;
+    };
+
+    group.add(createTreadmill(4.2, -1.5));
+    group.add(createTreadmill(4.2, 1.5));
+
+    // 4. Khu Vực Thảm Tập Yoga & Tạ Tay Thể Lực
+    const matMesh = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.02, 2.0), new THREE.MeshStandardMaterial({ color: 0xa855f7, roughness: 0.6 }));
+    matMesh.position.set(1.5, 0.01, -1.5);
+    group.add(matMesh);
+
+    // Bóng tập Gym Swiss Ball tròn
+    const ballMesh = new THREE.Mesh(new THREE.SphereGeometry(0.38, 16, 16), new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.3 }));
+    ballMesh.position.set(1.5, 0.38, -0.2);
+    group.add(ballMesh);
+
+    // Giá để tạ tay mini
+    const rackMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9 });
+    const rack = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.4, 0.3), rackMat);
+    rack.position.set(1.5, 0.2, 1.5);
+    group.add(rack);
+
+    // 5. Bộ Ghế Sofa Thư Giãn Lười & Bàn Trà Kính
+    const sofaMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.5 });
+    const sofaSeat = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.35, 0.9), sofaMat);
+    sofaSeat.position.set(-0.2, 0.18, 2.2);
+    group.add(sofaSeat);
+
+    const sofaBack = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.5, 0.25), sofaMat);
+    sofaBack.position.set(-0.2, 0.55, 2.65);
+    group.add(sofaBack);
+
+    const teaTable = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 0.32, 24), new THREE.MeshStandardMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 }));
+    teaTable.position.set(-0.2, 0.16, 1.2);
+    group.add(teaTable);
+
+    this.scene.add(group);
+  }
+
+  createCanteenRoom(cx, cz) {
+    // PHÒNG CĂN TIN & QUẦY BAR DOANH NGHIỆP (Canteen & Cafeteria Bar Lounge)
+    const group = new THREE.Group();
+    group.position.set(cx, 0, cz);
+
+    // 1. Quầy Bar Phục Vụ Ẩm Thực & Cà Phê (Bar Counter - Dài 4.8m)
+    const marbleMat = new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.15, metalness: 0.2 });
+    const woodMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.4 });
+    const chromeMat = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.9, roughness: 0.1 });
+
+    // Mặt quầy bar đá marble đen ánh kim
+    const barTop = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.08, 0.85), marbleMat);
+    barTop.position.set(0, 1.15, -1.8);
+    barTop.castShadow = true;
+    group.add(barTop);
+
+    // Thân quầy bar ốp gỗ cao cấp
+    const barBody = new THREE.Mesh(new THREE.BoxGeometry(4.7, 1.1, 0.75), woodMat);
+    barBody.position.set(0, 0.55, -1.8);
+    barBody.castShadow = true;
+    group.add(barBody);
+
+    // Kệ tủ rượu / đồ uống phía sau quầy bar (Back Bar Shelf)
+    const backShelf = new THREE.Mesh(new THREE.BoxGeometry(4.8, 2.2, 0.4), new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6 }));
+    backShelf.position.set(0, 1.5, -4.1);
+    group.add(backShelf);
+
+    // Các tầng kệ trưng bày ly tách và chai đồ uống
+    for (let i = 0; i < 3; i++) {
+      const shelfTier = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.04, 0.35), new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.8 }));
+      shelfTier.position.set(0, 0.8 + i * 0.6, -4.0);
+      group.add(shelfTier);
+    }
+
+    // Máy pha cà phê Espresso chuyên nghiệp inox
+    const coffeeMachineMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.1 });
+    const coffeeMachine = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.48, 0.45), coffeeMachineMat);
+    coffeeMachine.position.set(-1.2, 1.42, -1.8);
+    group.add(coffeeMachine);
+
+    // Tủ mát kính mini trưng bày nước ngọt & bánh ngọt
+    const glassCoolerMat = new THREE.MeshPhysicalMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45, roughness: 0.1 });
+    const cooler = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.55, 0.48), glassCoolerMat);
+    cooler.position.set(1.2, 1.45, -1.8);
+    group.add(cooler);
+
+    // 2. 04 Ghế Quầy Bar Chân Cao (Bar Stools)
+    const stoolMat = new THREE.MeshStandardMaterial({ color: 0xea580c, roughness: 0.4 });
+    const stoolPositions = [-1.8, -0.6, 0.6, 1.8];
+
+    stoolPositions.forEach((sx) => {
+      const sGroup = new THREE.Group();
+      sGroup.position.set(sx, 0, -0.9);
+
+      // Đệm ngồi bọc da tròn
+      const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.08, 16), stoolMat);
+      seat.position.set(0, 0.82, 0);
+      sGroup.add(seat);
+
+      // Trụ kim loại mạ chrome
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.8, 12), chromeMat);
+      stem.position.set(0, 0.4, 0);
+      sGroup.add(stem);
+
+      // Chân đế tròn
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.03, 16), chromeMat);
+      base.position.set(0, 0.015, 0);
+      sGroup.add(base);
+
+      group.add(sGroup);
+    });
+
+    // 3. 02 Cụm Bàn Ăn Căn Tin Tròn Cho Nhân Viên
+    const createDiningTable = (x, z) => {
+      const tGroup = new THREE.Group();
+      tGroup.position.set(x, 0, z);
+
+      // Mặt bàn gỗ tròn đường kính 1.4m
+      const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.7, 0.06, 24), new THREE.MeshStandardMaterial({ color: 0x92400e, roughness: 0.3 }));
+      tableTop.position.set(0, 0.74, 0);
+      tableTop.castShadow = true;
+      tGroup.add(tableTop);
+
+      // Trụ bàn
+      const tStem = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.74, 16), chromeMat);
+      tStem.position.set(0, 0.37, 0);
+      tGroup.add(tStem);
+
+      // 4 Ghế ăn xung quanh
+      const chairMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.5 });
+      for (let i = 0; i < 4; i++) {
+        const angle = (i * Math.PI) / 2;
+        const cMesh = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.06, 0.42), chairMat);
+        cMesh.position.set(Math.cos(angle) * 0.95, 0.46, Math.sin(angle) * 0.95);
+        tGroup.add(cMesh);
+
+        const cBack = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.45, 0.05), chairMat);
+        cBack.position.set(Math.cos(angle) * 1.15, 0.7, Math.sin(angle) * 1.15);
+        cBack.rotation.y = -angle + Math.PI / 2;
+        tGroup.add(cBack);
+      }
+
+      return tGroup;
+    };
+
+    group.add(createDiningTable(-4.0, 1.8));
+    group.add(createDiningTable(3.8, 1.8));
+
+    // 4. Cây Nước Uống Tự Động Nóng Lạnh
+    const dispenserMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
+    const dispenser = new THREE.Mesh(new THREE.BoxGeometry(0.42, 1.2, 0.42), dispenserMat);
+    dispenser.position.set(-6.5, 0.6, -1.8);
+    group.add(dispenser);
+
+    // Bình nước xanh úp trên cây nước
+    const bottle = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.45, 16), new THREE.MeshPhysicalMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.7 }));
+    bottle.position.set(-6.5, 1.42, -1.8);
+    group.add(bottle);
+
+    this.scene.add(group);
+  }
+
   // --- TẠO 11 NHÂN SỰ AI 3D (HUMANOID AVATARS) ---
   spawnStaffAvatars() {
     this.STAFF_DATA.forEach((s) => {
@@ -1056,6 +1370,42 @@ class Office3DFloorEngine {
     this.isMeetingMode = false;
     this.staffMembers.forEach((avatar) => {
       this.moveStaffToPoint(avatar, avatar.userData.deskPos);
+    });
+  }
+
+  // Lệnh toàn bộ nhân sự nghỉ ngơi giải lao (Căn tin, Massage, Gym Wellness)
+  gatherAllToBreak() {
+    this.isMeetingMode = false;
+    const breakSpots = [
+      // Phân bổ vào Phòng Giải Trí & Wellness
+      { x: -18, z: -2.5, rot: 0 },
+      { x: -16, z: -2.5, rot: 0 },
+      { x: -25.5, z: 2.0, rot: Math.PI },
+      { x: -23.5, z: 2.0, rot: Math.PI },
+      { x: -23, z: 0.5, rot: -Math.PI / 2 },
+      { x: -21, z: 0.5, rot: Math.PI / 2 },
+      { x: -25.5, z: -2.2, rot: 0 },
+      // Phân bổ vào Căn Tin & Quầy Bar
+      { x: 17.6, z: -1.0, rot: -Math.PI / 2 },
+      { x: 19.2, z: -1.0, rot: -Math.PI / 2 },
+      { x: 20.8, z: -1.0, rot: -Math.PI / 2 },
+      { x: 22.4, z: -1.0, rot: -Math.PI / 2 },
+      { x: 16.5, z: 0.8, rot: 0 },
+      { x: 16.5, z: 2.8, rot: Math.PI },
+      { x: 23.5, z: 0.8, rot: 0 },
+      { x: 23.5, z: 2.8, rot: Math.PI }
+    ];
+
+    let spotIdx = 0;
+    this.staffMembers.forEach((avatar) => {
+      // 2 nhân viên quầy bar và bếp trưởng ở lại vị trí phục vụ
+      if (avatar.userData.staffId === 'canteen_barista' || avatar.userData.staffId === 'canteen_chef') {
+        this.moveStaffToPoint(avatar, avatar.userData.deskPos);
+        return;
+      }
+      const spot = breakSpots[spotIdx % breakSpots.length];
+      spotIdx++;
+      this.moveStaffToPoint(avatar, spot);
     });
   }
 

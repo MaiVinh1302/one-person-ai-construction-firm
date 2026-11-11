@@ -156,6 +156,36 @@ class ConstructionCompanyOrchestrator:
                     "level": RoleLevel.LEVEL_3_HEAD.name,
                     "mission": "Thẩm định thông điệp truyền thông, kiểm soát rủi ro thương hiệu, rà soát tính chuẩn xác kỹ thuật và cấp lệnh Gate Clearance phát hành."
                 }
+            },
+            {
+                "id": "DEPT_SERVICES_WELLNESS",
+                "department_name": "Bộ Phận Dịch Vụ & Đời Sống (Căn Tin - Giải Trí - Wellness)",
+                "code": "WELLNESS",
+                "corporate_sop": "Quy chuẩn Dịch vụ Hậu cần, Căn tin Dinh dưỡng & Chăm sóc Thể chất Nhân viên Doanh nghiệp 2026",
+                "barista": {
+                    "name": "Nguyễn Thị Trà My",
+                    "title": "Barista & Quầy Bar Căn Tin",
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Pha chế cà phê espresso, trà thảo mộc, nước ép dinh dưỡng và phục vụ quầy bar tiếp khách & giờ nghỉ giải lao."
+                },
+                "chef": {
+                    "name": "Trần Văn Bếp",
+                    "title": "Bếp Trưởng & Dinh Dưỡng Năng Lượng Doanh Nghiệp",
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Quản lý thực đơn bữa ăn giàu năng lượng, đồ ăn nhẹ giờ nghỉ, kiểm soát tiêu chuẩn ATTP và tái tạo thể chất cho CBNV."
+                },
+                "specialist": {
+                    "name": "Nguyễn Thị Trà My & Trần Văn Bếp",
+                    "title": "Nhân viên Dịch vụ Quầy Bar & Bếp Trưởng Dinh Dưỡng",
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Phục vụ giải khát dinh dưỡng tại quầy bar Căn tin và vận hành khu giải lao, massage, thể dục wellness."
+                },
+                "head": {
+                    "name": "Nguyễn Thị Trà My",
+                    "title": "Trưởng Bộ Phận Hậu Cần Dịch Vụ & Đời Sống",
+                    "level": RoleLevel.LEVEL_3_HEAD.name,
+                    "mission": "Điều phối dịch vụ căn tin quầy bar, duy trì phòng giải trí massage thể dục và tái tạo năng lượng cho toàn bộ công ty."
+                }
             }
         ]
 
