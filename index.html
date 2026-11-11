@@ -6,6 +6,20 @@
   <title>T&T AI Construction Consulting - Cổng Đăng Nhập & Giao Việc Điều Hành</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="stylesheet" href="web/public/css/style.css">
+  <!-- THREE.JS 3D ENGINE & CONTROLS -->
+  <script src="/static/js/three.min.js"></script>
+  <script src="/static/js/OrbitControls.js"></script>
+  <script src="/static/js/office_3d.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="web/public/js/three.min.js"><\/script>');
+      document.write('<script src="web/public/js/OrbitControls.js"><\/script>');
+      document.write('<script src="web/public/js/office_3d.js"><\/script>');
+      document.write('<script src="js/three.min.js"><\/script>');
+      document.write('<script src="js/OrbitControls.js"><\/script>');
+      document.write('<script src="js/office_3d.js"><\/script>');
+    }
+  </script>
 </head>
 <body>
 
@@ -77,6 +91,7 @@
       <div class="nav-item" onclick="switchTab('reports')" style="color:#38bdf8;">📑 Trung Tâm Báo Cáo</div>
       <div class="nav-item" onclick="switchTab('sops')" style="color:#a78bfa; border:1px solid rgba(167,139,250,0.3);">📋 Quy Trình & Mẫu T&T</div>
       <div class="nav-item" onclick="switchTab('gdrive')" style="color:#38bdf8; border:1px solid rgba(56,189,248,0.3);">☁️ Kho Hồ Sơ Drive</div>
+      <div class="nav-item" onclick="switchTab('floor3d')" style="color:#fbbf24; border:1px solid rgba(245,158,11,0.35);">🏛️ Mô Hình 3D Sàn Văn Phòng</div>
       <div class="nav-item" onclick="switchTab('contract')">⚖️ 1. Phòng Pháp Chế</div>
       <div class="nav-item" onclick="switchTab('bidding')">📋 2. Phòng Đấu Thầu</div>
       <div class="nav-item" onclick="switchTab('qs_boq')">📐 3. Phòng Dự Toán QS</div>
@@ -727,6 +742,69 @@
         </div>
       </section>
 
+      <!-- TAB: 3D VIRTUAL OFFICE FLOOR -->
+      <section id="pane-floor3d" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
+          <div>
+            <h2 class="page-title" style="margin-bottom:4px;">🏛️ Mô Hình 3D Sàn Làm Việc Doanh Nghiệp (Virtual 3D Office Floor)</h2>
+            <p class="page-desc" style="margin-bottom:0;">Mô phỏng 3D thời gian thực 5 Phòng ban chuyên môn, Văn phòng Founder Mai Quang Vinh, Phòng họp Hội đồng lớn. Bàn ghế, máy tính, kệ hồ sơ & 11 nhân sự di chuyển sống động.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn-primary" style="background:#0284c7;" onclick="if(window.office3DInstance) window.office3DInstance.gatherAllToMeeting()">
+              📢 Triệu Tập Họp Hội Đồng
+            </button>
+            <button class="btn-primary" style="background:#10b981;" onclick="if(window.office3DInstance) window.office3DInstance.sendAllBackToDesks()">
+              🏃 Về Bàn Làm Việc
+            </button>
+            <button class="btn-primary" style="background:#6366f1;" onclick="if(window.office3DInstance) window.office3DInstance.toggleDayNight()">
+              🌓 Ngày / Đêm
+            </button>
+          </div>
+        </div>
+
+        <!-- Camera View Preset Bar -->
+        <div style="background:#0f172a; border:1px solid #1e293b; padding:10px 14px; border-radius:8px; margin-bottom:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span style="font-size:0.82rem; color:#94a3b8; font-weight:bold;">🎥 Chuyển Góc Nhìn Nhanh:</span>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem;" onclick="if(window.office3DInstance) window.office3DInstance.controls.target.set(0,0,0); window.office3DInstance.camera.position.set(0,38,48); window.office3DInstance.controls.update();">🌐 Toàn Cảnh Sàn</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#f59e0b; color:#fbbf24;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('FOUNDER')">👑 Phòng Founder</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#38bdf8; color:#38bdf8;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('BOARDROOM')">🏛️ Phòng Họp Lớn</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#a855f7; color:#c084fc;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('LEGAL')">⚖️ Ban Pháp Chế</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#3b82f6; color:#60a5fa;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('BIDDING')">📋 Ban Đấu Thầu</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#10b981; color:#34d399;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QS')">📐 Ban Dự Toán QS</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#f97316; color:#fb923c;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QAQC')">🏗️ Ban QA/QC</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#ec4899; color:#f472b6;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('SETTLEMENT')">💰 Ban Quyết Toán</button>
+        </div>
+
+        <!-- 3D Canvas Box -->
+        <div style="position:relative; width:100%; height:650px; background:#070a13; border:2px solid #0284c7; border-radius:12px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.6);">
+          <div id="office-3d-canvas-container" style="width:100%; height:100%;"></div>
+
+          <!-- HUD Overlay Controls Guidance -->
+          <div style="position:absolute; bottom:12px; left:12px; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); border:1px solid #334155; padding:8px 14px; border-radius:8px; font-size:0.78rem; color:#cbd5e1; pointer-events:none;">
+            💡 <b>Điều Khiển:</b> Chuột trái xoay 360° • Chuột phải di chuyển • Cuộn chuột Zoom • Click nhân sự để xem & giao việc • Click sàn để nhân sự đi bộ đến vị trí
+          </div>
+
+          <!-- Interactive Hologram Modal Popup -->
+          <div id="staff-3d-modal" style="display:none; position:absolute; top:20px; right:20px; width:330px; background:rgba(15,23,42,0.95); backdrop-filter:blur(10px); border:1px solid #38bdf8; border-radius:10px; padding:16px; box-shadow:0 8px 24px rgba(0,0,0,0.8); z-index:100;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <span id="modal-staff-level" class="badge-head">Level 3</span>
+              <button onclick="document.getElementById('staff-3d-modal').style.display='none'" style="background:none; border:none; color:#94a3b8; font-size:1.1rem; cursor:pointer;">✕</button>
+            </div>
+            <h3 id="modal-staff-name" style="color:#60a5fa; margin:0 0 4px 0; font-size:1.1rem;">Nguyễn Văn Pháp</h3>
+            <div id="modal-staff-role" style="font-size:0.83rem; color:#cbd5e1; margin-bottom:10px;">Chuyên viên Hợp đồng</div>
+            <div style="background:#090d16; border:1px solid #1e293b; padding:10px; border-radius:6px; font-size:0.8rem; color:#94a3b8; margin-bottom:12px;">
+              <div style="margin-bottom:4px;">📍 <b>Khu vực làm việc:</b> <span id="modal-staff-dept" style="color:#38bdf8;">Pháp Chế</span></div>
+              <div style="margin-bottom:4px;">💼 <b>Trạng thái:</b> <span style="color:#34d399;">● Đang làm việc tại văn phòng</span></div>
+              <div>⚡ <b>Hồ sơ phụ trách:</b> Soạn thảo, rà soát điều khoản & chuẩn hóa quy trình</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button id="modal-btn-assign" class="btn-primary" style="flex:1; padding:7px 10px; font-size:0.8rem;" onclick="quickAssignFrom3D()">🎯 Giao Việc Ngay</button>
+              <button class="btn-download" style="flex:1; padding:7px 10px; font-size:0.8rem;" onclick="switchTab('reports')">📑 Xem Báo Cáo</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- TAB 10: FOUNDER APPROVALS -->
       <section id="pane-approvals" class="tab-pane">
         <h2 class="page-title">Cổng Phê Duyệt Của Founder (Human-in-the-Loop)</h2>
@@ -1086,6 +1164,7 @@
       if (tabId === 'reports') loadReportsList();
       if (tabId === 'sops') loadSOPs();
       if (tabId === 'gdrive') loadDriveStructure();
+      if (tabId === 'floor3d') initOrResize3D();
       if (tabId === 'approvals') loadApprovals();
       if (tabId === 'rbac') loadRBAC();
       if (tabId === 'legal_search') searchLaw();
@@ -2469,6 +2548,51 @@
       if (alertBox) {
         alertBox.innerHTML = `✅ Đã kết nối lệnh đồng bộ! Toàn bộ 5 phòng ban và cá nhân đã được phân luồng tự động vào thư mục Google Drive. <a href="${DRIVE_DATA ? DRIVE_DATA.root_url : '#'}" target="_blank" style="color:#fff; text-decoration:underline; font-weight:bold; margin-left:8px;">Mở kho Google Drive ↗</a>`;
       }
+    }
+
+    // =========================================================================
+    // 3D VIRTUAL FLOOR HELPER FUNCTIONS
+    // =========================================================================
+    let selected3DStaffData = null;
+
+    function initOrResize3D() {
+      setTimeout(() => {
+        if (!window.office3DInstance) {
+          if (typeof Office3DFloorEngine !== 'undefined') {
+            window.office3DInstance = new Office3DFloorEngine('office-3d-canvas-container');
+          }
+        } else {
+          window.office3DInstance.onWindowResize();
+        }
+      }, 100);
+    }
+
+    window.showStaffModal3D = function(data) {
+      selected3DStaffData = data;
+      const modal = document.getElementById('staff-3d-modal');
+      if (!modal) return;
+      modal.style.display = 'block';
+
+      document.getElementById('modal-staff-name').innerText = data.name || 'Nhân sự AI';
+      document.getElementById('modal-staff-role').innerText = data.role || 'Chuyên viên';
+      document.getElementById('modal-staff-level').innerText = data.level || 'Level 2';
+      document.getElementById('modal-staff-dept').innerText = data.dept || 'Phòng ban';
+    };
+
+    function quickAssignFrom3D() {
+      if (!selected3DStaffData) return;
+      const deptMap = {
+        'FOUNDER': 'CONTRACT',
+        'LEGAL': 'CONTRACT',
+        'BIDDING': 'BIDDING',
+        'QS': 'QS_BOQ',
+        'QAQC': 'QAQC',
+        'SETTLEMENT': 'SETTLEMENT'
+      };
+      const wf = deptMap[selected3DStaffData.dept] || 'CONTRACT';
+      quickAssignDept(wf);
+      document.getElementById('task-title').value = `Giao việc trực tiếp cho ${selected3DStaffData.name} (${selected3DStaffData.role})`;
+      document.getElementById('staff-3d-modal').style.display = 'none';
     }
 
     updateApprovalCount();
