@@ -844,7 +844,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
           <div>
             <h2 class="page-title" style="margin-bottom:4px;">🏛️ Mô Hình 3D Sàn Làm Việc Doanh Nghiệp (Virtual 3D Office Floor)</h2>
-            <p class="page-desc" style="margin-bottom:0;">Mô phỏng 3D thời gian thực 6 Ban chuyên môn, Văn phòng Founder Mai Quang Vinh, Phòng họp Hội đồng, Phòng Giải Trí Wellness & Căn Tin Quầy Bar. Bàn ghế, máy tính, kệ hồ sơ & 16 nhân sự di chuyển sống động.</p>
+            <p class="page-desc" style="margin-bottom:0;">Mô phỏng 3D thời gian thực 6 Ban chuyên môn, Văn phòng Founder Mai Quang Vinh, Phòng họp Hội đồng, Phòng Giải Trí Wellness & Căn Tin Quầy Bar. Bàn ghế, máy tính, kệ hồ sơ & 22 nhân sự di chuyển sống động.</p>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button class="btn-primary" style="background:#0284c7;" onclick="if(window.office3DInstance) window.office3DInstance.gatherAllToMeeting()">
@@ -1576,19 +1576,65 @@
     async function loadRoster() {
       const container = document.getElementById('roster-container');
       let rosterData = [
-        { department_name: "Phòng Pháp chế & Đàm phán Hợp đồng", code: "LEGAL", specialist: { name: "Nguyễn Văn Pháp", title: "Chuyên viên Soạn thảo & Rà soát Hợp đồng", mission: "Bóc tách câu chữ, phát hiện 12 bẫy điều khoản, lập dự thảo phụ lục sửa đổi." }, head: { name: "Trần Thị Tuân Thủ", title: "Trưởng phòng Pháp chế & Quản trị Rủi ro", mission: "Rà soát quy trình, quy chuẩn NĐ 210/2026/NĐ-CP (trần 30% tạm ứng, bảo lãnh >1 tỷ), cấp lệnh Gate Clearance." } },
-        { department_name: "Phòng Quản lý Đấu thầu & Mua sắm", code: "BIDDING", specialist: { name: "Lê Quang Thầu", title: "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm", mission: "Thu thập báo giá, lập ma trận so sánh các đơn vị, tính độ lệch % giá." }, head: { name: "Phạm Minh Đấu", title: "Trưởng phòng Quản lý Đấu thầu & Hợp đồng Mua sắm", mission: "Rà soát trần chỉ định thầu 5 tỷ NĐ 349/2026/NĐ-CP, đăng tải mạng đấu thầu, lọc giá lệch >30%, cấp lệnh Gate Clearance." } },
-        { department_name: "Phòng Kỹ sư Dự toán QS & BOQ", code: "QS_BOQ", specialist: { name: "Đỗ Văn Lượng", title: "Kỹ sư QS Bóc tách Khối lượng & Áp Định mức", mission: "Đọc bóc tách hình học CAD/DXF, tính toán m3/m2/tấn, ráp mã định mức TT 09/2024/TT-BXD." }, head: { name: "Vũ Đình Toàn", title: "Trưởng phòng Thẩm tra Dự toán & Kiểm soát Chi phí", mission: "Rà soát quy trình tính toán, quét chống gian lận/trùng lặp đầu việc, kiểm tra hệ số hao hụt, cấp lệnh Gate Clearance." } },
-        { department_name: "Phòng Quản lý Chất lượng QA/QC", code: "QAQC", specialist: { name: "Bùi Văn Nghiệm", title: "Kỹ sư QA/QC Giám sát Hiện trường & Hồ sơ Nghiệm thu", mission: "Thu thập nhật ký hiện trường, kiểm tra phiếu nén mẫu R28, soạn dự thảo BBNTCV." }, head: { name: "Hoàng Văn Chuẩn", title: "Trưởng phòng Quản lý Chất lượng & An toàn Công trình", mission: "Rà soát quy trình Điều 13 NĐ 06/2021, kiểm tra mẫu dấu hoàn công 4 bên Phụ lục II, cấp Lệnh Chuyển bước thi công." } },
-        { department_name: "Phòng Kiểm toán Thanh & Quyết toán", code: "SETTLEMENT", specialist: { name: "Ngô Thị Quyết", title: "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a", mission: "Lập bảng tính Mẫu 08a theo NĐ 99/2021, tính lũy kế, khấu trừ tạm ứng, trích giữ bảo hành 5%." }, head: { name: "Đặng Đức Toán", title: "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ", mission: "Kiểm toán 4 tầng (Pháp lý, BBNTCV, Khối lượng lũy kế, Khấu trừ), kiểm soát giải ngân TT 96/2021, cấp lệnh Gate Clearance." } },
-        { department_name: "Ban Marketing & Truyền Thông", code: "MARKETING", specialist_content: { name: "Trần Thị Lan Tỏa", title: "Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội", mission: "Sáng tạo bài viết PR báo chí, bài đăng mạng xã hội (Facebook, LinkedIn), lan tỏa hình ảnh uy tín doanh nghiệp." }, specialist_video: { name: "Nguyễn Huy Dựng", title: "Chuyên viên Thiết kế Đồ họa & Sản xuất Video", mission: "Lập kịch bản phân cảnh Storyboard, thiết kế video quảng cáo năng lực, video ngắn TikTok/Reels/Shorts." }, head: { name: "Lê Mai Truyền", title: "Trưởng ban Marketing & Truyền thông Thương hiệu", mission: "Thẩm định thông điệp truyền thông, kiểm soát rủi ro thương hiệu, rà soát tính chuẩn xác kỹ thuật và cấp lệnh Gate Clearance." } }
+        {
+          department_name: "Ban Pháp chế & Đàm phán Hợp đồng",
+          code: "LEGAL",
+          specialist: { name: "Nguyễn Văn Pháp", title: "Chuyên viên Soạn thảo & Rà soát Hợp đồng", mission: "Bóc tách câu chữ, phát hiện 12 bẫy điều khoản, áp mẫu hợp đồng chuẩn & Cam kết chống tham nhũng." },
+          head: { name: "Trần Thị Tuân Thủ", title: "Trưởng ban Pháp chế & Đàm phán Hợp đồng", mission: "Rà soát NĐ 210/2026/NĐ-CP (trần 30% tạm ứng, bảo lãnh >1 tỷ), cấp lệnh Gate Clearance." }
+        },
+        {
+          department_name: "Ban Quản lý Đấu thầu & Mua sắm",
+          code: "BIDDING",
+          specialist_goods: { name: "Lê Quang Thầu", title: "Chuyên viên Gói thầu Mua sắm Hàng hóa & Thiết bị", mission: "Đấu thầu mua sắm vật tư, trang thiết bị công trình, thẩm định bảng chào giá NCC, lọc giá lệch >30%." },
+          specialist_consultancy: { name: "Nguyễn Thảo Tư Vấn", title: "Chuyên viên Gói thầu Dịch vụ Tư vấn", mission: "Đấu thầu tư vấn khảo sát, lập FS/BCKTKT, thẩm tra thiết kế, tư vấn giám sát theo NĐ 349 & NĐ 24." },
+          specialist_construction: { name: "Trần Văn Xây Lắp", title: "Chuyên viên Gói thầu Xây lắp & EPC", mission: "Đấu thầu thi công xây dựng, gói thầu EPC, đánh giá năng lực kỹ thuật & 33 mẫu HSMT chuẩn QĐ 458." },
+          head: { name: "Phạm Minh Đấu", title: "Trưởng ban Quản lý Đấu thầu & Mua sắm", mission: "Rà soát trần chỉ định thầu 5 tỷ NĐ 349/2026/NĐ-CP, đăng tải Mạng Đấu thầu QG, quy tắc làm rõ kỹ thuật 01 lần, cấp Gate Clearance." }
+        },
+        {
+          department_name: "Ban Dự toán QS & BOQ",
+          code: "QS_BOQ",
+          specialist_investment: { name: "Đỗ Văn Lượng", title: "Chuyên viên Tổng Mức Đầu Tư & Chi Phí Tư Vấn", mission: "Lập & thẩm tra Tổng mức đầu tư (TMĐT NĐ 10/2021), suất vốn đầu tư QĐ 1247/QĐ-BXD, chi phí QLDA & tư vấn." },
+          specialist_civil: { name: "Bùi Công Trình", title: "Chuyên viên Dự toán Xây dựng & Hạ tầng Kỹ thuật", mission: "Bóc tách CAD/DXF hạ tầng kỹ thuật, san nền, cọc móng, kết cấu thô & hoàn thiện cơ bản theo 8 Bill HSMT & TT 09/2024." },
+          specialist_mep: { name: "Phạm Văn Cơ Điện", title: "Chuyên viên Dự toán Cơ Điện & PCCC (MEP)", mission: "Đo bóc dự toán hệ thống Điện, Nước, HVAC, BMS & PCCC theo quy chuẩn QCVN 06:2022 và định mức MEP." },
+          head: { name: "Vũ Đình Toàn", title: "Trưởng ban Dự toán QS & Kiểm soát Chi phí", mission: "Kiểm soát trần chi phí chung CPC <= 5% (Bill 2), nguyên tắc MIN(BVHC, BBNT, HĐ) tại Bill 4 và phát sinh 12 bước QT01-XLPS." }
+        },
+        {
+          department_name: "Ban Quản lý Chất lượng QA/QC",
+          code: "QAQC",
+          specialist_qa: { name: "Bùi Văn Nghiệm", title: "Chuyên viên Đảm bảo chất lượng QA (Hệ thống)", mission: "Thiết lập hệ thống quy trình QA, kiểm soát NTP/NCC (1.BM), phòng LAS-XD (4.BM) & bản vẽ Shopdrawing Bill 8." },
+          specialist_qc: { name: "Phan Văn Kiểm Soát", title: "Chuyên viên Kiểm soát chất lượng QC (Hiện trường)", mission: "Giám sát hiện trường, nghiệm thu vật liệu (7-8.BM), nén mẫu R28 (12.BM), biên bản BBNTCV & Nhật ký (15.BM)." },
+          specialist_hse: { name: "Nguyễn An Toàn", title: "Chuyên viên An toàn lao động & Môi trường (HSE)", mission: "Kiểm soát an toàn lao động hiện trường (16.BM-NKATLĐ), vệ sinh môi trường, an toàn giàn giáo, PCCC công trường." },
+          head: { name: "Hoàng Văn Chuẩn", title: "Trưởng ban Quản lý Chất lượng QA/QC", mission: "Rà soát Điều 13 NĐ 06/2021, mẫu dấu hoàn công 4 bên Phụ lục II, thẩm quyền ký Shopdrawing (Bill 8), cấp Lệnh Chuyển bước." }
+        },
+        {
+          department_name: "Ban Kiểm toán Thanh & Quyết toán",
+          code: "SETTLEMENT",
+          specialist: { name: "Ngô Thị Quyết", title: "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a", mission: "Lập bảng tính Mẫu 08a theo NĐ 99/2021, tính lũy kế, khấu trừ tạm ứng, trích giữ bảo hành 5%." },
+          head: { name: "Đặng Đức Toán", title: "Trưởng ban Kiểm toán Quyết toán & Kiểm soát Ngân quỹ", mission: "Kiểm toán 4 tầng (Pháp lý, BBNTCV, Khối lượng lũy kế, Khấu trừ), quy tắc 3 lỗi từ chối trong 24h (QĐ 122/123), cấp Gate Clearance." }
+        },
+        {
+          department_name: "Ban Marketing & Truyền Thông",
+          code: "MARKETING",
+          specialist_content: { name: "Trần Thị Lan Tỏa", title: "Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội", mission: "Sáng tạo bài viết PR báo chí, bài đăng mạng xã hội (Facebook, LinkedIn), lan tỏa hình ảnh uy tín doanh nghiệp." },
+          specialist_video: { name: "Nguyễn Huy Dựng", title: "Chuyên viên Thiết kế Đồ họa & Sản xuất Video", mission: "Lập kịch bản phân cảnh Storyboard, thiết kế video quảng cáo năng lực, video ngắn TikTok/Reels/Shorts." },
+          head: { name: "Lê Mai Truyền", title: "Trưởng ban Marketing & Truyền thông Thương hiệu", mission: "Thẩm định thông điệp truyền thông, kiểm soát rủi ro thương hiệu, rà soát tính chuẩn xác kỹ thuật và cấp Gate Clearance." }
+        },
+        {
+          department_name: "Bộ Phận Dịch Vụ & Đời Sống (Căn Tin - Giải Trí - Wellness)",
+          code: "WELLNESS",
+          barista: { name: "Nguyễn Thị Trà My", title: "Barista & Quầy Bar Căn Tin", mission: "Pha chế cà phê espresso, trà hảo hạng, nước ép dinh dưỡng và đón tiếp phục vụ quầy bar giải lao." },
+          chef: { name: "Trần Văn Bếp", title: "Bếp Trưởng & Dinh Dưỡng Năng Lượng Doanh Nghiệp", mission: "Quản lý thực đơn giàu năng lượng, kiểm soát tiêu chuẩn ATTP và tái tạo thể chất cho kỹ sư làm việc." },
+          head: { name: "Nguyễn Thị Trà My", title: "Trưởng Bộ Phận Hậu Cần Dịch Vụ & Đời Sống", mission: "Điều phối dịch vụ căn tin quầy bar, vận hành phòng giải trí massage thể dục và tái tạo năng lượng cho toàn công ty." }
+        }
       ];
 
       try {
         const res = await fetch('/api/roster');
         if (res.ok) {
           const d = await res.json();
-          rosterData = d.roster;
+          if (d.roster && d.roster.length > 0) {
+            rosterData = d.roster;
+          }
         }
       } catch (e) {}
 
@@ -1599,46 +1645,153 @@
 
       html += '<div style="display:flex; flex-direction:column; gap:16px;">';
       rosterData.forEach(dept => {
+        const isBidding3 = dept.specialist_goods && dept.specialist_consultancy && dept.specialist_construction;
+        const isQS3 = dept.specialist_investment && dept.specialist_civil && dept.specialist_mep;
+        const isQAQC3 = dept.specialist_qa && dept.specialist_qc && dept.specialist_hse;
         const isMarketing = dept.specialist_content && dept.specialist_video;
+        const isCanteen = dept.barista && dept.chef;
+
         html += `<div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; margin-bottom:12px;">
             <h3 style="color:#93c5fd;">${dept.department_name}</h3>
             <span style="font-size:0.8rem; background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:4px;">Mã: ${dept.code}</span>
           </div>
-          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
-            ${isMarketing ? `
-              <div style="background:rgba(232,121,249,0.08); border:1px solid #e879f9; border-radius:8px; padding:12px;">
-                <span class="badge-specialist" style="border-color:#e879f9; color:#f5d0fe;">✍️ 1. CHUYÊN VIÊN SÁNG TẠO BÀI VIẾT (Level 2)</span>
-                <h4 style="margin:8px 0 4px 0; color:#f0abfc;">${dept.specialist_content.name}</h4>
-                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_content.title}</p>
-                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_content.mission}</p>
-              </div>
-              <div style="background:rgba(192,38,211,0.08); border:1px solid #c026d3; border-radius:8px; padding:12px;">
-                <span class="badge-specialist" style="border-color:#c026d3; color:#f0abfc;">🎥 2. CHUYÊN VIÊN SẢN XUẤT VIDEO (Level 2)</span>
-                <h4 style="margin:8px 0 4px 0; color:#f0abfc;">${dept.specialist_video.name}</h4>
-                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_video.title}</p>
-                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_video.mission}</p>
-              </div>
-              <div style="background:rgba(217,70,239,0.08); border:1px solid #d946ef; border-radius:8px; padding:12px;">
-                <span class="badge-head" style="border-color:#d946ef; color:#fae8ff;">🧑‍⚖️ 3. TRƯỞNG BAN KIỂM DUYỆT (Level 3)</span>
-                <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
-                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
-                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
-              </div>
-            ` : `
-              <div style="background:rgba(14,165,233,0.08); border:1px solid #0ea5e9; border-radius:8px; padding:12px;">
-                <span class="badge-specialist">👷 1. CHUYÊN VIÊN CHUYÊN MÔN (Level 2)</span>
-                <h4 style="margin:8px 0 4px 0; color:#38bdf8;">${dept.specialist.name}</h4>
-                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist.title}</p>
-                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ thực thi:</b> ${dept.specialist.mission}</p>
-              </div>
-              <div style="background:rgba(245,158,11,0.08); border:1px solid #f59e0b; border-radius:8px; padding:12px;">
-                <span class="badge-head">🧑‍⚖️ 2. TRƯỞNG PHÒNG KIỂM DUYỆT (Level 3)</span>
-                <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
-                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
-                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
-              </div>
-            `}
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">`;
+
+        if (isBidding3) {
+          html += `
+            <div style="background:rgba(37,99,235,0.08); border:1px solid #2563eb; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#2563eb; color:#93c5fd;">📦 1. GÓI MUA SẮM (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#60a5fa;">${dept.specialist_goods.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_goods.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_goods.mission}</p>
+            </div>
+            <div style="background:rgba(59,130,246,0.08); border:1px solid #3b82f6; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#3b82f6; color:#93c5fd;">📑 2. GÓI TƯ VẤN (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#60a5fa;">${dept.specialist_consultancy.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_consultancy.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_consultancy.mission}</p>
+            </div>
+            <div style="background:rgba(96,165,250,0.08); border:1px solid #60a5fa; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#60a5fa; color:#bfdbfe;">🏗️ 3. GÓI XÂY LẮP (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#93c5fd;">${dept.specialist_construction.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_construction.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_construction.mission}</p>
+            </div>
+            <div style="background:rgba(29,78,216,0.08); border:1px solid #1d4ed8; border-radius:8px; padding:12px;">
+              <span class="badge-head" style="border-color:#1d4ed8; color:#dbeafe;">🧑‍⚖️ 4. TRƯỞNG BAN (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Thẩm định:</b> ${dept.head.mission}</p>
+            </div>`;
+        } else if (isQS3) {
+          html += `
+            <div style="background:rgba(5,150,105,0.08); border:1px solid #059669; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#059669; color:#a7f3d0;">💰 1. TMĐT & TƯ VẤN (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#34d399;">${dept.specialist_investment.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_investment.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_investment.mission}</p>
+            </div>
+            <div style="background:rgba(16,185,129,0.08); border:1px solid #10b981; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#10b981; color:#a7f3d0;">📐 2. XÂY DỰNG & HẠ TẦNG (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#34d399;">${dept.specialist_civil.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_civil.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_civil.mission}</p>
+            </div>
+            <div style="background:rgba(52,211,153,0.08); border:1px solid #34d399; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#34d399; color:#d1fae5;">⚡ 3. MEP & PCCC (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#6ee7b7;">${dept.specialist_mep.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_mep.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_mep.mission}</p>
+            </div>
+            <div style="background:rgba(4,120,87,0.08); border:1px solid #047857; border-radius:8px; padding:12px;">
+              <span class="badge-head" style="border-color:#047857; color:#d1fae5;">🧑‍⚖️ 4. TRƯỞNG BAN QS (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Thẩm định:</b> ${dept.head.mission}</p>
+            </div>`;
+        } else if (isQAQC3) {
+          html += `
+            <div style="background:rgba(234,88,12,0.08); border:1px solid #ea580c; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#ea580c; color:#fed7aa;">📋 1. QA HỆ THỐNG (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fb923c;">${dept.specialist_qa.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_qa.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_qa.mission}</p>
+            </div>
+            <div style="background:rgba(249,115,22,0.08); border:1px solid #f97316; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#f97316; color:#fed7aa;">🔍 2. QC HIỆN TRƯỜNG (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fb923c;">${dept.specialist_qc.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_qc.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_qc.mission}</p>
+            </div>
+            <div style="background:rgba(251,146,60,0.08); border:1px solid #fb923c; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#fb923c; color:#ffedd5;">🦺 3. AN TOÀN HSE (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fdba74;">${dept.specialist_hse.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_hse.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_hse.mission}</p>
+            </div>
+            <div style="background:rgba(194,65,12,0.08); border:1px solid #c2410c; border-radius:8px; padding:12px;">
+              <span class="badge-head" style="border-color:#c2410c; color:#ffedd5;">🧑‍⚖️ 4. TRƯỞNG BAN QA/QC (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Thẩm định:</b> ${dept.head.mission}</p>
+            </div>`;
+        } else if (isMarketing) {
+          html += `
+            <div style="background:rgba(232,121,249,0.08); border:1px solid #e879f9; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#e879f9; color:#f5d0fe;">✍️ 1. SÁNG TẠO BÀI VIẾT (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#f0abfc;">${dept.specialist_content.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_content.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_content.mission}</p>
+            </div>
+            <div style="background:rgba(192,38,211,0.08); border:1px solid #c026d3; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#c026d3; color:#f0abfc;">🎥 2. SẢN XUẤT VIDEO (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#f0abfc;">${dept.specialist_video.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_video.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_video.mission}</p>
+            </div>
+            <div style="background:rgba(217,70,239,0.08); border:1px solid #d946ef; border-radius:8px; padding:12px;">
+              <span class="badge-head" style="border-color:#d946ef; color:#fae8ff;">🧑‍⚖️ 3. TRƯỞNG BAN MARKETING (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Thẩm định & Gate:</b> ${dept.head.mission}</p>
+            </div>`;
+        } else if (isCanteen) {
+          html += `
+            <div style="background:rgba(20,184,166,0.08); border:1px solid #14b8a6; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#14b8a6; color:#99f6e4;">☕ 1. BARISTA QUẦY BAR (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#2dd4bf;">${dept.barista.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.barista.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.barista.mission}</p>
+            </div>
+            <div style="background:rgba(249,115,22,0.08); border:1px solid #f97316; border-radius:8px; padding:12px;">
+              <span class="badge-specialist" style="border-color:#f97316; color:#fed7aa;">🍳 2. BẾP TRƯỞNG DINH DƯỠNG (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fb923c;">${dept.chef.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.chef.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.chef.mission}</p>
+            </div>
+            <div style="background:rgba(13,148,136,0.08); border:1px solid #0d9488; border-radius:8px; padding:12px;">
+              <span class="badge-head" style="border-color:#0d9488; color:#ccfbf1;">🧑‍🍳 3. QUẢN LÝ DỊCH VỤ (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Điều phối:</b> ${dept.head.mission}</p>
+            </div>`;
+        } else {
+          html += `
+            <div style="background:rgba(14,165,233,0.08); border:1px solid #0ea5e9; border-radius:8px; padding:12px;">
+              <span class="badge-specialist">👷 1. CHUYÊN VIÊN CHUYÊN MÔN (Level 2)</span>
+              <h4 style="margin:8px 0 4px 0; color:#38bdf8;">${dept.specialist.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ thực thi:</b> ${dept.specialist.mission}</p>
+            </div>
+            <div style="background:rgba(245,158,11,0.08); border:1px solid #f59e0b; border-radius:8px; padding:12px;">
+              <span class="badge-head">🧑‍⚖️ 2. TRƯỞNG PHÒNG KIỂM DUYỆT (Level 3)</span>
+              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
+            </div>`;
+        }
+        html += `
           </div>
         </div>`;
       });

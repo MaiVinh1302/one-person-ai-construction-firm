@@ -14,7 +14,37 @@ from tools.cad_geometry import PureDXFParser
 from core.permissions import RoleLevel
 from knowledge.corporate_sops import HSMT_8_BILLS_STANDARD, VARIATION_ORDER_12_STEPS
 
-class QSSpecialistAgent:
+class QSInvestmentConsultancySpecialistAgent:
+    """
+    CHUYÊN VIÊN 1: ĐỖ VĂN LƯỢNG (Level 2 Specialist)
+    Chuyên trách công tác Tổng mức đầu tư (TMĐT NĐ 10/2021) & các chi phí tư vấn đầu tư xây dựng.
+    """
+    AGENT_NAME = "Đỗ Văn Lượng"
+    ROLE_TITLE = "Chuyên viên Tổng Mức Đầu Tư & Chi Phí Tư Vấn"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class QSCivilInfrastructureSpecialistAgent:
+    """
+    CHUYÊN VIÊN 2: BÙI CÔNG TRÌNH (Level 2 Specialist)
+    Chuyên trách bóc tách khối lượng dự toán Hạ tầng kỹ thuật, San nền, Phần Thô & Hoàn thiện cơ bản.
+    """
+    AGENT_NAME = "Bùi Công Trình"
+    ROLE_TITLE = "Chuyên viên Dự toán Xây dựng & Hạ tầng Kỹ thuật"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class QSMEPFireSpecialistAgent:
+    """
+    CHUYÊN VIÊN 3: PHẠM VĂN CƠ ĐIỆN (Level 2 Specialist)
+    Chuyên trách bóc tách dự toán Cơ Điện (Điện, Nước, HVAC) & Phòng cháy chữa cháy (MEP & PCCC).
+    """
+    AGENT_NAME = "Phạm Văn Cơ Điện"
+    ROLE_TITLE = "Chuyên viên Dự toán Cơ Điện & PCCC (MEP)"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class QSSpecialistAgent(QSInvestmentConsultancySpecialistAgent):
     """
     KỸ SƯ QS BÓC TÁCH: ĐỖ VĂN LƯỢNG (Level 2 Specialist)
     Chuyên trách trích xuất hình học từ CAD/DXF, lập bảng tính khối lượng theo 8 Bill chuẩn hóa HSMT.

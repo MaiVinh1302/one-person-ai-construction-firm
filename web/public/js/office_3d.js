@@ -42,7 +42,7 @@ class Office3DFloorEngine {
       LOUNGE: { name: "Sảnh Lễ Tân & Tiếp Khách Trung Tâm", center: { x: 0, z: -2 }, color: 0x64748b }
     };
 
-    // Danh sách 11 nhân sự AI kèm tọa độ bàn làm việc cá nhân (Desk Coordinates)
+    // Danh sách 22 nhân sự kèm tọa độ bàn làm việc cá nhân & vị trí họp
     this.STAFF_DATA = [
       {
         id: "founder",
@@ -52,9 +52,19 @@ class Office3DFloorEngine {
         dept: "FOUNDER",
         color: 0x1e3a8a, // Navy VIP
         deskPos: { x: -22, z: -16, rot: 0 },
-        meetPos: { x: 16, z: -15, rot: Math.PI / 2 }
+        meetPos: { x: 15.5, z: -15, rot: Math.PI / 2 }
       },
-      // 1. Pháp chế
+      // 1. Ban Pháp chế & Đàm phán Hợp đồng (2 nhân sự)
+      {
+        id: "legal_head",
+        name: "Trần Thị Tuân Thủ",
+        role: "Trưởng ban Pháp chế & Đàm phán Hợp đồng",
+        level: "Level 3",
+        dept: "LEGAL",
+        color: 0x7e22ce,
+        deskPos: { x: -18, z: 10.5, rot: 0 },
+        meetPos: { x: 17, z: -12.8, rot: 0 }
+      },
       {
         id: "legal_specialist",
         name: "Nguyễn Văn Pháp",
@@ -62,83 +72,143 @@ class Office3DFloorEngine {
         level: "Level 2",
         dept: "LEGAL",
         color: 0x9333ea,
-        deskPos: { x: -24, z: 13, rot: 0 },
-        meetPos: { x: 18, z: -17, rot: Math.PI }
+        deskPos: { x: -22, z: 14.5, rot: 0 },
+        meetPos: { x: 17, z: -17.2, rot: Math.PI }
       },
-      {
-        id: "legal_head",
-        name: "Trần Thị Tuân Thủ",
-        role: "Trưởng phòng Pháp chế & Quản trị Rủi ro",
-        level: "Level 3",
-        dept: "LEGAL",
-        color: 0x7e22ce,
-        deskPos: { x: -20, z: 13, rot: 0 },
-        meetPos: { x: 18, z: -13, rot: 0 }
-      },
-      // 2. Đấu thầu
-      {
-        id: "bidding_specialist",
-        name: "Lê Quang Thầu",
-        role: "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm",
-        level: "Level 2",
-        dept: "BIDDING",
-        color: 0x2563eb,
-        deskPos: { x: -10, z: 13, rot: 0 },
-        meetPos: { x: 20, z: -17, rot: Math.PI }
-      },
+      // 2. Ban Quản lý Đấu thầu & Mua sắm (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
       {
         id: "bidding_head",
         name: "Phạm Minh Đấu",
-        role: "Trưởng phòng Quản lý Đấu thầu & Hợp đồng Mua sắm",
+        role: "Trưởng ban Quản lý Đấu thầu & Mua sắm",
         level: "Level 3",
         dept: "BIDDING",
         color: 0x1d4ed8,
-        deskPos: { x: -6, z: 13, rot: 0 },
-        meetPos: { x: 20, z: -13, rot: 0 }
+        deskPos: { x: -8, z: 10.5, rot: 0 },
+        meetPos: { x: 18.5, z: -12.8, rot: 0 }
       },
-      // 3. Dự toán QS
       {
-        id: "qs_specialist",
-        name: "Đỗ Văn Lượng",
-        role: "Kỹ sư QS Bóc tách Khối lượng & Áp Định mức",
+        id: "bidding_goods",
+        name: "Lê Quang Thầu",
+        role: "Chuyên viên Gói thầu Mua sắm Hàng hóa & Thiết bị",
         level: "Level 2",
-        dept: "QS",
-        color: 0x059669,
-        deskPos: { x: 4, z: 13, rot: 0 },
-        meetPos: { x: 22, z: -17, rot: Math.PI }
+        dept: "BIDDING",
+        color: 0x2563eb,
+        deskPos: { x: -12, z: 14.5, rot: 0 },
+        meetPos: { x: 18.5, z: -17.2, rot: Math.PI }
       },
+      {
+        id: "bidding_consultancy",
+        name: "Nguyễn Thảo Tư Vấn",
+        role: "Chuyên viên Gói thầu Dịch vụ Tư vấn",
+        level: "Level 2",
+        dept: "BIDDING",
+        color: 0x3b82f6,
+        deskPos: { x: -8, z: 14.5, rot: 0 },
+        meetPos: { x: 19.8, z: -17.2, rot: Math.PI }
+      },
+      {
+        id: "bidding_construction",
+        name: "Trần Văn Xây Lắp",
+        role: "Chuyên viên Gói thầu Xây lắp & EPC",
+        level: "Level 2",
+        dept: "BIDDING",
+        color: 0x60a5fa,
+        deskPos: { x: -4, z: 14.5, rot: 0 },
+        meetPos: { x: 21.0, z: -17.2, rot: Math.PI }
+      },
+      // 3. Ban Dự toán QS & BOQ (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
       {
         id: "qs_head",
         name: "Vũ Đình Toàn",
-        role: "Trưởng phòng Thẩm tra Dự toán & Kiểm soát Chi phí",
+        role: "Trưởng ban Dự toán QS & Kiểm soát Chi phí",
         level: "Level 3",
         dept: "QS",
         color: 0x047857,
-        deskPos: { x: 8, z: 13, rot: 0 },
-        meetPos: { x: 22, z: -13, rot: 0 }
+        deskPos: { x: 6, z: 10.5, rot: 0 },
+        meetPos: { x: 20.0, z: -12.8, rot: 0 }
       },
-      // 4. QA/QC
       {
-        id: "qaqc_specialist",
-        name: "Bùi Văn Nghiệm",
-        role: "Kỹ sư QA/QC Giám sát Hiện trường & Hồ sơ Nghiệm thu",
+        id: "qs_investment",
+        name: "Đỗ Văn Lượng",
+        role: "Chuyên viên Tổng mức đầu tư & Chi phí Tư vấn",
         level: "Level 2",
-        dept: "QAQC",
-        color: 0xea580c,
-        deskPos: { x: 18, z: 13, rot: 0 },
-        meetPos: { x: 24, z: -17, rot: Math.PI }
+        dept: "QS",
+        color: 0x059669,
+        deskPos: { x: 2, z: 14.5, rot: 0 },
+        meetPos: { x: 22.2, z: -17.2, rot: Math.PI }
       },
+      {
+        id: "qs_civil",
+        name: "Bùi Công Trình",
+        role: "Chuyên viên Dự toán Xây dựng & Hạ tầng Kỹ thuật",
+        level: "Level 2",
+        dept: "QS",
+        color: 0x10b981,
+        deskPos: { x: 6, z: 14.5, rot: 0 },
+        meetPos: { x: 23.5, z: -17.2, rot: Math.PI }
+      },
+      {
+        id: "qs_mep",
+        name: "Phạm Văn Cơ Điện",
+        role: "Chuyên viên Dự toán Cơ Điện & PCCC (MEP)",
+        level: "Level 2",
+        dept: "QS",
+        color: 0x34d399,
+        deskPos: { x: 10, z: 14.5, rot: 0 },
+        meetPos: { x: 24.8, z: -17.2, rot: Math.PI }
+      },
+      // 4. Ban Quản lý Chất lượng QA/QC (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
       {
         id: "qaqc_head",
         name: "Hoàng Văn Chuẩn",
-        role: "Trưởng phòng Quản lý Chất lượng & An toàn Công trình",
+        role: "Trưởng ban Quản lý Chất lượng QA/QC",
         level: "Level 3",
         dept: "QAQC",
         color: 0xc2410c,
-        deskPos: { x: 22, z: 13, rot: 0 },
-        meetPos: { x: 24, z: -13, rot: 0 }
+        deskPos: { x: 21.5, z: 10.5, rot: 0 },
+        meetPos: { x: 21.5, z: -12.8, rot: 0 }
       },
-      // 5. Quyết toán
+      {
+        id: "qaqc_qa",
+        name: "Bùi Văn Nghiệm",
+        role: "Chuyên viên Đảm bảo chất lượng QA (Hệ thống)",
+        level: "Level 2",
+        dept: "QAQC",
+        color: 0xea580c,
+        deskPos: { x: 17.5, z: 14.5, rot: 0 },
+        meetPos: { x: 22.8, z: -12.8, rot: 0 }
+      },
+      {
+        id: "qaqc_qc",
+        name: "Phan Văn Kiểm Soát",
+        role: "Chuyên viên Kiểm soát chất lượng QC (Hiện trường)",
+        level: "Level 2",
+        dept: "QAQC",
+        color: 0xf97316,
+        deskPos: { x: 21.5, z: 14.5, rot: 0 },
+        meetPos: { x: 24.0, z: -12.8, rot: 0 }
+      },
+      {
+        id: "qaqc_hse",
+        name: "Nguyễn An Toàn",
+        role: "Chuyên viên An toàn lao động & Môi trường (HSE)",
+        level: "Level 2",
+        dept: "QAQC",
+        color: 0xfb923c,
+        deskPos: { x: 25.5, z: 14.5, rot: 0 },
+        meetPos: { x: 25.2, z: -12.8, rot: 0 }
+      },
+      // 5. Ban Kiểm toán Thanh & Quyết toán (2 nhân sự)
+      {
+        id: "settlement_head",
+        name: "Đặng Đức Toán",
+        role: "Trưởng ban Kiểm toán Quyết toán & Kiểm soát Ngân quỹ",
+        level: "Level 3",
+        dept: "SETTLEMENT",
+        color: 0xbe185d,
+        deskPos: { x: -6, z: -15, rot: 0 },
+        meetPos: { x: 26.5, z: -12.8, rot: 0 }
+      },
       {
         id: "settlement_specialist",
         name: "Ngô Thị Quyết",
@@ -147,39 +217,9 @@ class Office3DFloorEngine {
         dept: "SETTLEMENT",
         color: 0xdb2777,
         deskPos: { x: -10, z: -15, rot: 0 },
-        meetPos: { x: 26, z: -17, rot: Math.PI }
+        meetPos: { x: 26.0, z: -17.2, rot: Math.PI }
       },
-      {
-        id: "settlement_head",
-        name: "Đặng Đức Toán",
-        role: "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ",
-        level: "Level 3",
-        dept: "SETTLEMENT",
-        color: 0xbe185d,
-        deskPos: { x: -6, z: -15, rot: 0 },
-        meetPos: { x: 26, z: -13, rot: 0 }
-      },
-      // 6. Ban Marketing & Truyền thông
-      {
-        id: "marketing_content",
-        name: "Trần Thị Lan Tỏa",
-        role: "Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội",
-        level: "Level 2",
-        dept: "MARKETING",
-        color: 0xe879f9,
-        deskPos: { x: 3, z: -15, rot: 0 },
-        meetPos: { x: 28, z: -17, rot: Math.PI }
-      },
-      {
-        id: "marketing_video",
-        name: "Nguyễn Huy Dựng",
-        role: "Chuyên viên Thiết kế Đồ họa & Sản xuất Video Đa Phương Tiện",
-        level: "Level 2",
-        dept: "MARKETING",
-        color: 0xc026d3,
-        deskPos: { x: 7, z: -15, rot: 0 },
-        meetPos: { x: 28, z: -13, rot: 0 }
-      },
+      // 6. Ban Marketing & Truyền thông (3 nhân sự)
       {
         id: "marketing_head",
         name: "Lê Mai Truyền",
@@ -188,18 +228,38 @@ class Office3DFloorEngine {
         dept: "MARKETING",
         color: 0xa21caf,
         deskPos: { x: 9, z: -12, rot: Math.PI / 4 },
-        meetPos: { x: 26, z: -15, rot: Math.PI / 2 }
+        meetPos: { x: 27.5, z: -12.8, rot: 0 }
       },
-      // 7. Nhân sự Căn Tin & Dịch Vụ Văn Phòng
+      {
+        id: "marketing_content",
+        name: "Trần Thị Lan Tỏa",
+        role: "Chuyên viên Sáng tạo Nội dung & Báo chí Social",
+        level: "Level 2",
+        dept: "MARKETING",
+        color: 0xe879f9,
+        deskPos: { x: 3, z: -15, rot: 0 },
+        meetPos: { x: 27.2, z: -17.2, rot: Math.PI }
+      },
+      {
+        id: "marketing_video",
+        name: "Nguyễn Huy Dựng",
+        role: "Chuyên viên Thiết kế Kịch bản & Sản xuất Video Multimedia",
+        level: "Level 2",
+        dept: "MARKETING",
+        color: 0xc026d3,
+        deskPos: { x: 7, z: -15, rot: 0 },
+        meetPos: { x: 28.2, z: -17.2, rot: Math.PI }
+      },
+      // 7. Nhân sự Căn Tin & Dịch Vụ Văn Phòng (2 nhân sự)
       {
         id: "canteen_barista",
         name: "Nguyễn Thị Trà My",
-        role: "Barista & Chăm Sóc Quầy Bar Căn Tin",
+        role: "Barista & Quầy Bar Căn Tin",
         level: "Level 2",
         dept: "CANTEEN",
         color: 0x14b8a6, // Teal
         deskPos: { x: 18.5, z: -2.8, rot: 0 },
-        meetPos: { x: 28, z: -15, rot: 0 }
+        meetPos: { x: 28.5, z: -15, rot: 0 }
       },
       {
         id: "canteen_chef",
@@ -209,7 +269,7 @@ class Office3DFloorEngine {
         dept: "CANTEEN",
         color: 0xf97316, // Orange
         deskPos: { x: 21.5, z: -2.8, rot: 0 },
-        meetPos: { x: 28, z: -13, rot: 0 }
+        meetPos: { x: 28.5, z: -14, rot: 0 }
       }
     ];
 
@@ -353,8 +413,8 @@ class Office3DFloorEngine {
 
     // 3. Vách ngăn kính giữa các phòng ban chuyên môn
     this.buildZoneDivider(-15, 12, 10, "Vách Ban Pháp Chế & Đấu Thầu");
-    this.buildZoneDivider(-1, 12, 10, "Vách Ban Đấu Thầu & Dự Toán");
-    this.buildZoneDivider(13, 12, 10, "Vách Ban Dự Toán & QAQC");
+    this.buildZoneDivider(-1.5, 12, 10, "Vách Ban Đấu Thầu & Dự Toán");
+    this.buildZoneDivider(13.5, 12, 10, "Vách Ban Dự Toán & QAQC");
 
     // Vách kính phòng Founder
     this.buildGlassRoom(-22, -15, 14, 12, "VĂN PHÒNG FOUNDER & CEO MAI QUANG VINH");
@@ -371,10 +431,10 @@ class Office3DFloorEngine {
     // Biển hiệu LED phát sáng cho các phòng ban
     this.createGlowSignboard("👑 PHÒNG TỔNG GIÁM ĐỐC / FOUNDER", -22, 4.8, -20.8, 0xf59e0b);
     this.createGlowSignboard("🏛️ PHÒNG HỌP HỘI ĐỒNG CHIẾN LƯỢC", 20, 4.8, -20.8, 0x38bdf8);
-    this.createGlowSignboard("⚖️ BAN PHÁP CHẾ & HỢP ĐỒNG", -22, 3.8, 6.5, 0xa855f7);
+    this.createGlowSignboard("⚖️ BAN PHÁP CHẾ & HỢP ĐỒNG", -20, 3.8, 6.5, 0xa855f7);
     this.createGlowSignboard("📋 BAN ĐẤU THẦU & MUA SẮM", -8, 3.8, 6.5, 0x3b82f6);
     this.createGlowSignboard("📐 BAN DỰ TOÁN QS & BOQ", 6, 3.8, 6.5, 0x10b981);
-    this.createGlowSignboard("🏗️ BAN CHẤT LƯỢNG QA/QC", 20, 3.8, 6.5, 0xf97316);
+    this.createGlowSignboard("🏗️ BAN QUẢN LÝ CHẤT LƯỢNG QA/QC", 21.5, 3.8, 6.5, 0xf97316);
     this.createGlowSignboard("💰 BAN KIỂM TOÁN QUYẾT TOÁN", -8, 4.8, -20.8, 0xec4899);
     this.createGlowSignboard("🎬 BAN MARKETING & TRUYỀN THÔNG", 6, 4.8, -20.8, 0xd946ef);
     this.createGlowSignboard("🎮 PHÒNG GIẢI TRÍ & WELLNESS", -22, 4.2, 3.6, 0x10b981);
@@ -464,25 +524,31 @@ class Office3DFloorEngine {
     // 2. Phòng Họp Hội Đồng Lớn (Boardroom)
     this.createMeetingRoom(20, -15);
 
-    // 3. Phòng Ban 1: Pháp chế
-    this.createWorkstation(-24, 13, "Nguyễn Văn Pháp", "Hợp đồng NĐ 210");
-    this.createWorkstation(-20, 13, "Trần Thị Tuân Thủ", "Kiểm duyệt QĐ 690");
-    this.createBookshelf(-26.5, 13, Math.PI / 2, "KỆ LUẬT XÂY DỰNG 2026 & MẪU HĐ");
+    // 3. Ban Pháp chế (2 nhân sự: 1 Trưởng ban + 1 Chuyên viên)
+    this.createWorkstation(-18, 10.5, "Trần Thị Tuân Thủ", "Trưởng Ban Pháp Chế");
+    this.createWorkstation(-22, 14.5, "Nguyễn Văn Pháp", "Hợp đồng NĐ 210/2026");
+    this.createBookshelf(-26.5, 12, Math.PI / 2, "KỆ LUẬT XÂY DỰNG 2026 & MẪU HĐ");
 
-    // 4. Phòng Ban 2: Đấu thầu
-    this.createWorkstation(-10, 13, "Lê Quang Thầu", "HSMT QĐ 458");
-    this.createWorkstation(-6, 13, "Phạm Minh Đấu", "Đấu thầu NĐ 349");
-    this.createBookshelf(-13.5, 13, Math.PI / 2, "KỆ HỒ SƠ DỰ THẦU & BÁO GIÁ");
+    // 4. Ban Đấu thầu & Mua sắm (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
+    this.createWorkstation(-8, 10.5, "Phạm Minh Đấu", "Trưởng Ban Đấu Thầu");
+    this.createWorkstation(-12, 14.5, "Lê Quang Thầu", "Gói Mua Sắm Hàng Hóa");
+    this.createWorkstation(-8, 14.5, "Nguyễn Thảo Tư Vấn", "Gói Dịch Vụ Tư Vấn");
+    this.createWorkstation(-4, 14.5, "Trần Văn Xây Lắp", "Gói Xây Lắp & EPC");
+    this.createBookshelf(-14.5, 12, Math.PI / 2, "KỆ HỒ SƠ DỰ THẦU & BÁO GIÁ");
 
-    // 5. Phòng Ban 3: Dự toán QS
-    this.createWorkstation(4, 13, "Đỗ Văn Lượng", "Bóc tách CAD 8 Bill");
-    this.createWorkstation(8, 13, "Vũ Đình Toàn", "Thẩm định TT 09/2024");
-    this.createBookshelf(1, 13, Math.PI / 2, "KỆ BẢN VẼ HOÀN CÔNG & ĐỊNH MỨC");
+    // 5. Ban Dự toán QS & BOQ (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
+    this.createWorkstation(6, 10.5, "Vũ Đình Toàn", "Trưởng Ban Dự Toán QS");
+    this.createWorkstation(2, 14.5, "Đỗ Văn Lượng", "Tổng Mức Đầu Tư & Tư Vấn");
+    this.createWorkstation(6, 14.5, "Bùi Công Trình", "Hạ Tầng, San Nền & Thô");
+    this.createWorkstation(10, 14.5, "Phạm Văn Cơ Điện", "Dự Toán MEP & PCCC");
+    this.createBookshelf(-1, 12, Math.PI / 2, "KỆ BẢN VẼ HOÀN CÔNG & ĐỊNH MỨC");
 
-    // 6. Phòng Ban 4: QA/QC
-    this.createWorkstation(18, 13, "Bùi Văn Nghiệm", "17 BM QA/QC NĐ 06");
-    this.createWorkstation(22, 13, "Hoàng Văn Chuẩn", "Nghiệm thu BBNTCV");
-    this.createBookshelf(15.5, 13, Math.PI / 2, "KỆ PHIẾU NÉN MẪU R28 & LAS-XD");
+    // 6. Ban Quản lý Chất lượng QA/QC (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
+    this.createWorkstation(21.5, 10.5, "Hoàng Văn Chuẩn", "Trưởng Ban QA/QC");
+    this.createWorkstation(17.5, 14.5, "Bùi Văn Nghiệm", "QA Hệ Thống & Tiêu Chuẩn");
+    this.createWorkstation(21.5, 14.5, "Phan Văn Kiểm Soát", "QC Hiện Trường & Vật Liệu");
+    this.createWorkstation(25.5, 14.5, "Nguyễn An Toàn", "An Toàn Lao Động HSE");
+    this.createBookshelf(14.5, 12, Math.PI / 2, "KỆ HỒ SƠ CHẤT LƯỢNG & LAS-XD");
 
     // 7. Phòng Ban 5: Quyết toán
     this.createWorkstation(-10, -15, "Ngô Thị Quyết", "Chiết tính Mẫu 08a");
@@ -773,10 +839,10 @@ class Office3DFloorEngine {
     const group = new THREE.Group();
     group.position.set(cx, 0, cz);
 
-    // Bàn họp lớn Oval (Dài 8m x Rộng 2.6m)
+    // Bàn họp lớn Oval (Dài 11m x Rộng 2.8m - đủ chỗ cho 22 nhân sự)
     const meetMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.25, metalness: 0.2 });
-    const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(1.3, 1.3, 0.1, 32), meetMat);
-    tableTop.scale.set(3.2, 1, 1); // Kéo dài thành hình oval
+    const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 0.1, 32), meetMat);
+    tableTop.scale.set(4.2, 1, 1.05); // Kéo dài thành hình oval
     tableTop.position.set(0, 0.75, 0);
     tableTop.castShadow = true;
     group.add(tableTop);
@@ -784,41 +850,41 @@ class Office3DFloorEngine {
     // Chân bàn tròn kim loại
     const legMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.8 });
     const leg1 = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 0.75, 24), legMat);
-    leg1.position.set(-2.2, 0.375, 0);
+    leg1.position.set(-3.2, 0.375, 0);
     group.add(leg1);
     const leg2 = leg1.clone();
-    leg2.position.set(2.2, 0.375, 0);
+    leg2.position.set(3.2, 0.375, 0);
     group.add(leg2);
 
-    // 12 Ghế họp xung quanh bàn
+    // Ghế họp xung quanh bàn cho Hội đồng (18 ghế quanh bàn + 2 ghế đầu bàn)
     const chairMat = new THREE.MeshStandardMaterial({ color: 0x334155 });
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 8; i++) {
       // Dãy ghế bên trên
       const c1 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.5), chairMat);
-      c1.position.set(-2.8 + i * 1.4, 0.48, 1.6);
+      c1.position.set(-4.2 + i * 1.2, 0.48, 1.6);
       group.add(c1);
       // Dãy ghế bên dưới
       const c2 = c1.clone();
-      c2.position.set(-2.8 + i * 1.4, 0.48, -1.6);
+      c2.position.set(-4.2 + i * 1.2, 0.48, -1.6);
       group.add(c2);
     }
     // 2 ghế đầu bàn
     const cHead1 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.5), chairMat);
-    cHead1.position.set(-4.0, 0.48, 0);
+    cHead1.position.set(-5.0, 0.48, 0);
     group.add(cHead1);
     const cHead2 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.5), chairMat);
-    cHead2.position.set(4.0, 0.48, 0);
+    cHead2.position.set(5.0, 0.48, 0);
     group.add(cHead2);
 
     // Màn hình trình chiếu TV lớn 85 inch treo tường
     const tvMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
-    const tv = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.0, 0.08), tvMat);
+    const tv = new THREE.Mesh(new THREE.BoxGeometry(4.2, 2.2, 0.08), tvMat);
     tv.position.set(0, 2.6, -5.8);
     group.add(tv);
 
     // Màn hình hiển thị bản vẽ CAD / tiến độ dự án
     const tvScreenMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-    const tvScreen = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 1.8), tvScreenMat);
+    const tvScreen = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 2.0), tvScreenMat);
     tvScreen.position.set(0, 2.6, -5.73);
     group.add(tvScreen);
 
@@ -1377,23 +1443,32 @@ class Office3DFloorEngine {
   gatherAllToBreak() {
     this.isMeetingMode = false;
     const breakSpots = [
-      // Phân bổ vào Phòng Giải Trí & Wellness
-      { x: -18, z: -2.5, rot: 0 },
-      { x: -16, z: -2.5, rot: 0 },
-      { x: -25.5, z: 2.0, rot: Math.PI },
-      { x: -23.5, z: 2.0, rot: Math.PI },
-      { x: -23, z: 0.5, rot: -Math.PI / 2 },
-      { x: -21, z: 0.5, rot: Math.PI / 2 },
-      { x: -25.5, z: -2.2, rot: 0 },
-      // Phân bổ vào Căn Tin & Quầy Bar
-      { x: 17.6, z: -1.0, rot: -Math.PI / 2 },
-      { x: 19.2, z: -1.0, rot: -Math.PI / 2 },
-      { x: 20.8, z: -1.0, rot: -Math.PI / 2 },
-      { x: 22.4, z: -1.0, rot: -Math.PI / 2 },
-      { x: 16.5, z: 0.8, rot: 0 },
-      { x: 16.5, z: 2.8, rot: Math.PI },
-      { x: 23.5, z: 0.8, rot: 0 },
-      { x: 23.5, z: 2.8, rot: Math.PI }
+      // Phân bổ vào Phòng Giải Trí & Wellness (10 vị trí)
+      { x: -18, z: -2.5, rot: 0 },             // Ghế massage 1
+      { x: -16, z: -2.5, rot: 0 },             // Ghế massage 2
+      { x: -25.5, z: 2.0, rot: Math.PI },       // Máy chạy bộ 1
+      { x: -23.5, z: 2.0, rot: Math.PI },       // Máy chạy bộ 2
+      { x: -23, z: 0.5, rot: -Math.PI / 2 },    // Sofa giải trí 1
+      { x: -21, z: 0.5, rot: Math.PI / 2 },     // Sofa tivi 2
+      { x: -25, z: -0.5, rot: 0 },              // Sofa góc 3
+      { x: -25.5, z: -2.2, rot: 0 },            // Thảm yoga
+      { x: -23.5, z: -2.2, rot: 0 },            // Tập tạ đơn
+      { x: -19, z: 1.5, rot: -Math.PI / 4 },    // Bàn cờ giải trí
+
+      // Phân bổ vào Căn Tin & Quầy Bar (13 vị trí)
+      { x: 17.0, z: -1.0, rot: -Math.PI / 2 },  // Bar stool 1
+      { x: 18.5, z: -1.0, rot: -Math.PI / 2 },  // Bar stool 2
+      { x: 20.0, z: -1.0, rot: -Math.PI / 2 },  // Bar stool 3
+      { x: 21.5, z: -1.0, rot: -Math.PI / 2 },  // Bar stool 4
+      { x: 23.0, z: -1.0, rot: -Math.PI / 2 },  // Bar stool 5
+      { x: 16.5, z: 0.8, rot: 0 },              // Bàn ăn 1 - ghế 1
+      { x: 16.5, z: 2.8, rot: Math.PI },        // Bàn ăn 1 - ghế 2
+      { x: 15.0, z: 1.8, rot: Math.PI / 2 },    // Bàn ăn 1 - ghế 3
+      { x: 18.0, z: 1.8, rot: -Math.PI / 2 },   // Bàn ăn 1 - ghế 4
+      { x: 23.5, z: 0.8, rot: 0 },              // Bàn ăn 2 - ghế 1
+      { x: 23.5, z: 2.8, rot: Math.PI },        // Bàn ăn 2 - ghế 2
+      { x: 22.0, z: 1.8, rot: Math.PI / 2 },    // Bàn ăn 2 - ghế 3
+      { x: 25.0, z: 1.8, rot: -Math.PI / 2 }    // Bàn ăn 2 - ghế 4
     ];
 
     let spotIdx = 0;

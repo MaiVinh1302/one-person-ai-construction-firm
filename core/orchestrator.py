@@ -15,9 +15,30 @@ from typing import Dict, List, Any, Optional
 from core.permissions import RoleLevel, PermissionAction, RBACManager
 from core.safeguards import ConstructionSafeguards
 from departments.dept_legal_contract import LegalContractDepartment, ContractSpecialistAgent, LegalHeadReviewerAgent
-from departments.dept_bidding_procurement import BiddingProcurementDepartment, ProcurementSpecialistAgent, BiddingHeadReviewerAgent
-from departments.dept_qs_cost_estimating import QSCostEstimatingDepartment, QSSpecialistAgent, QSHeadReviewerAgent
-from departments.dept_qa_qc_site import QAQCSiteDepartment, SiteQCSpecialistAgent, QAQCHeadReviewerAgent
+from departments.dept_bidding_procurement import (
+    BiddingProcurementDepartment,
+    ProcurementSpecialistAgent,
+    ProcurementGoodsSpecialistAgent,
+    ProcurementConsultancySpecialistAgent,
+    ProcurementConstructionSpecialistAgent,
+    BiddingHeadReviewerAgent
+)
+from departments.dept_qs_cost_estimating import (
+    QSCostEstimatingDepartment,
+    QSSpecialistAgent,
+    QSInvestmentConsultancySpecialistAgent,
+    QSCivilInfrastructureSpecialistAgent,
+    QSMEPFireSpecialistAgent,
+    QSHeadReviewerAgent
+)
+from departments.dept_qa_qc_site import (
+    QAQCSiteDepartment,
+    SiteQCSpecialistAgent,
+    QASystemSpecialistAgent,
+    QCSiteInspectionSpecialistAgent,
+    HSESafetySpecialistAgent,
+    QAQCHeadReviewerAgent
+)
 from departments.dept_settlement_audit import SettlementAuditDepartment, SettlementSpecialistAgent, SettlementHeadReviewerAgent
 from departments.dept_marketing_media import MarketingMediaDepartment, ContentSpecialistAgent, VideoSpecialistAgent, MarketingHeadReviewerAgent
 from core.reporting_engine import reporting_engine
@@ -57,14 +78,32 @@ class ConstructionCompanyOrchestrator:
             },
             {
                 "id": "DEPT_BIDDING",
-                "department_name": "Phòng Quản lý Đấu thầu & Mua sắm",
+                "department_name": "Ban Quản lý Đấu thầu & Mua sắm",
                 "code": "BIDDING",
                 "corporate_sop": "QĐ 419/420/421, QĐ 516/517 (12 BM LCNT) & QĐ 458 (33 mẫu HSMT chuẩn)",
-                "specialist": {
-                    "name": ProcurementSpecialistAgent.AGENT_NAME,
-                    "title": ProcurementSpecialistAgent.ROLE_TITLE,
+                "specialist_goods": {
+                    "name": ProcurementGoodsSpecialistAgent.AGENT_NAME,
+                    "title": ProcurementGoodsSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Áp mẫu HSMT chuẩn QĐ 458 (BM12->BM41), lập 12 biểu mẫu LCNT (BM0-PYC -> BM08), phân tích độ lệch giá."
+                    "mission": "Chuyên trách các gói thầu mua sắm hàng hóa, vật tư, máy móc thiết bị, phân tích độ lệch giá chào thầu >30%."
+                },
+                "specialist_consultancy": {
+                    "name": ProcurementConsultancySpecialistAgent.AGENT_NAME,
+                    "title": ProcurementConsultancySpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách các gói thầu dịch vụ tư vấn (khảo sát, thiết kế, thẩm tra, giám sát, kiểm định, đánh giá tác động)."
+                },
+                "specialist_construction": {
+                    "name": ProcurementConstructionSpecialistAgent.AGENT_NAME,
+                    "title": ProcurementConstructionSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách các gói thầu xây lắp công trình, tổng thầu EPC/PC, đánh giá năng lực kinh nghiệm kỹ thuật nhà thầu."
+                },
+                "specialist": {
+                    "name": f"{ProcurementGoodsSpecialistAgent.AGENT_NAME}, {ProcurementConsultancySpecialistAgent.AGENT_NAME}, {ProcurementConstructionSpecialistAgent.AGENT_NAME}",
+                    "title": "Tổ Chuyên viên Đấu thầu & Mua sắm (Hàng hóa, Tư vấn, Xây lắp)",
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Lập 12 biểu mẫu LCNT (BM0-PYC -> BM08), áp 33 mẫu HSMT chuẩn QĐ 458, phân tích ma trận so sánh giá & làm rõ kỹ thuật."
                 },
                 "head": {
                     "name": BiddingHeadReviewerAgent.AGENT_NAME,
@@ -75,12 +114,30 @@ class ConstructionCompanyOrchestrator:
             },
             {
                 "id": "DEPT_QS",
-                "department_name": "Phòng Kỹ sư Dự toán QS & BOQ",
+                "department_name": "Ban Dự toán QS & BOQ",
                 "code": "QS_BOQ",
                 "corporate_sop": "Chuẩn hóa HSMT 8 Bill (Trần CPC 5%, Độ sụt Bill 6) & Quy trình Phát sinh 12 bước QT01-XLPS",
+                "specialist_investment": {
+                    "name": QSInvestmentConsultancySpecialistAgent.AGENT_NAME,
+                    "title": QSInvestmentConsultancySpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách lập và thẩm tra Tổng mức đầu tư (TMĐT NĐ 10/2021), suất vốn đầu tư, chi phí QLDA & các gói chi phí tư vấn."
+                },
+                "specialist_civil": {
+                    "name": QSCivilInfrastructureSpecialistAgent.AGENT_NAME,
+                    "title": QSCivilInfrastructureSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách bóc tách khối lượng CAD/DXF hạ tầng kỹ thuật, san nền, cọc móng, kết cấu thô & hoàn thiện cơ bản theo 8 Bill."
+                },
+                "specialist_mep": {
+                    "name": QSMEPFireSpecialistAgent.AGENT_NAME,
+                    "title": QSMEPFireSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách bóc tách dự toán Cơ Điện (Điện, Nước, HVAC, BMS) & Phòng cháy chữa cháy (PCCC) theo quy chuẩn QCVN 06:2022."
+                },
                 "specialist": {
-                    "name": QSSpecialistAgent.AGENT_NAME,
-                    "title": QSSpecialistAgent.ROLE_TITLE,
+                    "name": f"{QSInvestmentConsultancySpecialistAgent.AGENT_NAME}, {QSCivilInfrastructureSpecialistAgent.AGENT_NAME}, {QSMEPFireSpecialistAgent.AGENT_NAME}",
+                    "title": "Tổ Kỹ sư QS & BOQ (Tổng mức đầu tư, Xây dựng hạ tầng, MEP & PCCC)",
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
                     "mission": "Bóc tách CAD/DXF, áp định mức TT 09/2024/TT-BXD, kiểm soát cấu trúc 8 Bill HSMT và bảng độ sụt BTTP (Bill 6)."
                 },
@@ -93,14 +150,32 @@ class ConstructionCompanyOrchestrator:
             },
             {
                 "id": "DEPT_QAQC",
-                "department_name": "Phòng Quản lý Chất lượng QA/QC",
+                "department_name": "Ban Quản lý Chất lượng QA/QC",
                 "code": "QAQC",
                 "corporate_sop": "Bộ 17 Biểu mẫu Checklist Hồ sơ Chất lượng (1.BM-PD NTP -> 17.BM-BBNTHT) & Bill 8 HSMT",
-                "specialist": {
-                    "name": SiteQCSpecialistAgent.AGENT_NAME,
-                    "title": SiteQCSpecialistAgent.ROLE_TITLE,
+                "specialist_qa": {
+                    "name": QASystemSpecialistAgent.AGENT_NAME,
+                    "title": QASystemSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Kiểm tra phê duyệt NTP/NCC/LAS-XD (1->4.BM), nghiệm thu vật liệu (7-8.BM-NTVL), công việc (9-10.BM-NTCVXD) & nhật ký (15.BM-NKTC)."
+                    "mission": "Chuyên trách Đảm bảo chất lượng QA: Quy trình QLCL, kiểm soát NTP/NCC (1.BM), phòng LAS-XD (4.BM) & bản vẽ Shopdrawing Bill 8."
+                },
+                "specialist_qc": {
+                    "name": QCSiteInspectionSpecialistAgent.AGENT_NAME,
+                    "title": QCSiteInspectionSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách Kiểm soát chất lượng QC: Giám sát hiện trường, nghiệm thu vật liệu (7-8.BM), nén mẫu R28 (12.BM), BBNTCV & Nhật ký (15.BM)."
+                },
+                "specialist_hse": {
+                    "name": HSESafetySpecialistAgent.AGENT_NAME,
+                    "title": HSESafetySpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Chuyên trách An toàn lao động, Vệ sinh môi trường (HSE) & PCCC công trường: Nhật ký ATLĐ (16.BM), kiểm định máy móc, an toàn giàn giáo."
+                },
+                "specialist": {
+                    "name": f"{QASystemSpecialistAgent.AGENT_NAME}, {QCSiteInspectionSpecialistAgent.AGENT_NAME}, {HSESafetySpecialistAgent.AGENT_NAME}",
+                    "title": "Tổ Kỹ sư QA/QC & An toàn Công trình (QA Hệ thống, QC Hiện trường, HSE An toàn)",
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Kiểm tra phê duyệt NTP/NCC/LAS-XD (1->4.BM), nghiệm thu vật liệu (7-8.BM), công việc (9-10.BM) & nhật ký ATLĐ (16.BM)."
                 },
                 "head": {
                     "name": QAQCHeadReviewerAgent.AGENT_NAME,

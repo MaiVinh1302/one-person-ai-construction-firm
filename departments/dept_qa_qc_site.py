@@ -13,7 +13,40 @@ from typing import Dict, List, Any
 from core.permissions import RoleLevel
 from knowledge.corporate_sops import QAQC_17_CHECKLIST_TEMPLATES
 
-class SiteQCSpecialistAgent:
+class QASystemSpecialistAgent:
+    """
+    CHUYÊN VIÊN 1: BÙI VĂN NGHIỆM (Level 2 Specialist)
+    Chuyên trách Đảm bảo Chất lượng QA: Thiết lập hệ thống quy trình, ISO, phê duyệt nhà thầu phụ (1.BM-PD NTP),
+    phòng LAS-XD (4.BM-PD PTN) & biện pháp thi công Shopdrawing (Bill 8 HSMT).
+    """
+    AGENT_NAME = "Bùi Văn Nghiệm"
+    ROLE_TITLE = "Chuyên viên Đảm bảo Chất lượng QA"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class QCSiteInspectionSpecialistAgent:
+    """
+    CHUYÊN VIÊN 2: PHAN VĂN KIỂM SOÁT (Level 2 Specialist)
+    Chuyên trách Kiểm soát Chất lượng QC: Nghiệm thu hiện trường, vật liệu đầu vào (7-8.BM-NTVL),
+    phiếu nén mẫu thử tải (12.BM-BBLMTN), biên bản công việc (9-10.BM-NTCVXD) & Nhật ký (15.BM-NKTC).
+    """
+    AGENT_NAME = "Phan Văn Kiểm Soát"
+    ROLE_TITLE = "Chuyên viên Kiểm soát Chất lượng QC Hiện trường"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class HSESafetySpecialistAgent:
+    """
+    CHUYÊN VIÊN 3: NGUYỄN AN TOÀN (Level 2 Specialist)
+    Chuyên trách An toàn Lao động, Vệ sinh Môi trường & PCCC Công trường (HSE):
+    Nhật ký ATLĐ (16.BM-NKATLĐ), kiểm định thiết bị áp lực cao, giàn giáo, bảo hộ lao động.
+    """
+    AGENT_NAME = "Nguyễn An Toàn"
+    ROLE_TITLE = "Chuyên viên An toàn Lao động & Môi trường (HSE)"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class SiteQCSpecialistAgent(QASystemSpecialistAgent):
     """
     KỸ SƯ QA/QC HIỆN TRƯỜNG: BÙI VĂN NGHIỆM (Level 2 Specialist)
     Chuyên trách kiểm tra hồ sơ hiện trường, kết quả thí nghiệm và lập hồ sơ theo Bộ 17 Biểu mẫu Checklist QA/QC Tập đoàn.

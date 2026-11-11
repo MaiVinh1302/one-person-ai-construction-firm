@@ -14,13 +14,42 @@ from core.safeguards import ConstructionSafeguards
 from core.permissions import RoleLevel
 from knowledge.corporate_sops import corporate_sop_engine
 
-class ProcurementSpecialistAgent:
+class ProcurementGoodsSpecialistAgent:
     """
-    CHUYÊN VIÊN ĐẤU THẦU: LÊ QUANG THẦU (Level 2 Specialist)
-    Chuyên trách thu thập hồ sơ, áp bộ mẫu HSMT QĐ 458 & 12 biểu mẫu LCNT (BM0-PYC -> BM09), bóc tách báo giá.
+    CHUYÊN VIÊN 1: LÊ QUANG THẦU (Level 2 Specialist)
+    Chuyên trách các gói thầu mua sắm hàng hóa, vật tư, máy móc thiết bị công trình.
     """
     AGENT_NAME = "Lê Quang Thầu"
-    ROLE_TITLE = "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm"
+    ROLE_TITLE = "Chuyên viên Gói thầu Mua sắm Hàng hóa & Thiết bị"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class ProcurementConsultancySpecialistAgent:
+    """
+    CHUYÊN VIÊN 2: NGUYỄN THẢO TƯ VẤN (Level 2 Specialist)
+    Chuyên trách các gói thầu dịch vụ tư vấn (khảo sát, thiết kế, thẩm tra, giám sát, kiểm định).
+    """
+    AGENT_NAME = "Nguyễn Thảo Tư Vấn"
+    ROLE_TITLE = "Chuyên viên Gói thầu Dịch vụ Tư vấn"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class ProcurementConstructionSpecialistAgent:
+    """
+    CHUYÊN VIÊN 3: TRẦN VĂN XÂY LẮP (Level 2 Specialist)
+    Chuyên trách các gói thầu xây lắp công trình & tổng thầu EPC/PC.
+    """
+    AGENT_NAME = "Trần Văn Xây Lắp"
+    ROLE_TITLE = "Chuyên viên Gói thầu Xây lắp & EPC"
+    LEVEL = RoleLevel.LEVEL_2_SPECIALIST
+
+
+class ProcurementSpecialistAgent(ProcurementGoodsSpecialistAgent):
+    """
+    Alias điều phối chung chuyên viên Đấu thầu & Mua sắm
+    """
+    AGENT_NAME = "Lê Quang Thầu"
+    ROLE_TITLE = "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Mua sắm"
     LEVEL = RoleLevel.LEVEL_2_SPECIALIST
 
     @classmethod
