@@ -31,8 +31,9 @@ from core.permissions import RBACManager
 from core.reporting_engine import reporting_engine, REPORTS_DIR
 from core.github_sync import GitHubAutoSync
 from knowledge.legal_engine import legal_engine
+from knowledge.corporate_sops import corporate_sop_engine
 
-app = FastAPI(title="One-Person AI Construction Firm Portal", version="1.2.0")
+app = FastAPI(title="One-Person AI Construction Firm Portal", version="1.3.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -228,6 +229,11 @@ async def act_on_approval(approval_id: str, request: Request):
 def search_legal_library(keyword: str = "", domain: str = None):
     results = legal_engine.search_law(keyword, domain)
     return {"query": keyword, "count": len(results), "results": results[:20]}
+
+@app.get("/api/sops")
+def get_corporate_sops():
+    """Trả về toàn bộ Hệ thống Quy trình, Quy chế & Biểu mẫu nội bộ Tập đoàn T&T đã chắt lọc"""
+    return corporate_sop_engine.get_all_pillars_summary()
 
 @app.get("/", response_class=HTMLResponse)
 def serve_dashboard():

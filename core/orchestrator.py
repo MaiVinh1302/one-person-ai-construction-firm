@@ -40,85 +40,90 @@ class ConstructionCompanyOrchestrator:
                 "id": "DEPT_LEGAL",
                 "department_name": "Phòng Pháp chế & Đàm phán Hợp đồng",
                 "code": "LEGAL",
+                "corporate_sop": "QĐ 690/QĐ-TGĐ (30 mẫu HĐ XD/TV) & QĐ 560/QĐ-TGĐ (14 mẫu HĐ Cung ứng)",
                 "specialist": {
                     "name": ContractSpecialistAgent.AGENT_NAME,
                     "title": ContractSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Bóc tách câu chữ, phát hiện 12 bẫy điều khoản, lập dự thảo phụ lục sửa đổi."
+                    "mission": "Áp mẫu HĐ chuẩn (XDTC.2024.01/02/03), kèm Cam kết chống tham nhũng XDCK.2024.01, phát hiện 12 bẫy điều khoản."
                 },
                 "head": {
                     "name": LegalHeadReviewerAgent.AGENT_NAME,
                     "title": LegalHeadReviewerAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_3_HEAD.name,
-                    "mission": "Rà soát quy trình, quy chuẩn NĐ 210/2026/NĐ-CP (trần 30% tạm ứng, bảo lãnh >1 tỷ), cấp lệnh Gate Clearance."
+                    "mission": "Rà soát NĐ 210/2026/NĐ-CP (trần 30% tạm ứng, bảo lãnh >1 tỷ) & QĐ 122/123 (hiệu lực bảo lãnh >= Thời gian HĐ + 30 ngày)."
                 }
             },
             {
                 "id": "DEPT_BIDDING",
                 "department_name": "Phòng Quản lý Đấu thầu & Mua sắm",
                 "code": "BIDDING",
+                "corporate_sop": "QĐ 419/420/421, QĐ 516/517 (12 BM LCNT) & QĐ 458 (33 mẫu HSMT chuẩn)",
                 "specialist": {
                     "name": ProcurementSpecialistAgent.AGENT_NAME,
                     "title": ProcurementSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Thu thập báo giá, lập ma trận so sánh các đơn vị, tính độ lệch % giá."
+                    "mission": "Áp mẫu HSMT chuẩn QĐ 458 (BM12->BM41), lập 12 biểu mẫu LCNT (BM0-PYC -> BM08), phân tích độ lệch giá."
                 },
                 "head": {
                     "name": BiddingHeadReviewerAgent.AGENT_NAME,
                     "title": BiddingHeadReviewerAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_3_HEAD.name,
-                    "mission": "Rà soát trần chỉ định thầu 5 tỷ NĐ 349/2026/NĐ-CP, đăng tải mạng đấu thầu, lọc giá lệch >30%, cấp lệnh Gate Clearance."
+                    "mission": "Rà soát trần chỉ định thầu 5 tỷ NĐ 349/2026, quy tắc làm rõ kỹ thuật tối đa 01 lần (BM04-BCDGKT), lọc giá lệch >30%."
                 }
             },
             {
                 "id": "DEPT_QS",
                 "department_name": "Phòng Kỹ sư Dự toán QS & BOQ",
                 "code": "QS_BOQ",
+                "corporate_sop": "Chuẩn hóa HSMT 8 Bill (Trần CPC 5%, Độ sụt Bill 6) & Quy trình Phát sinh 12 bước QT01-XLPS",
                 "specialist": {
                     "name": QSSpecialistAgent.AGENT_NAME,
                     "title": QSSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Đọc bóc tách hình học CAD/DXF, tính toán m3/m2/tấn, ráp mã định mức TT 09/2024/TT-BXD."
+                    "mission": "Bóc tách CAD/DXF, áp định mức TT 09/2024/TT-BXD, kiểm soát cấu trúc 8 Bill HSMT và bảng độ sụt BTTP (Bill 6)."
                 },
                 "head": {
                     "name": QSHeadReviewerAgent.AGENT_NAME,
                     "title": QSHeadReviewerAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_3_HEAD.name,
-                    "mission": "Rà soát quy trình tính toán, quét chống gian lận/trùng lặp đầu việc, kiểm tra hệ số hao hụt, cấp lệnh Gate Clearance."
+                    "mission": "Kiểm soát trần CPC <= 5% (Bill 2), nguyên tắc MIN(BVHC, BBNT, HĐ) tại Bill 4 và quy trình phát sinh 12 bước QT01-XLPS."
                 }
             },
             {
                 "id": "DEPT_QAQC",
                 "department_name": "Phòng Quản lý Chất lượng QA/QC",
                 "code": "QAQC",
+                "corporate_sop": "Bộ 17 Biểu mẫu Checklist Hồ sơ Chất lượng (1.BM-PD NTP -> 17.BM-BBNTHT) & Bill 8 HSMT",
                 "specialist": {
                     "name": SiteQCSpecialistAgent.AGENT_NAME,
                     "title": SiteQCSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Thu thập nhật ký hiện trường, kiểm tra phiếu nén mẫu R28, soạn dự thảo BBNTCV."
+                    "mission": "Kiểm tra phê duyệt NTP/NCC/LAS-XD (1->4.BM), nghiệm thu vật liệu (7-8.BM-NTVL), công việc (9-10.BM-NTCVXD) & nhật ký (15.BM-NKTC)."
                 },
                 "head": {
                     "name": QAQCHeadReviewerAgent.AGENT_NAME,
                     "title": QAQCHeadReviewerAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_3_HEAD.name,
-                    "mission": "Rà soát quy trình Điều 13 NĐ 06/2021, kiểm tra mẫu dấu hoàn công 4 bên Phụ lục II, cấp Lệnh Chuyển bước thi công."
+                    "mission": "Rà soát Điều 13 NĐ 06/2021, mẫu dấu hoàn công 4 bên Phụ lục II, thẩm quyền ký Shopdrawing (Bill 8), cấp Lệnh Chuyển bước."
                 }
             },
             {
                 "id": "DEPT_SETTLEMENT",
                 "department_name": "Phòng Kiểm toán Thanh & Quyết toán",
                 "code": "SETTLEMENT",
+                "corporate_sop": "Quy định TQT QĐ 122 & QĐ 123 (Luật 3 lỗi cơ bản, Thẩm định KTXD 50%/80%/100%, Tờ trình BM-16.1/16.2)",
                 "specialist": {
                     "name": SettlementSpecialistAgent.AGENT_NAME,
                     "title": SettlementSpecialistAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_2_SPECIALIST.name,
-                    "mission": "Lập bảng tính Mẫu 08a theo NĐ 99/2021, tính lũy kế, khấu trừ tạm ứng, trích giữ bảo hành 5%."
+                    "mission": "Lập bảng Mẫu 08a/08b NĐ 99/2021, xác định tỷ lệ thẩm định KTXD (50%/80%/100%), soạn Tờ trình CTĐH (BM-16.1/16.2)."
                 },
                 "head": {
                     "name": SettlementHeadReviewerAgent.AGENT_NAME,
                     "title": SettlementHeadReviewerAgent.ROLE_TITLE,
                     "level": RoleLevel.LEVEL_3_HEAD.name,
-                    "mission": "Kiểm toán 4 tầng (Pháp lý, BBNTCV, Khối lượng lũy kế, Khấu trừ), kiểm soát giải ngân TT 96/2021, cấp lệnh Gate Clearance."
+                    "mission": "Kiểm toán 4 tầng + Quy tắc 3 lỗi từ chối trong 24h (QĐ 122/123), áp nguyên tắc giá trị MIN có lợi cho CĐT, trình Founder giải ngân."
                 }
             }
         ]

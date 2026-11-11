@@ -79,12 +79,14 @@ class ConstructionReportingEngine:
         if wf == "CONTRACT":
             dossier = result_data.get("specialist_dossier", {})
             adv = dossier.get("advance_analysis", {})
+            tpl = dossier.get("corporate_template_applied", {})
             md_lines.extend([
                 f"- **Tên hợp đồng:** {result_data.get('contract_title', 'Hợp đồng xây dựng')}",
-                f"- **Căn cứ pháp luật áp dụng:** {result_data.get('applicable_law', 'Nghị định 210/2026/NĐ-CP')}",
+                f"- **Căn cứ pháp luật & Quy chế nội bộ:** {result_data.get('applicable_law', 'Nghị định 210/2026/NĐ-CP & QĐ 690/QĐ-TGĐ')}",
+                f"- **Mẫu Hợp đồng chuẩn áp dụng:** `{tpl.get('code', 'XDTC.2024.01')}` - {tpl.get('name', '')} *(Kèm Cam kết chống tham nhũng `XDCK.2024.01`)*",
                 f"- **Giá trị hợp đồng:** {adv.get('contract_value', 0):,.0f} VNĐ",
                 f"- **Mức tạm ứng đề nghị:** {adv.get('requested_advance', 0):,.0f} VNĐ ({adv.get('advance_ratio_percent', 0)}%)",
-                f"- **Bảo lãnh tạm ứng ngân hàng:** {'Đã có bảo lãnh' if adv.get('has_bank_guarantee') else 'CHƯA CÓ THƯ BẢO LÃNH'}",
+                f"- **Bảo lãnh tạm ứng ngân hàng:** {'Đã có bảo lãnh (Hiệu lực >= Thời gian HĐ + 30 ngày theo QĐ 122/123)' if adv.get('has_bank_guarantee') else 'CHƯA CÓ THƯ BẢO LÃNH'}",
                 "\n#### ⚠️ Danh mục cảnh báo bẫy điều khoản & vi phạm luật định:"
             ])
             for alert in result_data.get("critical_alerts", []):
@@ -96,7 +98,9 @@ class ConstructionReportingEngine:
             head_rev = result_data.get("head_review", {})
             md_lines.extend([
                 f"- **Gói thầu:** {result_data.get('package_name', '')} (Loại: {result_data.get('package_type', '')})",
-                f"- **Căn cứ pháp lý:** {head_rev.get('applicable_law', 'Nghị định 349/2026/NĐ-CP')}",
+                f"- **Căn cứ pháp lý & Quy định LCNT:** {head_rev.get('applicable_law', 'Nghị định 349/2026/NĐ-CP & QĐ 419/QĐ-TGĐ')}",
+                f"- **Mẫu HSMT chuẩn áp dụng (QĐ 458):** `{head_rev.get('recommended_hsmt_template', 'BM12 - HSMT Thi công Xây lắp')}`",
+                f"- **Bộ biểu mẫu quy trình LCNT:** `BM0-PYC` -> `BM03-BBMT` -> `BM04-BCDGKT (Làm rõ tối đa 01 lần)` -> `BM05-BC Giá` -> `BM07-BBĐP` -> `BM08-TTr PDKQLCNT`",
                 f"- **Giá trị dự toán gói thầu:** {result_data.get('estimated_budget', 0):,.0f} VNĐ",
                 f"- **Hạn mức chỉ định thầu quy định:** {head_rev.get('direct_award_ceiling', 0):,.0f} VNĐ",
                 f"- **Giá gói thầu đề xuất trao thầu:** {result_data.get('recommended_package_price', 0):,.0f} VNĐ",
@@ -112,9 +116,11 @@ class ConstructionReportingEngine:
             head_rev = result_data.get("head_review", {})
             md_lines.extend([
                 f"- **Dự án:** {result_data.get('project_name', '')}",
-                f"- **Căn cứ định mức:** {head_rev.get('applicable_law', 'Thông tư 09/2024/TT-BXD')}",
+                f"- **Căn cứ định mức & Quy trình:** {head_rev.get('applicable_law', 'Thông tư 09/2024/TT-BXD & Chuẩn hóa HSMT 8 Bill')}",
+                f"- **Cấu trúc 8 Bill HSMT áp dụng:** `Bill 1 (CPC)` -> `Bill 2 (Trần CPC <= 5%)` -> `Bill 3 (BOQ)` -> `Bill 4 (Nguyên tắc đo bóc MIN khối lượng)` -> `Bill 5 (PL điều chỉnh)` -> `Bill 6 (Độ sụt BTTP)` -> `Bill 7 (Spec)` -> `Bill 8 (BV & PS)`",
+                f"- **Quy trình xử lý phát sinh:** Tuân thủ 12 bước `QT01-XLPS` (`BM.01-QT01-XLPS` -> `BM.05-QT01-XLPS`, khẩn cấp xin chủ trương trong 24h)",
                 f"- **Tổng số công tác thẩm tra:** {result_data.get('total_items', 0)} đầu việc",
-                f"- **Tổng giá trị dự toán:** {result_data.get('total_boq_value', 0):,.0f} VNĐ",
+                f"- **Tổng giá trị chi phí trực tiếp:** {result_data.get('total_boq_value', 0):,.0f} VNĐ *(Trần Chi phí hạng mục chung Bill 1 tối đa 5% = {result_data.get('max_general_cost_5pct', 0):,.0f} VNĐ)*",
                 f"- **Số lỗi/bất thường phát hiện:** {result_data.get('anomalies_found', 0)} điểm",
                 "\n#### ⚠️ Danh mục phát hiện tính trùng / lỗi định mức:"
             ])
@@ -126,7 +132,8 @@ class ConstructionReportingEngine:
             md_lines.extend([
                 f"- **Hạng mục nghiệm thu:** {result_data.get('work_item', '')}",
                 f"- **Ngày kiểm tra:** {result_data.get('inspection_date', '')}",
-                f"- **Căn cứ quản lý chất lượng:** {head_rev.get('applicable_law', 'Nghị định 06/2021/NĐ-CP')}",
+                f"- **Căn cứ quản lý chất lượng:** {head_rev.get('applicable_law', 'Nghị định 06/2021/NĐ-CP & Bộ 17 Biểu mẫu QA/QC')}",
+                f"- **Biểu mẫu Checklist QA/QC bắt buộc:** `1.BM-PD NTP`, `2.BM-PD NCC`, `4.BM-PD PTN (LAS-XD)`, `7-8.BM-NTVL (CO/CQ)`, `9-10.BM-NTCVXD`, `12.BM-BBLMTN`, `13.BM-BBXNCVTC`, `15.BM-NKTC`",
                 f"- **Điều kiện chuyển bước thi công:** {'ĐỦ ĐIỀU KIỆN' if result_data.get('can_proceed_to_next_phase') else 'CHƯA ĐỦ ĐIỀU KIỆN - ĐÌNH CHỈ'}",
                 "\n#### ⚠️ Danh mục lỗi thủ tục / kỹ thuật nghiệm thu:"
             ])
@@ -136,15 +143,18 @@ class ConstructionReportingEngine:
         elif wf == "SETTLEMENT":
             dossier = result_data.get("specialist_dossier", {})
             head_rev = result_data.get("head_review", {})
+            ktxd_scope = dossier.get("ktxd_audit_scope", {})
             md_lines.extend([
                 f"- **Hợp đồng số:** {result_data.get('contract_no', '')}",
                 f"- **Giá trị hợp đồng duyệt:** {result_data.get('contract_value', 0):,.0f} VNĐ",
                 f"- **Lũy kế đề nghị thanh toán:** {dossier.get('cumulative_completed', 0):,.0f} VNĐ ({result_data.get('completion_ratio_percent', 0)}%)",
+                f"- **Tỷ lệ thẩm định trọng yếu KTXD (QĐ 122/123):** Kiểm tra **{ktxd_scope.get('required_ktxd_audit_percent', 50)}%** giá trị các công tác chính ({ktxd_scope.get('stage', '')})",
+                f"- **Biểu mẫu trình ký Founder:** `{head_rev.get('submission_form_code', 'BM-16.1 (Tờ trình CTĐH phê duyệt Thanh toán)')}` kèm `BM-07/BM-14 (BC thẩm định KTXD)`",
                 f"- **Khấu trừ thu hồi tạm ứng:** {dossier.get('advance_recovered', 0):,.0f} VNĐ",
                 f"- **Trích giữ bảo hành (5%):** {dossier.get('warranty_retained', 0):,.0f} VNĐ",
                 f"- **THỰC THANH TOÁN KỲ NÀY:** **{dossier.get('net_payable_amount', 0):,.0f} VNĐ**",
-                f"- **Căn cứ thanh toán:** {head_rev.get('applicable_law', 'Nghị định 99/2021/NĐ-CP')}",
-                "\n#### 🚨 Cảnh báo kiểm toán tài chính 4 tầng:"
+                f"- **Căn cứ thanh toán:** {head_rev.get('applicable_law', 'Nghị định 99/2021/NĐ-CP & QĐ 122/123')}",
+                "\n#### 🚨 Cảnh báo kiểm toán tài chính 4 tầng & Quy tắc 3 lỗi cơ bản QĐ 122/123:"
             ])
             for rf in result_data.get("red_flags", []):
                 md_lines.append(f"  - ⚠️ **[{rf.get('severity', 'HIGH')}]** {rf.get('issue', '')}\n    *Căn cứ:* `{rf.get('legal_ground', '')}`\n    *Yêu cầu:* **{rf.get('action', '')}**")
@@ -349,14 +359,14 @@ class ConstructionReportingEngine:
             f"- **Số phòng ban bị chặn lại để sửa đổi:** {blocked_count} phòng ban.",
             f"- **Tổng giá trị hợp đồng quản lý:** {contract_val:,.0f} VNĐ.",
             f"- **Tổng giá trị giải ngân đề xuất:** {settlement_paid:,.0f} VNĐ.",
-            "\n#### 📋 Bảng Tổng Hợp Kiểm Soát 5 Phòng Ban:",
-            "| STT | Phòng Ban | Chuyên Viên Thực Thi | Trưởng Phòng Kiểm Duyệt | Căn Cứ Pháp Luật 2026 | Lệnh Chuyển Bước |",
+            "\n#### 📋 Bảng Tổng Hợp Kiểm Soát 5 Phòng Ban (Pháp Luật 2026 & Quy Chế Tập Đoàn):",
+            "| STT | Phòng Ban | Chuyên Viên Thực Thi | Trưởng Phòng Kiểm Duyệt | Pháp Luật 2026 & Quy Chế Nội Bộ | Lệnh Chuyển Bước |",
             "| :---: | :--- | :--- | :--- | :--- | :---: |",
-            f"| 1 | **Pháp chế & Hợp đồng** | Nguyễn Văn Pháp | Trần Thị Tuân Thủ | NĐ 210/2026/NĐ-CP | `[{res_contract.get('gate_status', 'N/A')}]` |",
-            f"| 2 | **Đấu thầu & Mua sắm** | Lê Quang Thầu | Phạm Minh Đấu | NĐ 349/2026/NĐ-CP | `[{res_bidding.get('gate_status', 'N/A')}]` |",
-            f"| 3 | **Dự toán QS & BOQ** | Đỗ Văn Lượng | Vũ Đình Toàn | TT 09/2024/TT-BXD | `[{res_qs.get('gate_status', 'N/A')}]` |",
-            f"| 4 | **Quản lý Chất lượng QA/QC** | Bùi Văn Nghiệm | Hoàng Văn Chuẩn | NĐ 06/2021/NĐ-CP | `[{res_qaqc.get('gate_status', 'N/A')}]` |",
-            f"| 5 | **Kiểm toán Thanh Quyết toán** | Ngô Thị Quyết | Đặng Đức Toán | NĐ 99/2021/NĐ-CP | `[{res_settlement.get('gate_status', 'N/A')}]` |",
+            f"| 1 | **Pháp chế & Hợp đồng** | Nguyễn Văn Pháp | Trần Thị Tuân Thủ | NĐ 210/2026 & Mẫu QĐ 690/560 | `[{res_contract.get('gate_status', 'N/A')}]` |",
+            f"| 2 | **Đấu thầu & Mua sắm** | Lê Quang Thầu | Phạm Minh Đấu | NĐ 349/2026 & QĐ 419/458 (HSMT) | `[{res_bidding.get('gate_status', 'N/A')}]` |",
+            f"| 3 | **Dự toán QS & BOQ** | Đỗ Văn Lượng | Vũ Đình Toàn | TT 09/2024 & 8 Bill HSMT / QT01-XLPS | `[{res_qs.get('gate_status', 'N/A')}]` |",
+            f"| 4 | **Quản lý Chất lượng QA/QC** | Bùi Văn Nghiệm | Hoàng Văn Chuẩn | NĐ 06/2021 & Checklist 17 BM QA/QC | `[{res_qaqc.get('gate_status', 'N/A')}]` |",
+            f"| 5 | **Kiểm toán Thanh Quyết toán** | Ngô Thị Quyết | Đặng Đức Toán | NĐ 99/2021 & QĐ 122/123 (BM-16.1) | `[{res_settlement.get('gate_status', 'N/A')}]` |",
             "\n---",
             "### 📑 PHẦN II: BÁO CÁO CHUYÊN MÔN CHI TIẾT TỪNG PHÒNG BAN",
             "\n#### 1. BAN PHÁP CHẾ & HỢP ĐỒNG (LEGAL & CONTRACT)",

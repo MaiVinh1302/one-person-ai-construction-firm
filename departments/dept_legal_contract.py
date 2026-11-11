@@ -3,9 +3,9 @@
 DEPARTMENT 1: Legal & Contract Management (Phòng Pháp chế & Đàm phán Hợp đồng)
 Cơ cấu 2 cấp nhân sự:
 1. Chuyên viên Hợp đồng: Nguyễn Văn Pháp (Specialist Execution Agent)
-   - Bóc tách chi tiết câu chữ, rà soát 12 bẫy pháp lý, lập dự thảo điều khoản thay thế.
+   - Bóc tách chi tiết câu chữ, rà soát 12 bẫy pháp lý, áp dụng mẫu hợp đồng chuẩn QĐ 690/QĐ-TGĐ & QĐ 560/QĐ-TGĐ.
 2. Trưởng phòng Pháp chế: Trần Thị Tuân Thủ (Department Head Reviewing Agent)
-   - Rà soát quy trình, nguyên tắc, quy định NĐ 210/2026/NĐ-CP & NĐ 37/2015.
+   - Rà soát quy trình, nguyên tắc NĐ 210/2026/NĐ-CP & Quy định nội bộ QĐ 690, QĐ 122/123 (hiệu lực bảo lãnh >= Thời gian HĐ + 30 ngày, cam kết chống tham nhũng XDCK.2024.01).
    - Cấp lệnh Gate Clearance (Cho phép chuyển bước sang Ban Đấu thầu / Quyết toán hoặc Trình Founder).
 """
 
@@ -13,11 +13,12 @@ from typing import Dict, List, Any
 from core.safeguards import ConstructionSafeguards
 from core.permissions import RoleLevel, PermissionAction, RBACManager
 from knowledge.legal_engine import legal_engine
+from knowledge.corporate_sops import corporate_sop_engine
 
 class ContractSpecialistAgent:
     """
     CHUYÊN VIÊN HỢP ĐỒNG: NGUYỄN VĂN PHÁP (Level 2 Specialist)
-    Chuyên trách thực thi bóc tách kỹ thuật, rà soát câu từ và phát hiện bẫy điều khoản.
+    Chuyên trách thực thi bóc tách kỹ thuật, chọn mẫu hợp đồng chuẩn QĐ 690/560, rà soát câu từ và phát hiện bẫy điều khoản.
     """
     AGENT_NAME = "Nguyễn Văn Pháp"
     ROLE_TITLE = "Chuyên viên Soạn thảo & Rà soát Hợp đồng"
@@ -37,13 +38,20 @@ class ContractSpecialistAgent:
         clause_findings = []
         advance_analysis = {}
 
+        # 0. Áp mẫu Hợp đồng chuẩn Tập đoàn theo QĐ 690/QĐ-TGĐ & QĐ 560/QĐ-TGĐ
+        corporate_template_info = corporate_sop_engine.recommend_contract_template(
+            contract_title=contract_title,
+            contract_value=contract_value
+        )
+
         # 1. Bóc tách tỷ lệ tạm ứng
         adv_ratio = (requested_advance / contract_value * 100) if contract_value > 0 else 0
         advance_analysis = {
             "contract_value": contract_value,
             "requested_advance": requested_advance,
             "advance_ratio_percent": round(adv_ratio, 2),
-            "has_bank_guarantee": has_bank_guarantee
+            "has_bank_guarantee": has_bank_guarantee,
+            "bond_validity_requirement": corporate_template_info["bond_validity_rule"]
         }
 
         # 2. Rà soát 12 bẫy điều khoản trong hợp đồng
@@ -56,8 +64,8 @@ class ContractSpecialistAgent:
                     "clause_index": idx,
                     "trap_category": "BẪY CHIẾM DỤNG VỐN / THỜI HẠN THANH TOÁN",
                     "original_text": clause,
-                    "risk_analysis": "Thời hạn thanh toán bất thường > 14 ngày làm việc, gây nguy cơ đọng vốn nghiêm trọng.",
-                    "proposed_revision": "Thanh toán trong vòng tối đa 14 ngày làm việc kể từ ngày Nhà thầu nộp đủ hồ sơ Mẫu 08a hợp lệ."
+                    "risk_analysis": "Thời hạn thanh toán bất thường > 14 ngày làm việc, lệch chuẩn Hợp đồng mẫu QĐ 690/QĐ-TGĐ.",
+                    "proposed_revision": "Thanh toán trong vòng tối đa 14 ngày làm việc kể từ ngày Nhà thầu nộp đủ hồ sơ Mẫu 08a và Checklist TQT hợp lệ."
                 })
 
             # Bẫy phạt vi phạm vượt trần luật định
@@ -76,26 +84,32 @@ class ContractSpecialistAgent:
                     "clause_index": idx,
                     "trap_category": "BẪY QUYẾT TOÁN TREO",
                     "original_text": clause,
-                    "risk_analysis": "Điều khoản đẩy toàn bộ rủi ro cho nhà thầu, vi phạm thời hạn quyết toán quy định.",
-                    "proposed_revision": "Thời hạn hoàn thành quyết toán hợp đồng tối đa 60 ngày kể từ ngày ký biên bản bàn giao nghiệm thu."
+                    "risk_analysis": "Điều khoản đẩy toàn bộ rủi ro cho nhà thầu, vi phạm thời hạn quyết toán NĐ 210/2026 & QĐ 122/123.",
+                    "proposed_revision": "Thời hạn hoàn thành quyết toán hợp đồng tối đa 60 ngày kể từ ngày ký biên bản bàn giao nghiệm thu hoàn thành (17.BM-BBNTHT)."
                 })
 
+        primary_tpl = corporate_template_info["primary_template"]
         return {
             "specialist": cls.AGENT_NAME,
             "role": cls.ROLE_TITLE,
             "execution_status": "COMPLETED",
             "contract_title": contract_title,
             "contract_date": contract_date,
+            "corporate_template_applied": primary_tpl,
+            "mandatory_nda_template": corporate_template_info["mandatory_attachment"],
             "advance_analysis": advance_analysis,
             "clause_findings": clause_findings,
-            "summary_note": f"Chuyên viên {cls.AGENT_NAME} đã hoàn thành bóc tách. Phát hiện {len(clause_findings)} điều khoản rủi ro cần hiệu chỉnh."
+            "summary_note": (
+                f"Chuyên viên {cls.AGENT_NAME} đã áp mẫu hợp đồng chuẩn [{primary_tpl['code']}] ({primary_tpl['decision']}) "
+                f"kèm Cam kết chống tham nhũng [XDCK.2024.01]. Phát hiện {len(clause_findings)} điều khoản rủi ro cần hiệu chỉnh."
+            )
         }
 
 
 class LegalHeadReviewerAgent:
     """
     TRƯỞNG PHÒNG PHÁP CHẾ: TRẦN THỊ TUÂN THỦ (Level 3 Head)
-    Chuyên trách thẩm tra quy trình, quy chuẩn, quy chế, luật định 2026 và cấp lệnh CHUYỂN BƯỚC.
+    Chuyên trách thẩm tra quy trình, quy chuẩn, quy chế nội bộ QĐ 690/560, luật định 2026 và cấp lệnh CHUYỂN BƯỚC.
     """
     AGENT_NAME = "Trần Thị Tuân Thủ"
     ROLE_TITLE = "Trưởng phòng Pháp chế & Quản trị Rủi ro"
@@ -113,51 +127,51 @@ class LegalHeadReviewerAgent:
         req_adv = adv.get("requested_advance", 0)
         has_guarantee = adv.get("has_bank_guarantee", False)
         clause_findings = specialist_dossier.get("clause_findings", [])
+        tpl_info = specialist_dossier.get("corporate_template_applied", {})
 
         compliance_checks = []
         violations = []
 
         # 1. Rà soát mốc hiệu lực luật pháp (Decree 210 vs Decree 37)
         timing_check = ConstructionSafeguards.audit_contract_timing(contract_date)
-        applicable_law = timing_check.get("applicable_decree", "Nghị định 210/2026/NĐ-CP")
+        applicable_law = f"{timing_check.get('applicable_decree', 'Nghị định 210/2026/NĐ-CP')} & Quy định Hợp đồng mẫu {tpl_info.get('decision', 'QĐ 690/QĐ-TGĐ')}"
         compliance_checks.append({
-            "check": "HIỆU LỰC PHÁP LÝ THỜI ĐIỂM KÝ",
+            "check": "HIỆU LỰC PHÁP LÝ & MẪU HỢP ĐỒNG TẬP ĐOÀN (QĐ 690/560)",
             "status": "PASS" if timing_check["valid"] else "FAIL",
-            "details": f"Ngày ký: {contract_date} -> Áp dụng: {applicable_law}."
+            "details": f"Ngày ký: {contract_date} -> Áp dụng mẫu chuẩn {tpl_info.get('code', 'XDTC.2024.01')} kèm Cam kết XDCK.2024.01."
         })
 
-        # 2. Rà soát Trần Tạm ứng & Bảo lãnh Tạm ứng theo NĐ 210/2026 (Hiệu lực 01/07/2026)
+        # 2. Rà soát Trần Tạm ứng & Bảo lãnh Tạm ứng theo NĐ 210/2026 & QĐ 122/123 (Hiệu lực bảo lãnh >= Thời gian HĐ + 30 ngày)
         if timing_check.get("is_governed_by_210", True):
             adv_audit = ConstructionSafeguards.audit_advance_payment(contract_val, req_adv, has_guarantee)
             if not adv_audit["valid"]:
                 for v in adv_audit["violations"]:
                     violations.append({
-                        "rule": "Nghị định 210/2026/NĐ-CP - Khoản 2 Điều 18",
+                        "rule": "Nghị định 210/2026/NĐ-CP (Khoản 2 Điều 18) & Quy định TQT QĐ 122/123",
                         "violation": v,
-                        "mandatory_remedy": "Giảm tỷ lệ tạm ứng <= 30% và nộp Thư bảo lãnh tạm ứng ngân hàng nếu tạm ứng > 1 tỷ VNĐ."
+                        "mandatory_remedy": "Giảm tỷ lệ tạm ứng <= 30% và nộp Thư bảo lãnh tạm ứng ngân hàng (hiệu lực >= Thời gian thực hiện HĐ + 30 ngày) nếu tạm ứng > 1 tỷ VNĐ."
                     })
                 compliance_checks.append({
-                    "check": "TUÂN THỦ TẠM ỨNG NĐ 210/2026",
+                    "check": "TUÂN THỦ TẠM ỨNG & BẢO LÃNH (NĐ 210/2026 & QĐ 122/123)",
                     "status": "FAIL",
                     "details": f"Vi phạm: {', '.join(adv_audit['violations'])}"
                 })
             else:
                 compliance_checks.append({
-                    "check": "TUÂN THỦ TẠM ỨNG NĐ 210/2026",
+                    "check": "TUÂN THỦ TẠM ỨNG & BẢO LÃNH (NĐ 210/2026 & QĐ 122/123)",
                     "status": "PASS",
-                    "details": "Mức tạm ứng và bảo lãnh hoàn toàn hợp lệ."
+                    "details": "Mức tạm ứng <= 30% và bảo lãnh hợp lệ (đảm bảo hiệu lực >= Thời gian thực hiện HĐ + 30 ngày)."
                 })
 
         # 3. Rà soát điều khoản sửa đổi do Chuyên viên đề xuất
         trap_count = len(clause_findings)
         compliance_checks.append({
-            "check": "RÀ SOÁT BẪY ĐIỀU KHOẢN HỢP ĐỒNG",
+            "check": "RÀ SOÁT BẪY ĐIỀU KHOẢN & ĐỐI CHIẾU MẪU QĐ 690",
             "status": "WARNING" if trap_count > 0 else "PASS",
-            "details": f"Chuyên viên phát hiện {trap_count} điều khoản cần đàm phán sửa đổi."
+            "details": f"Chuyên viên phát hiện {trap_count} điều khoản khác biệt so với mẫu chuẩn cần đàm phán sửa đổi."
         })
 
         # 4. Quyết định CHUYỂN BƯỚC (Gate Clearance Decision)
-        # Nếu có vi phạm luật định NĐ 210/2026 -> CHẶN LẠI YÊU CẦU ĐÀM PHÁN SỬA ĐỔI
         is_blocked = len(violations) > 0
         gate_status = "BLOCKED_REVISE" if is_blocked else "APPROVED_FOR_TRANSFER"
 
@@ -165,19 +179,20 @@ class LegalHeadReviewerAgent:
         requires_founder = False
         
         if is_blocked:
-            next_action = "Chặn chuyển bước. Yêu cầu Chuyên viên Nguyễn Văn Pháp gửi Công văn đàm phán sửa đổi tỷ lệ tạm ứng & bảo lãnh."
+            next_action = "Chặn chuyển bước. Yêu cầu Chuyên viên Nguyễn Văn Pháp gửi Công văn đàm phán sửa đổi tỷ lệ tạm ứng & bảo lãnh theo NĐ 210/2026 và mẫu QĐ 690."
         else:
             requires_founder = (req_adv >= ConstructionSafeguards.THRESHOLDS["PAYMENT_APPROVAL_VND"]) or (trap_count > 0)
             if requires_founder:
-                next_action = "Đạt điều kiện nội bộ. Lập Tờ trình chuyển tiếp Founder Mai Quang Vinh phê duyệt mức tạm ứng & ký kết."
+                next_action = f"Đạt điều kiện nội bộ (Mẫu {tpl_info.get('code', 'XDTC.2024.01')} + XDCK.2024.01). Lập Tờ trình chuyển tiếp Founder Mai Quang Vinh phê duyệt."
             else:
-                next_action = "Đạt điều kiện nội bộ. Cấp phép chuyển bước hồ sơ sang Ban Đấu thầu & Ban Kiểm toán Quyết toán."
+                next_action = f"Đạt điều kiện nội bộ (Mẫu {tpl_info.get('code', 'XDTC.2024.01')}). Cấp phép chuyển bước hồ sơ sang Ban Đấu thầu & Ban Kiểm toán Quyết toán."
 
         return {
             "department_head": cls.AGENT_NAME,
             "role": cls.ROLE_TITLE,
             "applicable_law": applicable_law,
-            "gate_status": gate_status, # APPROVED_FOR_TRANSFER hoặc BLOCKED_REVISE
+            "corporate_template_code": tpl_info.get("code", "XDTC.2024.01"),
+            "gate_status": gate_status,
             "compliance_checks": compliance_checks,
             "violations": violations,
             "requires_founder_approval": requires_founder,
@@ -207,7 +222,7 @@ class LegalContractDepartment:
         clause_texts: List[str]
     ) -> Dict[str, Any]:
         
-        # BƯỚC 1: Chuyên viên thực thi bóc tách kỹ thuật & rà soát câu chữ
+        # BƯỚC 1: Chuyên viên thực thi bóc tách kỹ thuật & áp mẫu hợp đồng QĐ 690/560
         specialist_dossier = ContractSpecialistAgent.execute_contract_audit(
             contract_title=contract_title,
             contract_date=contract_date,
@@ -234,7 +249,7 @@ class LegalContractDepartment:
                 "severity": "HIGH",
                 "clause": f"Điều khoản {cl['clause_index']}",
                 "issue": cl["risk_analysis"],
-                "legal_ground": "Quy chế Quản trị Hợp đồng & Luật Xây dựng",
+                "legal_ground": "QĐ 690/QĐ-TGĐ (30 mẫu HĐ chuẩn) & Luật Xây dựng",
                 "recommendation": cl["proposed_revision"]
             })
 
@@ -249,6 +264,7 @@ class LegalContractDepartment:
             "head_review": head_review,
             "contract_title": contract_title,
             "applicable_law": head_review.get("applicable_law"),
+            "corporate_sop_applied": specialist_dossier.get("corporate_template_applied", {}),
             "gate_status": head_review.get("gate_status"),
             "critical_alerts": critical_alerts,
             "requires_founder_approval": head_review.get("requires_founder_approval", False),

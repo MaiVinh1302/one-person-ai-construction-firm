@@ -75,6 +75,7 @@
       <div class="nav-item" onclick="switchTab('assign')" style="color:#34d399; border:1px solid rgba(16,185,129,0.3);">🎯 Giao Việc Cho AI</div>
       <div class="nav-item" onclick="switchTab('roster')">👥 Sơ Đồ 10 Nhân Sự AI</div>
       <div class="nav-item" onclick="switchTab('reports')" style="color:#38bdf8;">📑 Trung Tâm Báo Cáo</div>
+      <div class="nav-item" onclick="switchTab('sops')" style="color:#a78bfa; border:1px solid rgba(167,139,250,0.3);">📋 Quy Trình & Mẫu T&T</div>
       <div class="nav-item" onclick="switchTab('contract')">⚖️ 1. Phòng Pháp Chế</div>
       <div class="nav-item" onclick="switchTab('bidding')">📋 2. Phòng Đấu Thầu</div>
       <div class="nav-item" onclick="switchTab('qs_boq')">📐 3. Phòng Dự Toán QS</div>
@@ -637,6 +638,47 @@
         <div id="settlement-result" class="result-box" style="display:none;"></div>
       </section>
 
+      <!-- TAB: CORPORATE SOPS & TEMPLATES (QUY TRÌNH & BIỂU MẪU TẬP ĐOÀN T&T) -->
+      <section id="pane-sops" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <h2 class="page-title" style="margin-bottom:4px;">📋 Hệ Thống Quy Trình & Bộ Biểu Mẫu Nội Bộ Tập Đoàn T&T</h2>
+            <p class="page-desc" style="margin-bottom:0;">Chắt lọc từ kho dữ liệu thực tế tại <code>D:\OneDrive - CONG TY CO PHAN TAP DOAN T&T\VINH\CÁC QUY TRÌNH THỰC HIỆN</code>. Áp dụng song song cùng Pháp luật Xây dựng 2026.</p>
+          </div>
+          <button class="btn-primary" style="background:#8b5cf6;" onclick="loadSOPs(true)">
+            🔄 Tải Lại Dữ Liệu Quy Trình
+          </button>
+        </div>
+
+        <!-- Thống kê 5 trụ cột SOP -->
+        <div class="grid-cards" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom:20px;">
+          <div class="card" style="border-color:#8b5cf6; padding:14px;">
+            <b style="color:#a78bfa; font-size:0.95rem;">⚖️ Trụ Cột 1: Hợp Đồng Mẫu</b>
+            <p style="font-size:0.8rem; color:#cbd5e1; margin:4px 0 0 0;">30 mẫu HĐ XD (QĐ 690) & 14 mẫu HĐ Cung ứng (QĐ 560) kèm Cam kết XDCK.2024.01.</p>
+          </div>
+          <div class="card" style="border-color:#38bdf8; padding:14px;">
+            <b style="color:#38bdf8; font-size:0.95rem;">📋 Trụ Cột 2: Đấu Thầu & HSMT</b>
+            <p style="font-size:0.8rem; color:#cbd5e1; margin:4px 0 0 0;">12 biểu mẫu LCNT (QĐ 419/420/516) & 33 mẫu HSMT chuẩn hóa (QĐ 458: BM12->BM41).</p>
+          </div>
+          <div class="card" style="border-color:#10b981; padding:14px;">
+            <b style="color:#34d399; font-size:0.95rem;">📐 Trụ Cột 3: Chuẩn Hóa 8 Bill</b>
+            <p style="font-size:0.8rem; color:#cbd5e1; margin:4px 0 0 0;">Trần CPC 5%, MIN(BVHC, BBNT, HĐ), bảng độ sụt bê tông Bill 6 & 12 bước QT01-XLPS.</p>
+          </div>
+          <div class="card" style="border-color:#f59e0b; padding:14px;">
+            <b style="color:#fbbf24; font-size:0.95rem;">🏗️ Trụ Cột 4: 17 Biểu Mẫu QA/QC</b>
+            <p style="font-size:0.8rem; color:#cbd5e1; margin:4px 0 0 0;">Checklist 17 BM từ Phê duyệt NTP/NCC/PTN LAS-XD đến Nghiệm thu hoàn thành.</p>
+          </div>
+          <div class="card" style="border-color:#ec4899; padding:14px;">
+            <b style="color:#f472b6; font-size:0.95rem;">💰 Trụ Cột 5: Quy Định TQT</b>
+            <p style="font-size:0.8rem; color:#cbd5e1; margin:4px 0 0 0;">QĐ 122/123: Luật 3 lỗi từ chối, SLA 24h, thẩm định KTXD 50%/80%/100%, Tờ trình BM-16.1/16.2.</p>
+          </div>
+        </div>
+
+        <div id="sops-container">
+          <p style="color:var(--text-muted);">Đang kết nối kho quy trình Tập đoàn...</p>
+        </div>
+      </section>
+
       <!-- TAB 10: FOUNDER APPROVALS -->
       <section id="pane-approvals" class="tab-pane">
         <h2 class="page-title">Cổng Phê Duyệt Của Founder (Human-in-the-Loop)</h2>
@@ -994,6 +1036,7 @@
 
       if (tabId === 'roster') loadRoster();
       if (tabId === 'reports') loadReportsList();
+      if (tabId === 'sops') loadSOPs();
       if (tabId === 'approvals') loadApprovals();
       if (tabId === 'rbac') loadRBAC();
       if (tabId === 'legal_search') searchLaw();
@@ -1824,6 +1867,258 @@
         </tr>`;
       });
       tbody.innerHTML = html;
+    }
+
+    // =========================================================================
+    // LOAD CORPORATE SOPS & TEMPLATES (QUY TRÌNH & BIỂU MẪU TẬP ĐOÀN T&T)
+    // =========================================================================
+    async function loadSOPs(forceReload = false) {
+      const container = document.getElementById('sops-container');
+      if (!container) return;
+      container.innerHTML = '<p style="color:var(--text-muted);">⏳ Đang nạp dữ liệu Quy trình & Biểu mẫu Tập đoàn...</p>';
+
+      let sopsData = null;
+      try {
+        const res = await fetch('/api/sops');
+        if (res.ok) {
+          sopsData = await res.json();
+        }
+      } catch (e) {}
+
+      // Fallback Client-side nếu chạy offline / GitHub Pages
+      if (!sopsData || !sopsData.pillars) {
+        sopsData = {
+          source_directory: "D:\\OneDrive - CONG TY CO PHAN TAP DOAN T&T\\VINH\\CÁC QUY TRÌNH THỰC HIỆN",
+          directory_exists: true,
+          pillars: [
+            {
+              id: "PILLAR_1_LEGAL",
+              department: "DEPT_LEGAL",
+              title: "Trụ Cột 1: Bộ 44 Hợp Đồng Mẫu Xây Dựng & Cung Ứng (QĐ 690 & QĐ 560)",
+              regulations: ["QĐ 690/QĐ-TGĐ (30 mẫu HĐ XD & Tư vấn)", "QĐ 560/QĐ-TGĐ (14 mẫu HĐ Cung ứng Đợt 1 & 2)"],
+              templates: [
+                { code: "XDCK.2024.01", name: "Bản cam kết bảo mật thông tin & chống tham nhũng, gian lận (bắt buộc ký kèm tất cả HĐ)" },
+                { code: "XDTC.2024.01", name: "Hợp đồng thi công xây dựng công trình (Giá trị >= 3 tỷ đồng)" },
+                { code: "XDTC.2024.02", name: "Hợp đồng thi công xây dựng công trình (Giá trị < 3 tỷ đồng)" },
+                { code: "XDTC.2024.03", name: "Hợp đồng cung cấp vật tư, thiết bị và thi công hệ thống Cơ điện (MEP)" },
+                { code: "XDTC.2024.04", name: "Hợp đồng cung cấp và lắp đặt Nhôm kính - Mặt dựng Facade" },
+                { code: "XDTC.2024.05", name: "Hợp đồng cung cấp và thi công Nội thất liền tường và đồ rời" },
+                { code: "XDTC.2024.07/08", name: "Hợp đồng Tổng thầu thi công xây dựng & Phụ lục Tổng thầu" },
+                { code: "XDTV.2024.01->19", name: "Bộ 19 mẫu Hợp đồng Tư vấn (Quy hoạch, Thiết kế kiến trúc, PCCC, Thẩm tra, TVGS, QLDA)" },
+                { code: "HDCMB.2024 & HDM", name: "Bộ 14 mẫu Hợp đồng Cung ứng vật tư thiết bị, 3 bên, liên danh, thuê máy móc & Cây xanh" }
+              ],
+              rules: [
+                "Bắt buộc dùng đúng mẫu hợp đồng theo phân loại giá trị tại QĐ 690 (XDTC.2024.01 cho HĐ >= 3 tỷ; XDTC.2024.02 cho HĐ < 3 tỷ; XDTC.2024.03 cho MEP).",
+                "Bắt buộc ký kèm Bản cam kết bảo mật & chống tham nhũng XDCK.2024.01.",
+                "Hiệu lực Bảo lãnh thực hiện HĐ & Bảo lãnh tạm ứng >= Thời gian thực hiện HĐ + 30 ngày (Quy định TQT QĐ 122/123)."
+              ]
+            },
+            {
+              id: "PILLAR_2_BIDDING",
+              department: "DEPT_BIDDING",
+              title: "Trụ Cột 2: Quy Hoạch Gói Thầu, Quy Định LCNT & 33 Mẫu HSMT Chuẩn (QĐ 419/420/516 & QĐ 458)",
+              regulations: [
+                "Quy hoạch gói thầu: 4 nhóm (Tiền dự án 17 gói; Tư vấn 15 gói; Xây lắp 20 gói; Cung ứng 13 gói)",
+                "QĐ 419 (LCNT Xây lắp), QĐ 420 (LCNT Tư vấn), QĐ 421 (Hội đồng xét thầu), QĐ 516/517 (LCNT Cung ứng)",
+                "QĐ 458/QĐ-TGĐ ban hành 33 bộ mẫu HSMT chuẩn hóa (Giai đoạn 1 & Giai đoạn 2)"
+              ],
+              lcnt_forms: [
+                { code: "BM0-PYC", name: "Phiếu yêu cầu lựa chọn nhà thầu / NCC" },
+                { code: "BM01-DSN", name: "Tờ trình phê duyệt Danh sách ngắn nhà thầu" },
+                { code: "BM02-TMT", name: "Thư mời thầu & Biên bản phát hành HSMT" },
+                { code: "BM03-BBMT", name: "Biên bản mở thầu (Kỹ thuật / Tài chính)" },
+                { code: "BM04-BCDGKT", name: "Báo cáo đánh giá HSĐXKT (Quy tắc vàng: Làm rõ HSĐXKT tối đa 01 lần)" },
+                { code: "BM05-BC Giá", name: "Báo cáo đánh giá HSĐXTC / Giá dự thầu (Loại trừ giá lệch >30%)" },
+                { code: "BM07-BBĐP", name: "Biên bản đàm phán thương thảo Hợp đồng" },
+                { code: "BM08-TTr PDKQLCNT", name: "Tờ trình phê duyệt Kết quả LCNT" },
+                { code: "BM09A / 09B", name: "Thông báo trúng thầu (09A) & Thông báo không trúng thầu (09B)" }
+              ],
+              rules: [
+                "Tuân thủ trần chỉ định thầu xây lắp 5 tỷ, tư vấn 3 tỷ theo NĐ 349/2026/NĐ-CP.",
+                "Loại trừ báo giá lệch > 30% so với giá trung bình.",
+                "Bắt buộc đăng tải thông báo mời chào giá trên Mạng đấu thầu quốc gia."
+              ]
+            },
+            {
+              id: "PILLAR_3_QS_BOQ",
+              department: "DEPT_QS",
+              title: "Trụ Cột 3: Chuẩn Hóa HSMT 8 Bill & Quy Trình Xử Lý Phát Sinh 12 Bước (QT01-XLPS)",
+              regulations: [
+                "Cấu trúc Chuẩn hóa HSMT 8 Bill (Bill 1. CPC -> Bill 8. BV & PS)",
+                "QT01-XLPS: Quy trình kiểm soát & phê duyệt phát sinh công trường 12 bước (BM.01 -> BM.05)"
+              ],
+              hsmt_8_bills: [
+                { bill_no: "Bill 1 & Bill 2", title: "Chi phí chung & Trần khống chế", key_rule: "Chi phí hạng mục chung và công tác chuẩn bị khống chế TRẦN TỐI ĐA = 5% chi phí trực tiếp của gói thầu." },
+                { bill_no: "Bill 4. Nguyên tắc đo bóc", title: "Nguyên tắc đo bóc KL", key_rule: "Khối lượng TQT = MIN(Khối lượng Bản vẽ hoàn công, Khối lượng Biên bản nghiệm thu, Khối lượng Hợp đồng)." },
+                { bill_no: "Bill 6. Độ sụt BTTP", title: "Bảng quy định độ sụt bê tông", key_rule: "Cao tầng: Lót/móng 12-14±2cm; Cột vách 16-18±2cm; Dầm sàn 16-18±2cm. Thấp tầng biệt thự: Đồng bộ 12±2cm." }
+              ],
+              variation_12_steps: [
+                { step: 1, name: "Báo cáo phát sinh hiện trường (BM.01-QT01-XLPS)", sla: "1-2 ngày" },
+                { step: 2, name: "Kiểm tra hiện trường & Chỉ thị công trường (BM.02/BM.05 trong 24h nếu khẩn cấp)", sla: "2-4 ngày" },
+                { step: 3, name: "Nhà thầu lập hồ sơ KL & đơn giá (BM.03 & BM.04)", sla: "2 ngày" },
+                { step: 4, name: "Lập Tờ trình xin chủ trương phát sinh", sla: "2 ngày" },
+                { step: 5, name: "Founder / Lãnh đạo Tập đoàn phê duyệt chủ trương", sla: "2 ngày" },
+                { step: 7, name: "Ban KTXD thẩm định khối lượng & đơn giá phát sinh (BM01/02-KTXD)", sla: "2-11 ngày" },
+                { step: 8, name: "Đàm phán giá & điều khoản Phụ lục Hợp đồng với Nhà thầu", sla: "2-3 ngày" },
+                { step: 10, name: "Ký kết Phụ lục Hợp đồng chính thức trước khi nghiệm thu thanh toán", sla: "2 ngày" }
+              ]
+            },
+            {
+              id: "PILLAR_4_QAQC",
+              department: "DEPT_QAQC",
+              title: "Trụ Cột 4: Bộ 17 Biểu Mẫu Checklist Quản Lý Chất Lượng & Nghiệm Thu Hiện Trường",
+              regulations: [
+                "Checklist 17 Biểu mẫu QA/QC bắt buộc có trong hồ sơ nghiệm thu thanh quyết toán",
+                "Bill 8 HSMT: Quy định thẩm quyền phê duyệt Shopdrawing & Biện pháp thi công"
+              ],
+              qaqc_17_forms: [
+                { stt: 1, code: "1.BM-PD NTP", name: "Phê duyệt Nhà thầu phụ thi công" },
+                { stt: 2, code: "2.BM-PD NCC", name: "Phê duyệt Nhà cung cấp vật tư thiết bị" },
+                { stt: 3, code: "3.BM-BBKT NCC", name: "Kiểm tra mỏ vật liệu / trạm trộn / nhà xưởng" },
+                { stt: 4, code: "4.BM-PD PTN", name: "Kiểm tra & Phê duyệt Phòng thí nghiệm LAS-XD" },
+                { stt: 5, code: "5.BM-PD TB", name: "Phê duyệt Thiết bị, máy móc thi công" },
+                { stt: 6, code: "6.BM-BB BGMB", name: "Biên bản bàn giao mặt bằng, tim mốc, cao độ" },
+                { stt: "7-8", code: "7-8.BM-NTVL", name: "Nghiệm thu vật liệu đầu vào & Bảng theo dõi CO/CQ" },
+                { stt: "9-10", code: "9-10.BM-NTCVXD", name: "Phiếu yêu cầu & Biên bản nghiệm thu công việc BBNTCV" },
+                { stt: 12, code: "12.BM-BBLMTN", name: "Biên bản lấy mẫu thí nghiệm tại hiện trường" },
+                { stt: 13, code: "13.BM-BBXNCVTC", name: "Biên bản xác nhận khối lượng công việc hoàn thành" },
+                { stt: 15, code: "15.BM-NKTC", name: "Mẫu Nhật ký thi công xây dựng công trình" },
+                { stt: 17, code: "17.BM-BBNTHT", name: "Biên bản nghiệm thu hoàn thành đưa vào sử dụng" }
+              ]
+            },
+            {
+              id: "PILLAR_5_SETTLEMENT",
+              department: "DEPT_SETTLEMENT",
+              title: "Trụ Cột 5: Quy Định Tạm Ứng, Thanh Quyết Toán & Kiểm Toán KTXD (QĐ 122 & QĐ 123)",
+              regulations: [
+                "Quyết định 122/QĐ-TGĐ (Quy định TQT Hợp đồng Xây dựng)",
+                "Quyết định 123/QĐ-TGĐ (Quy định TQT Hợp đồng Cung ứng thiết bị)",
+                "Bộ Biểu mẫu Trình duyệt TQT: BM-16.1 (Tờ trình Thanh toán) & BM-16.2 (Tờ trình Quyết toán)"
+              ],
+              settlement_rules: [
+                "Nguyên tắc 'Người làm có người kiểm tra' (2-tier verification: Chuyên viên -> Trưởng phòng).",
+                "Quy tắc 'Từ chối tiếp nhận nếu mắc trên 03 lỗi cơ bản' (3-Strike Rejection Rule): Không có danh mục hồ sơ; Tờ trình sai mẫu/số liệu; thiếu Báo cáo kiểm tra; Bảng tính không có chữ ký nháy từng trang; BBNTCV thiếu ngày tháng hoặc ghi chung chung; thiếu CO/CQ.",
+                "SLA Phản hồi & Sửa hồ sơ: Bộ phận chuyên môn phản hồi trong tối đa 24 giờ; nhà thầu sửa trong 02 ngày làm việc. Nếu bị trả lại từ lần 2 phải phát hành Văn bản Cảnh báo năng lực nhà thầu.",
+                "Tỷ lệ thẩm định trọng yếu KTXD: Thanh toán khi lũy kế <= 70% giá trị HĐ: kiểm tra tối thiểu 50% khối lượng chính; Lũy kế > 70% giá trị HĐ: kiểm tra tối thiểu 80% khối lượng chính; Quyết toán: thẩm định 100% khối lượng.",
+                "Nguyên tắc Bảo vệ lợi ích CĐT: Khi có chênh lệch hoặc nhiều cách hiểu khác nhau, luôn áp dụng giá trị MIN (nhỏ hơn) có lợi nhất cho Chủ đầu tư.",
+                "Loại trừ vật tư thay đổi: Vật tư thay đổi quy cách/xuất xứ chưa có PLHĐ thì loại thẳng khỏi giá trị thanh toán đợt."
+              ]
+            }
+          ]
+        };
+      }
+
+      let html = `<div style="background:rgba(139,92,246,0.08); border:1px solid #8b5cf6; padding:14px 18px; border-radius:10px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <b style="color:#c4b5fd; font-size:1rem;">📂 Thư mục gốc Quy trình & Biểu mẫu Tập đoàn:</b>
+            <div style="font-size:0.85rem; color:#e2e8f0; font-family:monospace; margin-top:3px;">${sopsData.source_directory}</div>
+          </div>
+          <span style="background:#10b981; color:#000; font-weight:800; padding:3px 10px; border-radius:12px; font-size:0.75rem;">
+            ● Đã nạp đầy đủ vào 5 Phòng Ban AI
+          </span>
+        </div>
+      </div>`;
+
+      sopsData.pillars.forEach((p, idx) => {
+        html += `<div class="card" style="margin-bottom:20px; border-left: 4px solid #8b5cf6;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="color:#a78bfa; margin:0;">${p.title}</h3>
+            <span style="background:#1e293b; color:#93c5fd; padding:3px 10px; border-radius:6px; font-size:0.8rem; font-weight:bold;">${p.department}</span>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <b style="color:#94a3b8; font-size:0.82rem; text-transform:uppercase;">📜 Căn cứ Quyết định & Quy chế áp dụng:</b>
+            <ul style="margin:6px 0 0 18px; font-size:0.88rem; color:#cbd5e1;">
+              ${(p.regulations || []).map(r => `<li>${r}</li>`).join('')}
+            </ul>
+          </div>`;
+
+        // Render Templates / Biểu mẫu
+        if (p.templates && p.templates.length > 0) {
+          html += `<div style="margin-bottom:14px;">
+            <b style="color:#38bdf8; font-size:0.82rem; text-transform:uppercase;">📑 Danh mục Hợp đồng mẫu chuẩn (QĐ 690 & QĐ 560):</b>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:8px; margin-top:8px;">
+              ${p.templates.map(t => `
+                <div style="background:#090d16; border:1px solid #1e293b; padding:8px 12px; border-radius:6px;">
+                  <span style="color:#fbbf24; font-weight:bold; font-size:0.82rem;">${t.code}</span>
+                  <div style="font-size:0.84rem; color:#e2e8f0; margin-top:2px;">${t.name}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        }
+
+        if (p.lcnt_forms && p.lcnt_forms.length > 0) {
+          html += `<div style="margin-bottom:14px;">
+            <b style="color:#38bdf8; font-size:0.82rem; text-transform:uppercase;">📋 Bộ 12 Biểu mẫu Quy trình Lựa chọn Nhà thầu (QĐ 419/420/516):</b>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:8px; margin-top:8px;">
+              ${p.lcnt_forms.map(f => `
+                <div style="background:#090d16; border:1px solid #1e293b; padding:8px 12px; border-radius:6px;">
+                  <span style="color:#34d399; font-weight:bold; font-size:0.82rem;">${f.code}</span>
+                  <div style="font-size:0.84rem; color:#e2e8f0; margin-top:2px;">${f.name}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        }
+
+        if (p.hsmt_8_bills && p.hsmt_8_bills.length > 0) {
+          html += `<div style="margin-bottom:14px;">
+            <b style="color:#34d399; font-size:0.82rem; text-transform:uppercase;">📐 Cấu trúc 8 Bill Chuẩn hóa HSMT:</b>
+            <div style="margin-top:8px;">
+              ${p.hsmt_8_bills.map(b => `
+                <div style="background:#090d16; border:1px solid #1e293b; padding:8px 12px; border-radius:6px; margin-bottom:6px;">
+                  <b style="color:#60a5fa; font-size:0.85rem;">${b.bill_no}: ${b.title}</b>
+                  <div style="font-size:0.83rem; color:#94a3b8; margin-top:2px;">💡 ${b.key_rule}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        }
+
+        if (p.variation_12_steps && p.variation_12_steps.length > 0) {
+          html += `<div style="margin-bottom:14px;">
+            <b style="color:#f59e0b; font-size:0.82rem; text-transform:uppercase;">🔄 Quy trình Xử lý Phát sinh 12 Bước (QT01-XLPS):</b>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:6px; margin-top:8px;">
+              ${p.variation_12_steps.map(s => `
+                <div style="background:#090d16; border:1px solid #1e293b; padding:6px 10px; border-radius:6px; font-size:0.82rem;">
+                  <span style="color:#fbbf24; font-weight:bold;">Bước ${s.step}:</span> ${s.name}
+                  <span style="color:#94a3b8; font-size:0.75rem; display:block; margin-top:2px;">(SLA: ${s.sla})</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        }
+
+        if (p.qaqc_17_forms && p.qaqc_17_forms.length > 0) {
+          html += `<div style="margin-bottom:14px;">
+            <b style="color:#fbbf24; font-size:0.82rem; text-transform:uppercase;">🏗️ Bộ 17 Biểu mẫu Checklist QA/QC Nghiệm thu Hiện trường:</b>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:6px; margin-top:8px;">
+              ${p.qaqc_17_forms.map(q => `
+                <div style="background:#090d16; border:1px solid #1e293b; padding:6px 10px; border-radius:6px; font-size:0.82rem;">
+                  <span style="color:#38bdf8; font-weight:bold;">${q.code}:</span> ${q.name}
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        }
+
+        // Render Nguyên tắc cốt lõi (Rules)
+        const rulesList = p.rules || p.settlement_rules || [];
+        if (rulesList.length > 0) {
+          html += `<div>
+            <b style="color:#f87171; font-size:0.82rem; text-transform:uppercase;">🛡️ Nguyên tắc vàng & Chế tài kiểm duyệt bắt buộc:</b>
+            <ul style="margin:6px 0 0 18px; font-size:0.86rem; color:#fca5a5;">
+              ${rulesList.map(r => `<li style="margin-bottom:3px;">${r}</li>`).join('')}
+            </ul>
+          </div>`;
+        }
+
+        html += `</div>`;
+      });
+
+      container.innerHTML = html;
     }
 
     updateApprovalCount();
