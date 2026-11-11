@@ -36,6 +36,7 @@ class Office3DFloorEngine {
       QS: { name: "Phòng Kỹ Sư Dự Toán QS & BOQ", center: { x: 6, z: 12 }, color: 0x10b981 },
       QAQC: { name: "Phòng Quản Lý Chất Lượng QA/QC", center: { x: 20, z: 12 }, color: 0xf97316 },
       SETTLEMENT: { name: "Phòng Kiểm Toán Thanh & Quyết Toán", center: { x: -8, z: -15 }, color: 0xec4899 },
+      MARKETING: { name: "Ban Marketing & Truyền Thông Studio", center: { x: 6, z: -15 }, color: 0xd946ef },
       LOUNGE: { name: "Sảnh Lễ Tân & Tiếp Khách Trung Tâm", center: { x: 0, z: -2 }, color: 0x64748b }
     };
 
@@ -155,6 +156,37 @@ class Office3DFloorEngine {
         color: 0xbe185d,
         deskPos: { x: -6, z: -15, rot: 0 },
         meetPos: { x: 26, z: -13, rot: 0 }
+      },
+      // 6. Ban Marketing & Truyền thông
+      {
+        id: "marketing_content",
+        name: "Trần Thị Lan Tỏa",
+        role: "Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội",
+        level: "Level 2",
+        dept: "MARKETING",
+        color: 0xe879f9,
+        deskPos: { x: 3, z: -15, rot: 0 },
+        meetPos: { x: 28, z: -17, rot: Math.PI }
+      },
+      {
+        id: "marketing_video",
+        name: "Nguyễn Huy Dựng",
+        role: "Chuyên viên Thiết kế Đồ họa & Sản xuất Video Đa Phương Tiện",
+        level: "Level 2",
+        dept: "MARKETING",
+        color: 0xc026d3,
+        deskPos: { x: 7, z: -15, rot: 0 },
+        meetPos: { x: 28, z: -13, rot: 0 }
+      },
+      {
+        id: "marketing_head",
+        name: "Lê Mai Truyền",
+        role: "Trưởng ban Marketing & Truyền thông Thương hiệu",
+        level: "Level 3",
+        dept: "MARKETING",
+        color: 0xa21caf,
+        deskPos: { x: 9, z: -12, rot: Math.PI / 4 },
+        meetPos: { x: 26, z: -15, rot: Math.PI / 2 }
       }
     ];
 
@@ -315,6 +347,7 @@ class Office3DFloorEngine {
     this.createGlowSignboard("📐 BAN DỰ TOÁN QS & BOQ", 6, 3.8, 6.5, 0x10b981);
     this.createGlowSignboard("🏗️ BAN CHẤT LƯỢNG QA/QC", 20, 3.8, 6.5, 0xf97316);
     this.createGlowSignboard("💰 BAN KIỂM TOÁN QUYẾT TOÁN", -8, 4.8, -20.8, 0xec4899);
+    this.createGlowSignboard("🎬 BAN MARKETING & TRUYỀN THÔNG", 6, 4.8, -20.8, 0xd946ef);
   }
 
   buildZoneDivider(x, z, length, label) {
@@ -425,7 +458,14 @@ class Office3DFloorEngine {
     this.createWorkstation(-6, -15, "Đặng Đức Toán", "Kiểm toán QĐ 122/123");
     this.createBookshelf(-13.5, -15, Math.PI / 2, "KỆ HỒ SƠ THANH TOÁN 08A/08B");
 
-    // 8. Sảnh Lễ Tân Trung Tâm
+    // 8. Ban Marketing & Truyền thông: Media Studio Zone
+    this.createWorkstation(3, -15, "Trần Thị Lan Tỏa", "Sáng tạo PR & Social");
+    this.createVideoEditingStation(7, -15, "Nguyễn Huy Dựng", "Render Video 4K & Shorts");
+    this.createWorkstation(9, -12, "Lê Mai Truyền", "Thẩm định Media & Gate");
+    this.createBookshelf(11.5, -15, Math.PI / 2, "KỆ THIẾT BỊ MEDIA & KỊCH BẢN");
+    this.createMediaStudioProps(3, -18);
+
+    // 9. Sảnh Lễ Tân Trung Tâm
     this.createReceptionArea(0, -2);
   }
 
@@ -491,6 +531,157 @@ class Office3DFloorEngine {
     const folder = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.04, 0.35), new THREE.MeshStandardMaterial({ color: 0x38bdf8 }));
     folder.position.set(0.65, 0.8, -0.1);
     group.add(folder);
+
+    this.scene.add(group);
+  }
+
+  createVideoEditingStation(x, z, staffName, taskNote) {
+    // Trạm Dựng Video & Đồ Họa Đa Phương Tiện Chuyên Nghiệp (Nguyễn Huy Dựng)
+    const group = new THREE.Group();
+    group.position.set(x, 0, z);
+
+    // Bàn làm việc chữ nhật mở rộng (2.2m x 1.1m) phủ carbon đen
+    const deskMat = new THREE.MeshStandardMaterial({ color: 0x1e1b4b, roughness: 0.25, metalness: 0.2 });
+    const deskTop = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.08, 1.1), deskMat);
+    deskTop.position.set(0, 0.74, 0);
+    deskTop.castShadow = true;
+    group.add(deskTop);
+
+    // Chân bàn kim loại chữ Z thể thao
+    const legMat = new THREE.MeshStandardMaterial({ color: 0xd946ef, metalness: 0.8 });
+    const leg1 = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.74, 0.95), legMat);
+    leg1.position.set(-1.05, 0.37, 0);
+    group.add(leg1);
+    const leg2 = leg1.clone();
+    leg2.position.set(1.05, 0.37, 0);
+    group.add(leg2);
+
+    // Màn hình đôi cong UltraWide 4K phát sáng màu Magenta/Fuchsia rực rỡ
+    const screenMat = new THREE.MeshStandardMaterial({ color: 0xd946ef, roughness: 0.1 });
+    const screen1 = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.44, 0.04), screenMat);
+    screen1.position.set(-0.45, 1.08, 0.28);
+    screen1.rotation.y = 0.2;
+    group.add(screen1);
+
+    const screen2 = screen1.clone();
+    screen2.position.set(0.45, 1.08, 0.28);
+    screen2.rotation.y = -0.2;
+    group.add(screen2);
+
+    // Loa kiểm âm phòng thu âm thanh 2 bên (Studio Monitors)
+    const spkMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.4 });
+    const spkLeft = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.28, 0.2), spkMat);
+    spkLeft.position.set(-1.0, 0.92, 0.25);
+    group.add(spkLeft);
+    const spkRight = spkLeft.clone();
+    spkRight.position.set(1.0, 0.92, 0.25);
+    group.add(spkRight);
+
+    // Micro thu âm chuyên nghiệp (Boom Arm Mic)
+    const micMat = new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.9 });
+    const mic = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.15, 12), micMat);
+    mic.position.set(-0.6, 0.95, -0.05);
+    mic.rotation.z = Math.PI / 4;
+    group.add(mic);
+
+    // Bàn phím cơ & Bàn vẽ Wacom cảm ứng
+    const kb = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.015, 0.16), new THREE.MeshStandardMaterial({ color: 0x0f172a }));
+    kb.position.set(-0.15, 0.79, -0.1);
+    group.add(kb);
+
+    const wacom = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.01, 0.24), new THREE.MeshStandardMaterial({ color: 0x334155 }));
+    wacom.position.set(0.35, 0.79, -0.1);
+    group.add(wacom);
+
+    // Ghế gaming công thái học cao cấp
+    const chairMat = new THREE.MeshStandardMaterial({ color: 0x701a75, roughness: 0.4 });
+    const seat = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.08, 0.62), chairMat);
+    seat.position.set(0, 0.48, -0.6);
+    seat.castShadow = true;
+    group.add(seat);
+
+    const backrest = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.75, 0.08), chairMat);
+    backrest.position.set(0, 0.9, -0.9);
+    group.add(backrest);
+
+    this.scene.add(group);
+  }
+
+  createMediaStudioProps(x, z) {
+    // Khu vực Studio Phim Trường: Phông Xanh, Máy Quay Chân Đứng, Đèn Chiếu Softbox
+    const group = new THREE.Group();
+    group.position.set(x, 0, z);
+
+    // 1. Phông Xanh Quay Phim Chuẩn Chroma Key (Green Screen Backdrop)
+    const greenMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.6 });
+    const backdrop = new THREE.Mesh(new THREE.BoxGeometry(3.6, 2.6, 0.06), greenMat);
+    backdrop.position.set(0, 1.35, -1.8);
+    backdrop.castShadow = true;
+    group.add(backdrop);
+
+    // Khung kim loại đỡ phông xanh
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9 });
+    const fTop = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.06, 0.06), frameMat);
+    fTop.position.set(0, 2.68, -1.8);
+    group.add(fTop);
+
+    const fLeg1 = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 2.7, 12), frameMat);
+    fLeg1.position.set(-1.85, 1.35, -1.8);
+    group.add(fLeg1);
+    const fLeg2 = fLeg1.clone();
+    fLeg2.position.set(1.85, 1.35, -1.8);
+    group.add(fLeg2);
+
+    // 2. Chân Máy Quay Phim Chuyên Dụng 4K (Tripod Cinema Camera)
+    const camGroup = new THREE.Group();
+    camGroup.position.set(0, 0, 0.2);
+
+    // Chân tripod 3 càng
+    for (let i = 0; i < 3; i++) {
+      const angle = (i * Math.PI * 2) / 3;
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1.3, 8), frameMat);
+      leg.position.set(Math.cos(angle) * 0.35, 0.65, Math.sin(angle) * 0.35);
+      leg.rotation.z = Math.cos(angle) * -0.22;
+      leg.rotation.x = Math.sin(angle) * 0.22;
+      camGroup.add(leg);
+    }
+
+    // Thân máy quay Cinema
+    const camBodyMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7 });
+    const camBody = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.22, 0.38), camBodyMat);
+    camBody.position.set(0, 1.38, 0);
+    camGroup.add(camBody);
+
+    // Ống kính máy quay (Lens) hướng vào phông xanh
+    const lensMat = new THREE.MeshStandardMaterial({ color: 0x0284c7, metalness: 0.9, roughness: 0.1 });
+    const lens = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.08, 0.22, 16), lensMat);
+    lens.position.set(0, 1.38, -0.26);
+    lens.rotation.x = Math.PI / 2;
+    camGroup.add(lens);
+
+    group.add(camGroup);
+
+    // 3. Đèn Studio Softbox Chiếu Sáng Chuyên Dụng
+    const lightGroup = new THREE.Group();
+    lightGroup.position.set(-1.5, 0, -0.6);
+
+    const lPole = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 2.1, 12), frameMat);
+    lPole.position.set(0, 1.05, 0);
+    lightGroup.add(lPole);
+
+    // Chóa đèn bát giác (Softbox Hood)
+    const softboxMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xfef08a, emissiveIntensity: 0.6 });
+    const softbox = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.65, 0.25), softboxMat);
+    softbox.position.set(0, 2.05, 0);
+    softbox.rotation.y = Math.PI / 4;
+    softbox.rotation.x = 0.2;
+    lightGroup.add(softbox);
+
+    const studioPoint = new THREE.PointLight(0xfef08a, 0.9, 15);
+    studioPoint.position.set(0, 2.1, 0.2);
+    lightGroup.add(studioPoint);
+
+    group.add(lightGroup);
 
     this.scene.add(group);
   }

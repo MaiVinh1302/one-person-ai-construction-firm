@@ -19,6 +19,7 @@ from departments.dept_bidding_procurement import BiddingProcurementDepartment, P
 from departments.dept_qs_cost_estimating import QSCostEstimatingDepartment, QSSpecialistAgent, QSHeadReviewerAgent
 from departments.dept_qa_qc_site import QAQCSiteDepartment, SiteQCSpecialistAgent, QAQCHeadReviewerAgent
 from departments.dept_settlement_audit import SettlementAuditDepartment, SettlementSpecialistAgent, SettlementHeadReviewerAgent
+from departments.dept_marketing_media import MarketingMediaDepartment, ContentSpecialistAgent, VideoSpecialistAgent, MarketingHeadReviewerAgent
 from core.reporting_engine import reporting_engine
 
 class ConstructionCompanyOrchestrator:
@@ -125,6 +126,36 @@ class ConstructionCompanyOrchestrator:
                     "level": RoleLevel.LEVEL_3_HEAD.name,
                     "mission": "Kiểm toán 4 tầng + Quy tắc 3 lỗi từ chối trong 24h (QĐ 122/123), áp nguyên tắc giá trị MIN có lợi cho CĐT, trình Founder giải ngân."
                 }
+            },
+            {
+                "id": "DEPT_MARKETING",
+                "department_name": "Ban Marketing & Truyền Thông",
+                "code": "MARKETING",
+                "corporate_sop": "Quy chuẩn Nhận diện Thương hiệu T&T & Chiến lược Truyền thông Đa Kênh Xây dựng 2026",
+                "specialist_content": {
+                    "name": ContentSpecialistAgent.AGENT_NAME,
+                    "title": ContentSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Sáng tạo bài viết PR báo chí, bài đăng mạng xã hội (Facebook, LinkedIn), lan tỏa hình ảnh uy tín doanh nghiệp."
+                },
+                "specialist_video": {
+                    "name": VideoSpecialistAgent.AGENT_NAME,
+                    "title": VideoSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Lập kịch bản phân cảnh (Storyboard), thiết kế video quảng cáo năng lực, video ngắn TikTok/Reels/Shorts."
+                },
+                "specialist": {
+                    "name": f"{ContentSpecialistAgent.AGENT_NAME} & {VideoSpecialistAgent.AGENT_NAME}",
+                    "title": "Chuyên viên Sáng tạo Nội dung & Sản xuất Video Media",
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Sáng tạo bài viết PR, kịch bản phân cảnh Storyboard và sản xuất video quảng bá hình ảnh dự án & công ty."
+                },
+                "head": {
+                    "name": MarketingHeadReviewerAgent.AGENT_NAME,
+                    "title": MarketingHeadReviewerAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_3_HEAD.name,
+                    "mission": "Thẩm định thông điệp truyền thông, kiểm soát rủi ro thương hiệu, rà soát tính chuẩn xác kỹ thuật và cấp lệnh Gate Clearance phát hành."
+                }
             }
         ]
 
@@ -184,6 +215,17 @@ class ConstructionCompanyOrchestrator:
                 advance_recovered_val=float(payload.get("advance_recovered", 0)),
                 warranty_retention_percent=float(payload.get("warranty_percent", 5.0)),
                 has_bbntcv=bool(payload.get("has_bbntcv", True))
+            )
+
+        elif wf == "MARKETING":
+            result = MarketingMediaDepartment.execute_marketing_campaign(
+                campaign_title=payload.get("campaign_title", "Chiến dịch Nâng tầm Thương hiệu Xây dựng AI T&T 2026"),
+                core_message=payload.get("core_message", "Ứng dụng trí tuệ nhân tạo đột phá trong quản lý dự án xây dựng, minh bạch tài chính và kiểm soát tiến độ tuyệt đối."),
+                target_channels=payload.get("target_channels", ["FACEBOOK", "LINKEDIN", "TIKTOK", "YOUTUBE"]),
+                highlight_achievements=payload.get("highlight_achievements"),
+                video_duration_seconds=int(payload.get("video_duration_seconds", 60)),
+                key_video_scenes=payload.get("key_video_scenes"),
+                campaign_budget=float(payload.get("campaign_budget", 0))
             )
 
         else:
@@ -279,9 +321,15 @@ class ConstructionCompanyOrchestrator:
     ) -> Dict[str, Any]:
         """
         Sinh Bản Báo Cáo Tổng Thể Toàn Diện của Công Ty (Master Executive Dossier)
-        kèm đầy đủ báo cáo chuyên môn của toàn bộ 5 phòng ban.
+        kèm đầy đủ báo cáo chuyên môn của toàn bộ 6 phòng ban:
+        1. Pháp chế & Hợp đồng (NĐ 210/2026)
+        2. Đấu thầu & Mua sắm (NĐ 349/2026)
+        3. Dự toán QS & BOQ (TT 09/2024)
+        4. Quản lý Chất lượng QA/QC (NĐ 06/2021)
+        5. Kiểm toán Thanh Quyết toán (NĐ 99/2021)
+        6. Marketing & Truyền thông Thương hiệu (Chiến lược Đa kênh & Video Quảng cáo)
         """
-        all_wfs = ["CONTRACT", "BIDDING", "QS_BOQ", "QAQC", "SETTLEMENT"]
+        all_wfs = ["CONTRACT", "BIDDING", "QS_BOQ", "QAQC", "SETTLEMENT", "MARKETING"]
         all_results = {}
 
         for wf in all_wfs:
@@ -357,6 +405,14 @@ class ConstructionCompanyOrchestrator:
                 "warranty_percent": 5.0,
                 "has_bbntcv": True
             }
+        elif wf == "MARKETING":
+            return {
+                "campaign_title": "Chiến dịch Truyền thông Nâng tầm Thương hiệu Xây dựng AI T&T Tower 2026",
+                "core_message": "T&T AI Construction Enterprise: Tiên phong ứng dụng AI điều hành thi công, chuẩn mực Pháp lý Xây dựng 2026 và kiểm soát dòng tiền CĐT minh bạch 100%.",
+                "target_channels": ["FACEBOOK", "LINKEDIN", "TIKTOK", "YOUTUBE"],
+                "video_duration_seconds": 60,
+                "campaign_budget": 35000000
+            }
         return {}
 
     def assign_task(
@@ -414,12 +470,12 @@ class ConstructionCompanyOrchestrator:
             only_wf = wfs[0]
             primary_report = dept_results[only_wf].get("standalone_report", {})
             execution_mode = "GIAO VIỆC ĐỘC LẬP 01 PHÒNG BAN"
-        elif len(wfs) >= 5:
+        elif len(wfs) >= 6:
             primary_report = self.generate_master_company_report(
                 project_name=project_name,
                 project_code=f"DA-{task_id}"
             )
-            execution_mode = "GIAO VIỆC TỔNG THỂ TOÀN CÔNG TY (5 PHÒNG BAN)"
+            execution_mode = "GIAO VIỆC TỔNG THỂ TOÀN CÔNG TY (6 PHÒNG BAN)"
         else:
             primary_report = self.generate_modular_report(
                 selected_workflows=wfs,

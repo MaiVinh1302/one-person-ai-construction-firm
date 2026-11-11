@@ -89,7 +89,25 @@ PROJECT_FOLDER_TEMPLATE = {
             }
         }
     },
-    "06_HO_SO_TONG_THE_FOUNDER_DUYET": {
+    "06_BAN_MARKETING_TRUYEN_THONG": {
+        "code": "MARKETING",
+        "name": "Ban Marketing & Truyền Thông",
+        "staff": {
+            "01_Chuyen_vien_Tran_Thi_Lan_Toa": {
+                "role": "Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội",
+                "subfolders": ["Bai_Viet_PR_Bao_Chi", "Bai_Dang_Mang_Xa_Hoi_Facebook_LinkedIn"]
+            },
+            "02_Chuyen_vien_Nguyen_Huy_Dung": {
+                "role": "Chuyên viên Thiết kế Đồ họa & Sản xuất Video",
+                "subfolders": ["Kich_Ban_Phan_Canh_Storyboard", "Video_Quang_Cao_Nang_Luc_Shorts_Reels"]
+            },
+            "03_Truong_ban_Le_Mai_Truyen": {
+                "role": "Trưởng ban Marketing & Truyền thông Thương hiệu",
+                "subfolders": ["Ke_Hoach_Chien_Dich_Truyen_Thong", "Bao_Cao_Tham_Dinh_Gate_Clearance_Media"]
+            }
+        }
+    },
+    "07_HO_SO_TONG_THE_FOUNDER_DUYET": {
         "code": "MASTER_EXECUTIVE",
         "name": "Hồ sơ Tổng thể & Quyết nghị Founder",
         "staff": {

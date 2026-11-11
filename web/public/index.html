@@ -87,7 +87,7 @@
     <aside>
       <div class="nav-item active" onclick="switchTab('overview')">📊 Tổng Quan Điều Hành</div>
       <div class="nav-item" onclick="switchTab('assign')" style="color:#34d399; border:1px solid rgba(16,185,129,0.3);">🎯 Giao Việc Cho AI</div>
-      <div class="nav-item" onclick="switchTab('roster')">👥 Sơ Đồ 10 Nhân Sự AI</div>
+      <div class="nav-item" onclick="switchTab('roster')">👥 Sơ Đồ 13 Nhân Sự AI</div>
       <div class="nav-item" onclick="switchTab('reports')" style="color:#38bdf8;">📑 Trung Tâm Báo Cáo</div>
       <div class="nav-item" onclick="switchTab('sops')" style="color:#a78bfa; border:1px solid rgba(167,139,250,0.3);">📋 Quy Trình & Mẫu T&T</div>
       <div class="nav-item" onclick="switchTab('gdrive')" style="color:#38bdf8; border:1px solid rgba(56,189,248,0.3);">☁️ Kho Hồ Sơ Drive</div>
@@ -97,6 +97,7 @@
       <div class="nav-item" onclick="switchTab('qs_boq')">📐 3. Phòng Dự Toán QS</div>
       <div class="nav-item" onclick="switchTab('qaqc')">🏗️ 4. Phòng QA/QC</div>
       <div class="nav-item" onclick="switchTab('settlement')">💰 5. Phòng Quyết Toán</div>
+      <div class="nav-item" onclick="switchTab('marketing')" style="color:#d946ef; border:1px solid rgba(217,70,239,0.3);">🎬 6. Ban Marketing & Media</div>
       <div class="nav-item" onclick="switchTab('approvals')" style="color:#f59e0b;">
         🛡️ Cổng Duyệt Founder <span id="approval-badge" class="badge-count">0</span>
       </div>
@@ -205,7 +206,28 @@
             <button class="btn-quick-assign" onclick="quickAssignDept('SETTLEMENT')">🎯 Giao Việc Cho Phòng Quyết Toán</button>
           </div>
 
-          <!-- Card 6: Legal RAG -->
+          <!-- Card 6: Marketing -->
+          <div class="card" style="border-left: 4px solid #d946ef;">
+            <h3 style="color:#f0abfc;">🎬 Ban Marketing & Truyền Thông</h3>
+            <p>Sáng tạo bài viết PR, kịch bản phân cảnh Storyboard, sản xuất video 4K & Shorts quảng bá hình ảnh doanh nghiệp.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist" style="border-color:#e879f9; color:#f5d0fe;">✍️ CV Bài viết</span>
+                <span><b>Trần Thị Lan Tỏa</b> (Content PR & Social Media)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-specialist" style="border-color:#c026d3; color:#f0abfc;">🎥 CV Video</span>
+                <span><b>Nguyễn Huy Dựng</b> (Dựng Video 4K & Storyboard)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head" style="border-color:#d946ef; color:#fae8ff;">🧑‍⚖️ Trưởng ban</span>
+                <span><b>Lê Mai Truyền</b> (Kiểm duyệt Media & Gate Clearance)</span>
+              </div>
+            </div>
+            <button class="btn-quick-assign" style="border-color:#d946ef; color:#f0abfc;" onclick="quickAssignDept('MARKETING')">🎯 Giao Việc Cho Ban Marketing & Media</button>
+          </div>
+
+          <!-- Card 7: Legal RAG -->
           <div class="card" style="border-color: #3b82f6;">
             <h3>📚 Thư Viện Pháp Luật 2026</h3>
             <p>Đã nạp 100% dữ liệu gốc tại THU_VIEN_PHAP_LUAT_XAY_DUNG_2026. Truy vết chính xác 100% từng Điều Khoản.</p>
@@ -231,7 +253,8 @@
             <button class="btn-preset" onclick="applyTaskPreset(1)">1️⃣ Giao 1 Phòng: Pháp chế rà soát Hợp đồng NĐ 210/2026</button>
             <button class="btn-preset" onclick="applyTaskPreset(2)">2️⃣ Giao 2 Phòng: Pháp chế + Đấu thầu NĐ 349/2026</button>
             <button class="btn-preset" onclick="applyTaskPreset(3)">3️⃣ Giao 3 Phòng: Dự toán QS + QA/QC + Quyết toán 08a</button>
-            <button class="btn-preset" style="border-color:#f59e0b; color:#fbbf24;" onclick="applyTaskPreset(4)">🔥 Giao Toàn Công Ty (Đầy đủ 5 Phòng Ban - 10 Nhân Sự)</button>
+            <button class="btn-preset" style="border-color:#f59e0b; color:#fbbf24;" onclick="applyTaskPreset(4)">🔥 Giao Toàn Công Ty (Đầy đủ 6 Ban - 13 Nhân Sự AI)</button>
+            <button class="btn-preset" style="border-color:#d946ef; color:#f0abfc;" onclick="applyTaskPreset(5)">🎬 Giao Ban Marketing: Chiến Dịch PR & Video 2026</button>
           </div>
 
           <div style="display:flex; gap:16px; flex-wrap:wrap;">
@@ -345,6 +368,23 @@
                     <span id="tag-as-settlement" class="file-name-tag">Ho_so_Thanh_toan_Mau_08a_Dot1.xlsx</span>
                   </div>
                   <input type="text" id="link-as-settlement" class="input-link-small" placeholder="🔗 Dán đường link biểu mẫu 08a / 08b đề nghị thanh toán..." value="D:/OneDrive/Du_An_TT_Tower/ThanhToan_Mau_08a_Dot1.xlsx">
+                </div>
+              </div>
+
+              <!-- Phòng 6: Marketing & Truyền thông -->
+              <div class="dept-assign-card" style="border-left: 3px solid #d946ef;">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-marketing" checked style="width:17px; height:17px;">
+                  <b style="color:#f0abfc;">🎬 6. Ban Marketing & Truyền Thông</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">✍️ CV: Trần Thị Lan Tỏa • 🎥 CV: Nguyễn Huy Dựng • 🧑‍⚖️ TB: Lê Mai Truyền</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-marketing">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-marketing" style="display:none;" onchange="handleDeptFileSelect('MARKETING', this, 'tag-as-marketing', 'link-as-marketing')">
+                    <span id="tag-as-marketing" class="file-name-tag">Brief_Chien_Dich_Marketing_TT_Tower.docx</span>
+                  </div>
+                  <input type="text" id="link-as-marketing" class="input-link-small" placeholder="🔗 Dán link Google Drive / kịch bản / ảnh flycam công trình..." value="https://drive.google.com/drive/folders/Marketing_Media_TT_Tower.docx">
                 </div>
               </div>
             </div>
@@ -654,6 +694,63 @@
         <div id="settlement-result" class="result-box" style="display:none;"></div>
       </section>
 
+      <!-- TAB 10: MARKETING & MEDIA (BAN MARKETING & TRUYỀN THÔNG) -->
+      <section id="pane-marketing" class="tab-pane">
+        <h2 class="page-title">🎬 Ban Marketing & Truyền Thông (Marketing & Media)</h2>
+        <p class="page-desc">Chuyên viên Trần Thị Lan Tỏa sáng tạo bài viết PR • Chuyên viên Nguyễn Huy Dựng dựng video quảng cáo & kịch bản Storyboard • Trưởng ban Lê Mai Truyền kiểm soát chất lượng & Gate Clearance.</p>
+
+        <div class="card" style="border-left: 4px solid #d946ef;">
+          <div class="dept-attachment-banner">
+            <label style="font-size:0.86rem; font-weight:700; color:#d946ef; display:block; margin-bottom:8px;">📂 NẠP TÀI LIỆU Ý TƯỞNG / BRIEF CHIẾN DỊCH HOẶC DÁN LINK CHO BAN MARKETING:</label>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+              <label class="btn-upload-file" for="file-mkt-tab">📂 Tải Tài Liệu Brief / Hình Ảnh (.docx/.pdf/.zip)</label>
+              <input type="file" id="file-mkt-tab" style="display:none;" onchange="handleDeptFileSelect('MARKETING', this, 'tag-mkt-tab', 'link-mkt-tab')">
+              <span id="tag-mkt-tab" class="file-name-tag">Brief_Chien_Dich_Marketing_TT_Tower.docx</span>
+              <input type="text" id="link-mkt-tab" class="form-control" style="flex:1; min-width:240px; padding:7px 12px; font-size:0.85rem;" placeholder="🔗 Hoặc dán đường link Google Drive / kho ảnh flycam công trình..." value="https://drive.google.com/drive/folders/Marketing_Media_TT_Tower.docx">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; flex-wrap:wrap;">
+            <div class="form-group" style="flex:2; min-width:260px;">
+              <label>Chủ đề chiến dịch truyền thông (Campaign Theme):</label>
+              <input type="text" id="mkt-title" class="form-control" value="Chiến dịch Nâng tầm Thương hiệu Tổng thầu AI T&T Tower 2026">
+            </div>
+            <div class="form-group" style="flex:1; min-width:180px;">
+              <label>Thời lượng video (Giây):</label>
+              <select id="mkt-video-duration" class="form-control">
+                <option value="30">30 Giây (TikTok / Reels / Shorts)</option>
+                <option value="60" selected>60 Giây (Facebook & Fanpage)</option>
+                <option value="90">90 Giây (Website & Giới thiệu Năng lực)</option>
+                <option value="120">120 Giây (Phim đại dự án 4K)</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1; min-width:180px;">
+              <label>Ngân sách dự kiến (VNĐ):</label>
+              <input type="number" id="mkt-budget" class="form-control" value="35000000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Thông điệp cốt lõi truyền thông (Core Message):</label>
+            <textarea id="mkt-core-message" class="form-control" rows="2">T&T AI Construction Enterprise: Tiên phong ứng dụng trí tuệ nhân tạo điều hành thi công, chuẩn mực Pháp lý Xây dựng 2026, đảm bảo an toàn tuyệt đối và bảo toàn dòng tiền CĐT 100%.</textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Kênh truyền thông mục tiêu:</label>
+            <div style="display:flex; gap:16px; flex-wrap:wrap; font-size:0.88rem; color:#cbd5e1;">
+              <label style="cursor:pointer;"><input type="checkbox" id="mkt-ch-fb" checked> 📘 Facebook Fanpage</label>
+              <label style="cursor:pointer;"><input type="checkbox" id="mkt-ch-li" checked> 💼 LinkedIn B2B</label>
+              <label style="cursor:pointer;"><input type="checkbox" id="mkt-ch-tt" checked> 📱 TikTok / Reels / Shorts</label>
+              <label style="cursor:pointer;"><input type="checkbox" id="mkt-ch-yt" checked> 🎥 YouTube 4K & Website</label>
+            </div>
+          </div>
+
+          <button class="btn-primary" style="background:#c026d3; width:100%; padding:12px; font-size:0.95rem;" onclick="submitMarketingCampaign()">🚀 Chạy Chiến Dịch Truyền Thông 2 Cấp & Xuất Bản Báo Cáo Media (Word .docx)</button>
+        </div>
+
+        <div id="marketing-result" class="result-box" style="display:none;"></div>
+      </section>
+
       <!-- TAB: CORPORATE SOPS & TEMPLATES (QUY TRÌNH & BIỂU MẪU TẬP ĐOÀN T&T) -->
       <section id="pane-sops" class="tab-pane">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
@@ -773,6 +870,7 @@
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#10b981; color:#34d399;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QS')">📐 Ban Dự Toán QS</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#f97316; color:#fb923c;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QAQC')">🏗️ Ban QA/QC</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#ec4899; color:#f472b6;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('SETTLEMENT')">💰 Ban Quyết Toán</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#d946ef; color:#f0abfc;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('MARKETING')">🎬 Ban Marketing</button>
         </div>
 
         <!-- 3D Canvas Box -->
@@ -1077,6 +1175,61 @@
           defects: passed ? [] : [{ issue: "Chưa đạt cường độ R28 hoặc thiếu chữ ký nhật ký thi công", rule: "Điều 13 NĐ 06/2021/NĐ-CP", order: "Dừng chuyển bước thi công ngay lập tức" }],
           summary: `[${passed ? 'APPROVED_FOR_TRANSFER' : 'BLOCKED_REVISE'}] Nghiệm thu QA/QC hiện trường.`
         };
+      } else if (wf === 'MARKETING') {
+        const title = payload.campaign_title || "Chiến dịch Nâng tầm Thương hiệu AI T&T Tower 2026";
+        const dur = payload.video_duration_seconds || 60;
+        res = {
+          department: "Ban Marketing & Truyền Thông (Marketing & Media)",
+          campaign_title: title,
+          gate_status: "APPROVED_FOR_TRANSFER",
+          personnel: {
+            specialist_content: "Trần Thị Lan Tỏa (Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội)",
+            specialist_video: "Nguyễn Huy Dựng (Chuyên viên Thiết kế Đồ họa & Sản xuất Video)",
+            department_head: "Lê Mai Truyền (Trưởng ban Marketing & Truyền thông Thương hiệu)"
+          },
+          content_dossier: {
+            specialist: "Trần Thị Lan Tỏa",
+            posts_count: 2,
+            draft_posts: [
+              {
+                channel: "LinkedIn / Cổng Thông Tin B2B",
+                title: `T&T AI Construction: Tiên phong chuyển đổi số trong ${title}`,
+                post_type: "BÀI VIẾT NĂNG LỰC & ĐỐI TÁC CHIẾN LƯỢC",
+                content_preview: `🏢 Trong bối cảnh ngành xây dựng 2026, T&T AI Construction Consulting khẳng định vị thế với mô hình 1 người điều hành thông minh.\n\n🎯 ${payload.core_message || 'Minh bạch tài chính 100%'}\n\n💼 Kết nối cùng Founder & CEO Mai Quang Vinh.`,
+                hashtags: ["#AIConstruction", "#TTGroup", "#Construction2026", "#SmartEngineering"]
+              },
+              {
+                channel: "Facebook Fanpage Doanh Nghiệp",
+                title: `🔥 ${title.toUpperCase()} — Bản lĩnh và năng lực từ Công nghệ AI T&T`,
+                post_type: "BÀI ĐĂNG TƯƠNG TÁC & HÌNH ẢNH CÔNG TRƯỜNG",
+                content_preview: `🚀 Một công ty xây dựng vận hành bằng AI có thể bóc tách CAD trong 30 giây và kiểm toán Mẫu 08a chính xác tuyệt đối!\n\n👉 ${payload.core_message || 'Bảo toàn dòng tiền CĐT'}\n\n📸 Chiêm ngưỡng thước phim flycam 4K ngay bên dưới! 👇`,
+                hashtags: ["#TT_AI_Construction", "#XayDungThongMinh", "#TienDoCongTrinh", "#MaiQuangVinh"]
+              }
+            ]
+          },
+          video_dossier: {
+            specialist: "Nguyễn Huy Dựng",
+            duration_seconds: dur,
+            video_formats: ["9:16 Shorts/Reels (1080x1920)", "16:9 4K (3840x2160)"],
+            scenes_count: 4,
+            storyboard: [
+              { scene_number: 1, time_range: `0s - ${Math.round(dur/4)}s`, visual_description: "Flycam toàn cảnh đại dự án Tổ hợp T&T Tower nhìn từ trên cao lúc hoàng hôn", audio_voiceover: "T&T AI Construction: Đột phá công nghệ kiến tạo tương lai.", camera_shot: "Flycam Panorama Orbit 360", music_bgm: "Epic Cinematic Orchestral" },
+              { scene_number: 2, time_range: `${Math.round(dur/4)}s - ${Math.round(dur/2)}s`, visual_description: "Cận cảnh công nhân và kỹ sư đổ bê tông dầm sàn kiểm định đạt chuẩn R28", audio_voiceover: "Chất lượng kiểm soát nghiêm ngặt theo Nghị định 06/2021.", camera_shot: "Slow Motion Macro Detail", music_bgm: "Epic Cinematic Tech Upbeat" },
+              { scene_number: 3, time_range: `${Math.round(dur/2)}s - ${Math.round(dur*3/4)}s`, visual_description: "Văn phòng số hóa 3D với hệ thống nhân sự AI bóc tách BOQ và kiểm toán Mẫu 08a tự động", audio_voiceover: "Hệ thống đa đại lý AI kiểm toán tài chính 4 tầng minh bạch.", camera_shot: "FPV Drone fly-through sàn 3D", music_bgm: "Modern Futuristic Cyber Synth" },
+              { scene_number: 4, time_range: `${Math.round(dur*3/4)}s - ${dur}s`, visual_description: "Founder Mai Quang Vinh khẳng định uy tín thương hiệu và hotline đối tác", audio_voiceover: "T&T Group: Vững nền tảng, sáng tương lai.", camera_shot: "Frontal Portrait Zoom & Logo Outro", music_bgm: "Triumphant Corporate Climax" }
+            ]
+          },
+          head_review: {
+            applicable_law: "Quy chuẩn Nhận diện Thương hiệu T&T & Chiến lược Truyền thông 2026",
+            review_summary: "Trưởng ban Lê Mai Truyền: PHÊ DUYỆT CHUYỂN BƯỚC PHÁT HÀNH. Cấp phép xuất bản bài viết và render video clip trên các kênh mạng xã hội.",
+            compliance_checks: [
+              { check: "TÍNH CHUẨN XÁC KỸ THUẬT & PHÁP LÝ XÂY DỰNG", status: "PASS", details: "Dữ liệu tiến độ chuẩn xác, bảo mật dự án." },
+              { check: "NHẬN DIỆN THƯƠNG HIỆU & BẢN QUYỀN", status: "PASS", details: "Logo chuẩn, màu sắc Navy/Gold, âm nhạc bản quyền." },
+              { check: "CHẤT LƯỢNG NỘI DUNG & STORYBOARD", status: "PASS", details: "Đã phê duyệt 2 bài viết và 4 phân cảnh video." }
+            ]
+          },
+          summary: `[APPROVED_FOR_TRANSFER] Chiến dịch ${title}: Đã phê duyệt 2 bài viết & storyboard 4 cảnh video.`
+        };
       } else {
         const cVal = payload.contract_value || 12000000000;
         const prev = payload.previous_paid || 8500000000;
@@ -1178,13 +1331,15 @@
       document.getElementById('as-qs').checked = (wf === 'QS_BOQ');
       document.getElementById('as-qaqc').checked = (wf === 'QAQC');
       document.getElementById('as-settlement').checked = (wf === 'SETTLEMENT');
+      if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = (wf === 'MARKETING');
 
       const names = {
         'CONTRACT': 'Thẩm tra Pháp lý Hợp đồng & Rà soát 12 Bẫy (NĐ 210/2026)',
         'BIDDING': 'Thẩm định Hồ sơ Đấu thầu & Lọc báo giá lệch >30% (NĐ 349/2026)',
         'QS_BOQ': 'Bóc tách Khối lượng BOQ & Áp mã định mức TT 09/2024/TT-BXD',
         'QAQC': 'Kiểm tra Điều kiện Nghiệm thu BBNTCV & Mẫu dấu hoàn công (NĐ 06/2021)',
-        'SETTLEMENT': 'Kiểm toán 4 tầng Hồ sơ Thanh toán Mẫu 08a (NĐ 99/2021)'
+        'SETTLEMENT': 'Kiểm toán 4 tầng Hồ sơ Thanh toán Mẫu 08a (NĐ 99/2021)',
+        'MARKETING': 'Lập Kế hoạch PR & Sản xuất Video quảng cáo năng lực doanh nghiệp'
       };
       document.getElementById('task-title').value = names[wf] || 'Giao việc chuyên môn phòng ban';
     }
@@ -1198,6 +1353,7 @@
         document.getElementById('as-qs').checked = false;
         document.getElementById('as-qaqc').checked = false;
         document.getElementById('as-settlement').checked = false;
+        if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = false;
         document.getElementById('task-title').value = "Thẩm định Gói thầu Mua sắm Thiết bị & Rà soát Dự thảo Hợp đồng";
       } else if (num === 3) {
         document.getElementById('as-contract').checked = false;
@@ -1205,14 +1361,24 @@
         document.getElementById('as-qs').checked = true;
         document.getElementById('as-qaqc').checked = true;
         document.getElementById('as-settlement').checked = true;
+        if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = false;
         document.getElementById('task-title').value = "Thẩm tra Khối lượng BOQ, Nghiệm thu QA/QC & Giải ngân Mẫu 08a Đợt 1";
-      } else {
+      } else if (num === 4) {
         document.getElementById('as-contract').checked = true;
         document.getElementById('as-bidding').checked = true;
         document.getElementById('as-qs').checked = true;
         document.getElementById('as-qaqc').checked = true;
         document.getElementById('as-settlement').checked = true;
-        document.getElementById('task-title').value = "Tổng Rà Soát Toàn Diện Dự Án (5 Phòng Ban - 10 Nhân Sự AI) & Xuất Hồ Sơ Tổng Thể";
+        if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = true;
+        document.getElementById('task-title').value = "Tổng Rà Soát Toàn Diện Dự Án (6 Ban - 13 Nhân Sự AI) & Xuất Hồ Sơ Tổng Thể";
+      } else if (num === 5) {
+        document.getElementById('as-contract').checked = false;
+        document.getElementById('as-bidding').checked = false;
+        document.getElementById('as-qs').checked = false;
+        document.getElementById('as-qaqc').checked = false;
+        document.getElementById('as-settlement').checked = false;
+        if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = true;
+        document.getElementById('task-title').value = "Chiến dịch Truyền thông Nâng tầm Thương hiệu & Sản xuất Video Giới thiệu 2026";
       }
     }
 
@@ -1223,6 +1389,7 @@
       if (document.getElementById('as-qs').checked) wfs.push('QS_BOQ');
       if (document.getElementById('as-qaqc').checked) wfs.push('QAQC');
       if (document.getElementById('as-settlement').checked) wfs.push('SETTLEMENT');
+      if (document.getElementById('as-marketing')?.checked) wfs.push('MARKETING');
 
       if (wfs.length === 0) {
         alert("Vui lòng tích chọn ít nhất 01 Phòng Ban nhận nhiệm vụ!");
@@ -1250,6 +1417,10 @@
         SETTLEMENT: {
           attached_file_name: (document.getElementById('tag-as-settlement')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
           attached_file_link: document.getElementById('link-as-settlement')?.value || ''
+        },
+        MARKETING: {
+          attached_file_name: (document.getElementById('tag-as-marketing')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-marketing')?.value || ''
         }
       };
 
@@ -1404,7 +1575,8 @@
         { department_name: "Phòng Quản lý Đấu thầu & Mua sắm", code: "BIDDING", specialist: { name: "Lê Quang Thầu", title: "Chuyên viên Thẩm tra Hồ sơ Đấu thầu & Giá Mua sắm", mission: "Thu thập báo giá, lập ma trận so sánh các đơn vị, tính độ lệch % giá." }, head: { name: "Phạm Minh Đấu", title: "Trưởng phòng Quản lý Đấu thầu & Hợp đồng Mua sắm", mission: "Rà soát trần chỉ định thầu 5 tỷ NĐ 349/2026/NĐ-CP, đăng tải mạng đấu thầu, lọc giá lệch >30%, cấp lệnh Gate Clearance." } },
         { department_name: "Phòng Kỹ sư Dự toán QS & BOQ", code: "QS_BOQ", specialist: { name: "Đỗ Văn Lượng", title: "Kỹ sư QS Bóc tách Khối lượng & Áp Định mức", mission: "Đọc bóc tách hình học CAD/DXF, tính toán m3/m2/tấn, ráp mã định mức TT 09/2024/TT-BXD." }, head: { name: "Vũ Đình Toàn", title: "Trưởng phòng Thẩm tra Dự toán & Kiểm soát Chi phí", mission: "Rà soát quy trình tính toán, quét chống gian lận/trùng lặp đầu việc, kiểm tra hệ số hao hụt, cấp lệnh Gate Clearance." } },
         { department_name: "Phòng Quản lý Chất lượng QA/QC", code: "QAQC", specialist: { name: "Bùi Văn Nghiệm", title: "Kỹ sư QA/QC Giám sát Hiện trường & Hồ sơ Nghiệm thu", mission: "Thu thập nhật ký hiện trường, kiểm tra phiếu nén mẫu R28, soạn dự thảo BBNTCV." }, head: { name: "Hoàng Văn Chuẩn", title: "Trưởng phòng Quản lý Chất lượng & An toàn Công trình", mission: "Rà soát quy trình Điều 13 NĐ 06/2021, kiểm tra mẫu dấu hoàn công 4 bên Phụ lục II, cấp Lệnh Chuyển bước thi công." } },
-        { department_name: "Phòng Kiểm toán Thanh & Quyết toán", code: "SETTLEMENT", specialist: { name: "Ngô Thị Quyết", title: "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a", mission: "Lập bảng tính Mẫu 08a theo NĐ 99/2021, tính lũy kế, khấu trừ tạm ứng, trích giữ bảo hành 5%." }, head: { name: "Đặng Đức Toán", title: "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ", mission: "Kiểm toán 4 tầng (Pháp lý, BBNTCV, Khối lượng lũy kế, Khấu trừ), kiểm soát giải ngân TT 96/2021, cấp lệnh Gate Clearance." } }
+        { department_name: "Phòng Kiểm toán Thanh & Quyết toán", code: "SETTLEMENT", specialist: { name: "Ngô Thị Quyết", title: "Chuyên viên Thẩm tra Hồ sơ Thanh Quyết toán Mẫu 08a", mission: "Lập bảng tính Mẫu 08a theo NĐ 99/2021, tính lũy kế, khấu trừ tạm ứng, trích giữ bảo hành 5%." }, head: { name: "Đặng Đức Toán", title: "Trưởng phòng Kiểm toán Quyết toán & Kiểm soát Ngân quỹ", mission: "Kiểm toán 4 tầng (Pháp lý, BBNTCV, Khối lượng lũy kế, Khấu trừ), kiểm soát giải ngân TT 96/2021, cấp lệnh Gate Clearance." } },
+        { department_name: "Ban Marketing & Truyền Thông", code: "MARKETING", specialist_content: { name: "Trần Thị Lan Tỏa", title: "Chuyên viên Sáng tạo Nội dung & Truyền thông Xã hội", mission: "Sáng tạo bài viết PR báo chí, bài đăng mạng xã hội (Facebook, LinkedIn), lan tỏa hình ảnh uy tín doanh nghiệp." }, specialist_video: { name: "Nguyễn Huy Dựng", title: "Chuyên viên Thiết kế Đồ họa & Sản xuất Video", mission: "Lập kịch bản phân cảnh Storyboard, thiết kế video quảng cáo năng lực, video ngắn TikTok/Reels/Shorts." }, head: { name: "Lê Mai Truyền", title: "Trưởng ban Marketing & Truyền thông Thương hiệu", mission: "Thẩm định thông điệp truyền thông, kiểm soát rủi ro thương hiệu, rà soát tính chuẩn xác kỹ thuật và cấp lệnh Gate Clearance." } }
       ];
 
       try {
@@ -1422,24 +1594,46 @@
 
       html += '<div style="display:flex; flex-direction:column; gap:16px;">';
       rosterData.forEach(dept => {
+        const isMarketing = dept.specialist_content && dept.specialist_video;
         html += `<div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px; margin-bottom:12px;">
             <h3 style="color:#93c5fd;">${dept.department_name}</h3>
             <span style="font-size:0.8rem; background:#1e293b; color:#94a3b8; padding:3px 8px; border-radius:4px;">Mã: ${dept.code}</span>
           </div>
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:16px;">
-            <div style="background:rgba(14,165,233,0.08); border:1px solid #0ea5e9; border-radius:8px; padding:12px;">
-              <span class="badge-specialist">👷 1. CHUYÊN VIÊN CHUYÊN MÔN (Level 2)</span>
-              <h4 style="margin:8px 0 4px 0; color:#38bdf8;">${dept.specialist.name}</h4>
-              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist.title}</p>
-              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ thực thi:</b> ${dept.specialist.mission}</p>
-            </div>
-            <div style="background:rgba(245,158,11,0.08); border:1px solid #f59e0b; border-radius:8px; padding:12px;">
-              <span class="badge-head">🧑‍⚖️ 2. TRƯỞNG PHÒNG KIỂM DUYỆT (Level 3)</span>
-              <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
-              <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
-              <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
-            </div>
+            ${isMarketing ? `
+              <div style="background:rgba(232,121,249,0.08); border:1px solid #e879f9; border-radius:8px; padding:12px;">
+                <span class="badge-specialist" style="border-color:#e879f9; color:#f5d0fe;">✍️ 1. CHUYÊN VIÊN SÁNG TẠO BÀI VIẾT (Level 2)</span>
+                <h4 style="margin:8px 0 4px 0; color:#f0abfc;">${dept.specialist_content.name}</h4>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_content.title}</p>
+                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_content.mission}</p>
+              </div>
+              <div style="background:rgba(192,38,211,0.08); border:1px solid #c026d3; border-radius:8px; padding:12px;">
+                <span class="badge-specialist" style="border-color:#c026d3; color:#f0abfc;">🎥 2. CHUYÊN VIÊN SẢN XUẤT VIDEO (Level 2)</span>
+                <h4 style="margin:8px 0 4px 0; color:#f0abfc;">${dept.specialist_video.name}</h4>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist_video.title}</p>
+                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ:</b> ${dept.specialist_video.mission}</p>
+              </div>
+              <div style="background:rgba(217,70,239,0.08); border:1px solid #d946ef; border-radius:8px; padding:12px;">
+                <span class="badge-head" style="border-color:#d946ef; color:#fae8ff;">🧑‍⚖️ 3. TRƯỞNG BAN KIỂM DUYỆT (Level 3)</span>
+                <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
+              </div>
+            ` : `
+              <div style="background:rgba(14,165,233,0.08); border:1px solid #0ea5e9; border-radius:8px; padding:12px;">
+                <span class="badge-specialist">👷 1. CHUYÊN VIÊN CHUYÊN MÔN (Level 2)</span>
+                <h4 style="margin:8px 0 4px 0; color:#38bdf8;">${dept.specialist.name}</h4>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.specialist.title}</p>
+                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Nhiệm vụ thực thi:</b> ${dept.specialist.mission}</p>
+              </div>
+              <div style="background:rgba(245,158,11,0.08); border:1px solid #f59e0b; border-radius:8px; padding:12px;">
+                <span class="badge-head">🧑‍⚖️ 2. TRƯỞNG PHÒNG KIỂM DUYỆT (Level 3)</span>
+                <h4 style="margin:8px 0 4px 0; color:#fbbf24;">${dept.head.name}</h4>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:6px;"><b>Chức danh:</b> ${dept.head.title}</p>
+                <p style="font-size:0.85rem; color:#e2e8f0;"><b>Kiểm duyệt & Chuyển bước:</b> ${dept.head.mission}</p>
+              </div>
+            `}
           </div>
         </div>`;
       });
@@ -1872,6 +2066,110 @@
         <p style="font-size:0.88rem; color:#34d399;">• <b>Thực thanh toán kỳ này:</b> ${data.net_payable_amount.toLocaleString('vi-VN')} VNĐ</p>
         <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Kết luận kiểm toán:</b> ${data.head_review.review_summary}</p>
       </div>`;
+      box.innerHTML = html;
+      updateApprovalCount();
+    }
+
+    async function submitMarketingCampaign() {
+      const payload = {
+        campaign_title: document.getElementById('mkt-title').value,
+        core_message: document.getElementById('mkt-core-message').value,
+        target_channels: [],
+        video_duration_seconds: parseInt(document.getElementById('mkt-video-duration').value || "60"),
+        campaign_budget: parseFloat(document.getElementById('mkt-budget').value || "0"),
+        attached_file_name: (document.getElementById('tag-mkt-tab')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+        attached_file_link: document.getElementById('link-mkt-tab')?.value || ''
+      };
+      if (document.getElementById('mkt-ch-fb')?.checked) payload.target_channels.push("FACEBOOK");
+      if (document.getElementById('mkt-ch-li')?.checked) payload.target_channels.push("LINKEDIN");
+      if (document.getElementById('mkt-ch-tt')?.checked) payload.target_channels.push("TIKTOK");
+      if (document.getElementById('mkt-ch-yt')?.checked) payload.target_channels.push("YOUTUBE");
+
+      const data = await dispatchAuditRequest('MARKETING', payload);
+      renderMarketingResult(data);
+      updateApprovalCount();
+    }
+
+    function renderMarketingResult(data) {
+      const box = document.getElementById('marketing-result');
+      box.style.display = 'block';
+      const isApproved = data.gate_status === 'APPROVED_FOR_TRANSFER';
+      const rep = data.standalone_report || {};
+      const docxName = rep.docx_path ? rep.docx_path.split('\\').pop().split('/').pop() : '';
+      const fName = data.attached_file_name || rep.attached_file_name || 'Brief_Chien_Dich_Marketing_TT_Tower.docx';
+      const fLink = data.attached_file_link || rep.attached_file_link || '';
+
+      const contentD = data.content_dossier || {};
+      const videoD = data.video_dossier || {};
+      const headR = data.head_review || {};
+
+      let html = `<h3 style="color:#f0abfc;">🎬 Kết Quả Thẩm Định Chiến Dịch Media: ${data.campaign_title || 'Chiến dịch Marketing'}</h3>`;
+      html += `<p style="font-size:0.84rem; color:#cbd5e1; margin:4px 0 10px 0;">📂 <b>Hồ sơ giao việc:</b> <code>${fName}</code> ${fLink ? `• 🔗 <a href="${fLink}" target="_blank" style="color:#38bdf8;">Mở đường link file</a>` : ''}</p>`;
+      
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+        <div class="gate-badge ${isApproved ? 'gate-badge-approved' : 'gate-badge-blocked'}">
+          ${isApproved ? '✅ LỆNH CHUYỂN BƯỚC: PHÊ DUYỆT PHÁT HÀNH BÀI VIẾT & DỰNG VIDEO' : '🛑 LỆNH CHUYỂN BƯỚC: YÊU CẦU SỬA ĐỔI THÔNG ĐIỆP'}
+        </div>
+        ${docxName
+          ? `<a class="btn-download" style="background:#c026d3;" href="/api/reports/download/${docxName}" target="_blank">📥 Tải Báo Cáo Media Ban Marketing (.docx)</a>`
+          : `<button class="btn-download" style="background:#c026d3;" onclick='downloadClientDoc("${rep.report_code || "BC-MARKETING"}", ${JSON.stringify(rep.markdown || "")})'>📥 Tải Báo Cáo Media Ban Marketing (.doc)</button>`
+        }
+      </div>`;
+
+      // 1. Chuyên viên bài viết
+      html += `<div class="step-card" style="border-color:#e879f9; margin-bottom:12px;">
+        <div class="step-header">
+          <span class="badge-specialist" style="border-color:#e879f9; color:#f5d0fe;">✍️ BƯỚC 1: SÁNG TẠO BÀI VIẾT PR & MẠNG XÃ HỘI</span>
+          <b style="color:#f0abfc;">${(data.personnel && data.personnel.specialist_content) || 'Trần Thị Lan Tỏa'}</b>
+        </div>
+        <p style="font-size:0.85rem; color:#cbd5e1; margin-bottom:8px;">Đã hoàn thành <b>${contentD.posts_count || 2} bài đăng</b> chuẩn phong cách thương hiệu T&T.</p>`;
+      
+      (contentD.draft_posts || []).forEach(p => {
+        html += `<div style="background:rgba(217,70,239,0.06); border:1px solid rgba(217,70,239,0.3); border-radius:8px; padding:10px; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <b style="color:#f0abfc; font-size:0.88rem;">📢 ${p.channel}</b>
+            <span style="font-size:0.75rem; background:#3b0764; color:#f5d0fe; padding:2px 8px; border-radius:4px;">${p.post_type}</span>
+          </div>
+          <div style="font-size:0.85rem; color:#fff; font-weight:600; margin-bottom:4px;">${p.title}</div>
+          <p style="font-size:0.82rem; color:#cbd5e1; white-space:pre-line; margin-bottom:6px;">${p.content_preview}</p>
+          <div style="font-size:0.78rem; color:#a78bfa;">${(p.hashtags || []).join(' ')}</div>
+        </div>`;
+      });
+      html += `</div>`;
+
+      // 2. Chuyên viên Video Storyboard
+      html += `<div class="step-card" style="border-color:#c026d3; margin-bottom:12px;">
+        <div class="step-header">
+          <span class="badge-specialist" style="border-color:#c026d3; color:#f0abfc;">🎥 BƯỚC 2: KỊCH BẢN PHÂN CẢNH VIDEO (STORYBOARD)</span>
+          <b style="color:#f0abfc;">${(data.personnel && data.personnel.specialist_video) || 'Nguyễn Huy Dựng'}</b>
+        </div>
+        <p style="font-size:0.85rem; color:#cbd5e1; margin-bottom:8px;">Thời lượng: <b>${videoD.duration_seconds || 60}s</b> • Định dạng: <b>${(videoD.video_formats || []).join(', ')}</b></p>`;
+      
+      (videoD.storyboard || []).forEach(sc => {
+        html += `<div style="background:rgba(192,38,211,0.06); border-left:3px solid #c026d3; padding:8px 10px; margin-bottom:6px; border-radius:0 6px 6px 0;">
+          <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-weight:bold; color:#f0abfc; margin-bottom:2px;">
+            <span>🎬 Cảnh ${sc.scene_number}: ${sc.visual_description}</span>
+            <span style="color:#e2e8f0; font-size:0.75rem;">⏱️ ${sc.time_range}</span>
+          </div>
+          <div style="font-size:0.8rem; color:#cbd5e1;">🗣️ <i>Voiceover:</i> "${sc.audio_voiceover}"</div>
+          <div style="font-size:0.76rem; color:#94a3b8; margin-top:2px;">🎥 ${sc.camera_shot} • 🎵 BGM: ${sc.music_bgm}</div>
+        </div>`;
+      });
+      html += `</div>`;
+
+      // 3. Trưởng ban kiểm duyệt
+      html += `<div class="step-card" style="border-color:${isApproved ? '#10b981' : '#ef4444'};">
+        <div class="step-header">
+          <span class="badge-head">🧑‍⚖️ BƯỚC 3: TRƯỞNG BAN THẨM ĐỊNH TRUYỀN THÔNG & GATE CLEARANCE</span>
+          <b style="color:#fbbf24;">${(data.personnel && data.personnel.department_head) || 'Lê Mai Truyền'}</b>
+        </div>
+        <p style="font-size:0.88rem; color:#e2e8f0; margin-top:4px;">• <b>Kết luận thẩm định:</b> ${(headR && headR.review_summary) || data.summary}</p>`;
+      
+      (headR.compliance_checks || []).forEach(chk => {
+        html += `<div style="font-size:0.8rem; color:#34d399; margin-top:3px;">✅ <b>${chk.check}:</b> ${chk.details}</div>`;
+      });
+      html += `</div>`;
+
       box.innerHTML = html;
       updateApprovalCount();
     }

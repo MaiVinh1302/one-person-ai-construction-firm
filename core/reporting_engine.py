@@ -159,6 +159,44 @@ class ConstructionReportingEngine:
             for rf in result_data.get("red_flags", []):
                 md_lines.append(f"  - ⚠️ **[{rf.get('severity', 'HIGH')}]** {rf.get('issue', '')}\n    *Căn cứ:* `{rf.get('legal_ground', '')}`\n    *Yêu cầu:* **{rf.get('action', '')}**")
 
+        elif wf == "MARKETING":
+            content_d = result_data.get("content_dossier", {})
+            video_d = result_data.get("video_dossier", {})
+            head_r = result_data.get("head_review", {})
+            budget = head_r.get("campaign_budget", 0) if isinstance(head_r, dict) else 0
+            md_lines.extend([
+                f"- **Chiến dịch truyền thông:** {result_data.get('campaign_title', 'Chiến dịch Nâng tầm Thương hiệu')}",
+                f"- **Chuyên viên Sáng tạo Nội dung:** {content_d.get('specialist', 'Trần Thị Lan Tỏa')}",
+                f"- **Chuyên viên Dựng & Sản xuất Video:** {video_d.get('specialist', 'Nguyễn Huy Dựng')}",
+                f"- **Trưởng ban kiểm duyệt:** {head_r.get('department_head', 'Lê Mai Truyền')}",
+                f"- **Quy chuẩn nhận diện thương hiệu:** Chuẩn hóa Logo, Bảng màu T&T Navy/Gold, Bản quyền âm nhạc thương mại",
+                f"- **Tổng số bài viết sáng tạo:** {content_d.get('posts_count', 0)} bài đăng đa kênh (Facebook, LinkedIn, Báo chí)",
+                f"- **Thời lượng video quảng bá:** {video_d.get('duration_seconds', 60)} giây ({video_d.get('scenes_count', 0)} phân cảnh Storyboard)",
+                f"- **Định dạng video sản xuất:** {', '.join(video_d.get('video_formats', ['9:16 Shorts/Reels', '16:9 4K']))}",
+                "\n#### 📝 Danh mục bài viết sáng tạo (PR & Social Media):"
+            ])
+            for p in content_d.get("draft_posts", []):
+                md_lines.extend([
+                    f"  - 📢 **Kênh phát hành:** `{p.get('channel', '')}` — **Loại:** *{p.get('post_type', '')}*",
+                    f"    *Tiêu đề:* **{p.get('title', '')}**",
+                    f"    *Nội dung trích đoạn:* {p.get('content_preview', '')[:220]}...",
+                    f"    *Hashtags:* `{' '.join(p.get('hashtags', []))}`"
+                ])
+            md_lines.extend([
+                "\n#### 🎬 Kịch bản phân cảnh Video Clip (Storyboard):"
+            ])
+            for sc in video_d.get("storyboard", []):
+                md_lines.append(
+                    f"  - 🎞️ **Cảnh {sc.get('scene_number', '')} ({sc.get('time_range', '')}):** {sc.get('visual_description', '')}\n"
+                    f"    *Voiceover AI:* \"{sc.get('audio_voiceover', '')}\"\n"
+                    f"    *Góc máy & Âm nhạc:* {sc.get('camera_shot', '')} | BGM: {sc.get('music_bgm', '')}"
+                )
+            md_lines.extend([
+                "\n#### 🛡️ Thẩm định rủi ro truyền thông & Quy chuẩn Gate Clearance:"
+            ])
+            for chk in head_r.get("compliance_checks", []):
+                md_lines.append(f"  - [{chk.get('status', 'PASS')}] **{chk.get('check', '')}:** {chk.get('details', '')}")
+
         # Kết luận & Chữ ký
         md_lines.extend([
             "\n---",
@@ -333,13 +371,15 @@ class ConstructionReportingEngine:
         res_qs = all_departments_results.get("QS_BOQ", {})
         res_qaqc = all_departments_results.get("QAQC", {})
         res_settlement = all_departments_results.get("SETTLEMENT", {})
+        res_marketing = all_departments_results.get("MARKETING", {})
 
         gates = [
             res_contract.get("gate_status", "PENDING"),
             res_bidding.get("gate_status", "PENDING"),
             res_qs.get("gate_status", "PENDING"),
             res_qaqc.get("gate_status", "PENDING"),
-            res_settlement.get("gate_status", "PENDING")
+            res_settlement.get("gate_status", "PENDING"),
+            res_marketing.get("gate_status", "PENDING")
         ]
         approved_count = sum(1 for g in gates if g == "APPROVED_FOR_TRANSFER")
         blocked_count = sum(1 for g in gates if g == "BLOCKED_REVISE")
@@ -351,15 +391,15 @@ class ConstructionReportingEngine:
             f"# 🏢 {cls.COMPANY_NAME}",
             f"## {report_title.upper()}",
             f"**Mã hồ sơ tổng thể:** `{report_code}` | **Dự án:** {project_name} (`{project_code}`)",
-            f"**Thời gian xuất bản:** {timestamp} | **Phạm vi:** TOÀN DIỆN 5 PHÒNG BAN CHUYÊN MÔN",
+            f"**Thời gian xuất bản:** {timestamp} | **Phạm vi:** TOÀN DIỆN 6 PHÒNG BAN CHUYÊN MÔN",
             f"**Người phê duyệt tối cao:** Founder / CEO {cls.FOUNDER_NAME} (Level 5)\n",
             "---",
             "### 🏛️ PHẦN I: TỔNG QUAN ĐIỀU HÀNH & MA TRẬN CHUYỂN BƯỚC (EXECUTIVE SUMMARY)",
-            f"- **Chỉ số sức khỏe dự án:** Đạt {approved_count}/5 phòng ban được cấp lệnh chuyển bước ({int(approved_count/5*100)}%).",
+            f"- **Chỉ số sức khỏe dự án:** Đạt {approved_count}/6 phòng ban được cấp lệnh chuyển bước ({int(approved_count/6*100)}%).",
             f"- **Số phòng ban bị chặn lại để sửa đổi:** {blocked_count} phòng ban.",
             f"- **Tổng giá trị hợp đồng quản lý:** {contract_val:,.0f} VNĐ.",
             f"- **Tổng giá trị giải ngân đề xuất:** {settlement_paid:,.0f} VNĐ.",
-            "\n#### 📋 Bảng Tổng Hợp Kiểm Soát 5 Phòng Ban (Pháp Luật 2026 & Quy Chế Tập Đoàn):",
+            "\n#### 📋 Bảng Tổng Hợp Kiểm Soát 6 Phòng Ban (Pháp Luật 2026 & Quy Chế Tập Đoàn):",
             "| STT | Phòng Ban | Chuyên Viên Thực Thi | Trưởng Phòng Kiểm Duyệt | Pháp Luật 2026 & Quy Chế Nội Bộ | Lệnh Chuyển Bước |",
             "| :---: | :--- | :--- | :--- | :--- | :---: |",
             f"| 1 | **Pháp chế & Hợp đồng** | Nguyễn Văn Pháp | Trần Thị Tuân Thủ | NĐ 210/2026 & Mẫu QĐ 690/560 | `[{res_contract.get('gate_status', 'N/A')}]` |",
@@ -367,6 +407,7 @@ class ConstructionReportingEngine:
             f"| 3 | **Dự toán QS & BOQ** | Đỗ Văn Lượng | Vũ Đình Toàn | TT 09/2024 & 8 Bill HSMT / QT01-XLPS | `[{res_qs.get('gate_status', 'N/A')}]` |",
             f"| 4 | **Quản lý Chất lượng QA/QC** | Bùi Văn Nghiệm | Hoàng Văn Chuẩn | NĐ 06/2021 & Checklist 17 BM QA/QC | `[{res_qaqc.get('gate_status', 'N/A')}]` |",
             f"| 5 | **Kiểm toán Thanh Quyết toán** | Ngô Thị Quyết | Đặng Đức Toán | NĐ 99/2021 & QĐ 122/123 (BM-16.1) | `[{res_settlement.get('gate_status', 'N/A')}]` |",
+            f"| 6 | **Marketing & Truyền thông** | Trần Thị Lan Tỏa & Nguyễn Huy Dựng | Lê Mai Truyền | Quy chuẩn T&T & Chiến lược Đa kênh | `[{res_marketing.get('gate_status', 'N/A')}]` |",
             "\n---",
             "### 📑 PHẦN II: BÁO CÁO CHUYÊN MÔN CHI TIẾT TỪNG PHÒNG BAN",
             "\n#### 1. BAN PHÁP CHẾ & HỢP ĐỒNG (LEGAL & CONTRACT)",
@@ -422,16 +463,30 @@ class ConstructionReportingEngine:
             f"- **Nội dung:** {res_settlement.get('summary', '')}"
         ])
 
+        res_mkt_content = res_marketing.get("content_dossier", {})
+        res_mkt_video = res_marketing.get("video_dossier", {})
+        md_lines.extend([
+            "\n#### 6. BAN MARKETING & TRUYỀN THÔNG THƯƠNG HIỆU (MARKETING & MEDIA)",
+            f"- **Chuyên viên Sáng tạo Bài viết:** {res_marketing.get('personnel', {}).get('specialist_content', 'Trần Thị Lan Tỏa')}",
+            f"- **Chuyên viên Thiết kế & Dựng Video:** {res_marketing.get('personnel', {}).get('specialist_video', 'Nguyễn Huy Dựng')}",
+            f"- **Trưởng ban kiểm duyệt:** {res_marketing.get('personnel', {}).get('department_head', 'Lê Mai Truyền')}",
+            f"- **Lệnh chuyển bước:** `[{res_marketing.get('gate_status', 'N/A')}]`",
+            f"- **Chiến dịch đề xuất:** {res_marketing.get('campaign_title', 'Chiến dịch Nâng tầm Thương hiệu')}",
+            f"- **Số lượng bài viết & kịch bản:** {res_mkt_content.get('posts_count', 0)} bài đăng đa kênh & {res_mkt_video.get('scenes_count', 0)} phân cảnh Storyboard",
+            f"- **Nội dung:** {res_marketing.get('summary', '')}"
+        ])
+
         md_lines.extend([
             "\n---",
             "### 👑 PHẦN III: QUYẾT NGHỊ VÀ PHÊ DUYỆT CỦA FOUNDER / CEO",
-            f"Căn cứ kết quả thẩm tra 5 phòng ban, Founder / CEO **{cls.FOUNDER_NAME}** phê chuẩn:",
+            f"Căn cứ kết quả thẩm tra 6 phòng ban, Founder / CEO **{cls.FOUNDER_NAME}** phê chuẩn:",
             f"1. **Chấp thuận kết quả chuyển bước** của các phòng ban đạt chuẩn (`APPROVED_FOR_TRANSFER`).",
             "2. **Yêu cầu đàm phán sửa đổi** các điều khoản hợp đồng vi phạm Nghị định 210/2026/NĐ-CP trước khi ký kết chính thức.",
             "3. **Phê duyệt hạn mức giải ngân** theo Mẫu 08a sau khi đã khấu trừ tạm ứng và bảo hành 5% đúng quy định.",
+            "4. **Phê duyệt chiến dịch truyền thông đa kênh** và phát hành các ấn phẩm, video quảng bá hình ảnh doanh nghiệp.",
             "\n| BAN KIỂM SOÁT THẨM TRA | TRƯỞNG BAN ĐIỀU PHỐI AI | CHỦ TỊCH / CEO PHÊ DUYỆT |",
             "| :---: | :---: | :---: |",
-            "| **Hội đồng 5 Trưởng phòng** | **Multi-Agent Orchestrator** | **Mai Quang Vinh** |",
+            "| **Hội đồng 6 Trưởng ban** | **Multi-Agent Orchestrator** | **Mai Quang Vinh** |",
             "| *(Ký tên và đóng dấu chuyên môn)* | *(Tự động tổng hợp và kiểm toán)* | *(Ký duyệt cao nhất & Chịu trách nhiệm pháp lý)* |"
         ])
 
