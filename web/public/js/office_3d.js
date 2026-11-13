@@ -27,22 +27,39 @@ class Office3DFloorEngine {
     this.isMeetingMode = false;
     this.isNightMode = false;
 
+    // Các thành phần đồ họa nâng cao (Inspired by PAN Digital Company / 3D AI Office)
+    this.neonRings = [];
+    this.serverLeds = [];
+    this.animatedScreens = [];
+    this.courier = null;
+    this.terminalLines = [
+      "⚡ [09:15:02] ORCHESTRATOR: Phân rã luồng công việc 6 ban...",
+      "⚖️ [09:15:05] LEGAL: Quét 12 bẫy điều khoản NĐ 210/2026 -> ĐẠT",
+      "📋 [09:15:08] BIDDING: Lọc 4 báo giá NCC, phát hiện 1 đơn vị lệch 34%",
+      "📐 [09:15:12] QS_BOQ: Bóc tách CAD tầng hầm: 14,250 m3 bê tông C30",
+      "🏗️ [09:15:16] QA_QC: Kiểm định R28 bê tông đạt 108% cường độ thiết kế",
+      "💰 [09:15:20] SETTLEMENT: Thẩm tra Mẫu 08a lũy kế Đợt 4: 18.6 tỷ VNĐ",
+      "👑 [09:15:24] FOUNDER: Phê duyệt giải ngân điện tử thành công!"
+    ];
+    this.terminalActiveLine = 0;
+    this.terminalTimer = 0;
+
     // Định nghĩa vị trí các khu vực trọng điểm trên sàn văn phòng (Floor Plan Coordinates)
     this.ZONES = {
       FOUNDER: { name: "Văn Phòng Founder & CEO Mai Quang Vinh", center: { x: -22, z: -15 }, color: 0xf59e0b },
       BOARDROOM: { name: "Phòng Họp Lớn & Hội Đồng Xét Thầu", center: { x: 20, z: -15 }, color: 0x38bdf8 },
-      LEGAL: { name: "Phòng Pháp Chế & Đàm Phán Hợp Đồng", center: { x: -22, z: 12 }, color: 0xa855f7 },
-      BIDDING: { name: "Phòng Quản Lý Đấu Thầu & Mua Sắm", center: { x: -8, z: 12 }, color: 0x3b82f6 },
-      QS: { name: "Phòng Kỹ Sư Dự Toán QS & BOQ", center: { x: 6, z: 12 }, color: 0x10b981 },
-      QAQC: { name: "Phòng Quản Lý Chất Lượng QA/QC", center: { x: 20, z: 12 }, color: 0xf97316 },
-      SETTLEMENT: { name: "Phòng Kiểm Toán Thanh & Quyết Toán", center: { x: -8, z: -15 }, color: 0xec4899 },
+      LEGAL: { name: "Ban Pháp Chế & Đàm Phán Hợp Đồng", center: { x: -20, z: 12 }, color: 0xa855f7 },
+      BIDDING: { name: "Ban Quản Lý Đấu Thầu & Mua Sắm", center: { x: -8, z: 12 }, color: 0x3b82f6 },
+      QS: { name: "Ban Dự Toán QS & BOQ", center: { x: 6, z: 12 }, color: 0x10b981 },
+      QAQC: { name: "Ban Quản Lý Chất Lượng QA/QC", center: { x: 21.5, z: 12 }, color: 0xf97316 },
+      SETTLEMENT: { name: "Ban Kiểm Toán Thanh & Quyết Toán", center: { x: -8, z: -15 }, color: 0xec4899 },
       MARKETING: { name: "Ban Marketing & Truyền Thông Studio", center: { x: 6, z: -15 }, color: 0xd946ef },
       RECREATION: { name: "Phòng Giải Trí & Thể Dục Wellness", center: { x: -22, z: -1 }, color: 0x10b981 },
       CANTEEN: { name: "Căn Tin & Quầy Bar Doanh Nghiệp", center: { x: 20, z: -1 }, color: 0xf59e0b },
       LOUNGE: { name: "Sảnh Lễ Tân & Tiếp Khách Trung Tâm", center: { x: 0, z: -2 }, color: 0x64748b }
     };
 
-    // Danh sách 22 nhân sự kèm tọa độ bàn làm việc cá nhân & vị trí họp
+    // Danh sách 22 nhân sự kèm tọa độ bàn làm việc, trạng thái live bubble & tiến độ công việc
     this.STAFF_DATA = [
       {
         id: "founder",
@@ -52,7 +69,10 @@ class Office3DFloorEngine {
         dept: "FOUNDER",
         color: 0x1e3a8a, // Navy VIP
         deskPos: { x: -22, z: -16, rot: 0 },
-        meetPos: { x: 15.5, z: -15, rot: Math.PI / 2 }
+        meetPos: { x: 15.5, z: -15, rot: Math.PI / 2 },
+        statusType: "FOUNDER",
+        statusText: "Phê duyệt kế hoạch trao thầu & giải ngân",
+        taskProgress: 95
       },
       // 1. Ban Pháp chế & Đàm phán Hợp đồng (2 nhân sự)
       {
@@ -63,7 +83,10 @@ class Office3DFloorEngine {
         dept: "LEGAL",
         color: 0x7e22ce,
         deskPos: { x: -18, z: 10.5, rot: 0 },
-        meetPos: { x: 17, z: -12.8, rot: 0 }
+        meetPos: { x: 17, z: -12.8, rot: 0 },
+        statusType: "CHECKING",
+        statusText: "Kiểm duyệt QĐ 690 & trần 30% NĐ 210",
+        taskProgress: 88
       },
       {
         id: "legal_specialist",
@@ -73,7 +96,10 @@ class Office3DFloorEngine {
         dept: "LEGAL",
         color: 0x9333ea,
         deskPos: { x: -22, z: 14.5, rot: 0 },
-        meetPos: { x: 17, z: -17.2, rot: Math.PI }
+        meetPos: { x: 17, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Rà soát 12 bẫy điều khoản HĐ thi công",
+        taskProgress: 72
       },
       // 2. Ban Quản lý Đấu thầu & Mua sắm (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
       {
@@ -84,7 +110,10 @@ class Office3DFloorEngine {
         dept: "BIDDING",
         color: 0x1d4ed8,
         deskPos: { x: -8, z: 10.5, rot: 0 },
-        meetPos: { x: 18.5, z: -12.8, rot: 0 }
+        meetPos: { x: 18.5, z: -12.8, rot: 0 },
+        statusType: "CHECKING",
+        statusText: "Thẩm định chỉ định thầu 5 tỷ NĐ 349",
+        taskProgress: 82
       },
       {
         id: "bidding_goods",
@@ -94,7 +123,10 @@ class Office3DFloorEngine {
         dept: "BIDDING",
         color: 0x2563eb,
         deskPos: { x: -12, z: 14.5, rot: 0 },
-        meetPos: { x: 18.5, z: -17.2, rot: Math.PI }
+        meetPos: { x: 18.5, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Lọc 4 bảng giá NCC thiết bị, lệch >30%",
+        taskProgress: 65
       },
       {
         id: "bidding_consultancy",
@@ -104,7 +136,10 @@ class Office3DFloorEngine {
         dept: "BIDDING",
         color: 0x3b82f6,
         deskPos: { x: -8, z: 14.5, rot: 0 },
-        meetPos: { x: 19.8, z: -17.2, rot: Math.PI }
+        meetPos: { x: 19.8, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Lập biểu mẫu BM04-BCDGKT gói tư vấn",
+        taskProgress: 78
       },
       {
         id: "bidding_construction",
@@ -114,7 +149,10 @@ class Office3DFloorEngine {
         dept: "BIDDING",
         color: 0x60a5fa,
         deskPos: { x: -4, z: 14.5, rot: 0 },
-        meetPos: { x: 21.0, z: -17.2, rot: Math.PI }
+        meetPos: { x: 21.0, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Soạn HSMT xây lắp theo 33 mẫu QĐ 458",
+        taskProgress: 60
       },
       // 3. Ban Dự toán QS & BOQ (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
       {
@@ -125,7 +163,10 @@ class Office3DFloorEngine {
         dept: "QS",
         color: 0x047857,
         deskPos: { x: 6, z: 10.5, rot: 0 },
-        meetPos: { x: 20.0, z: -12.8, rot: 0 }
+        meetPos: { x: 20.0, z: -12.8, rot: 0 },
+        statusType: "CHECKING",
+        statusText: "Kiểm soát trần CPC <= 5% (Bill 2) & phát sinh",
+        taskProgress: 90
       },
       {
         id: "qs_investment",
@@ -135,7 +176,10 @@ class Office3DFloorEngine {
         dept: "QS",
         color: 0x059669,
         deskPos: { x: 2, z: 14.5, rot: 0 },
-        meetPos: { x: 22.2, z: -17.2, rot: Math.PI }
+        meetPos: { x: 22.2, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Thẩm tra Tổng mức đầu tư NĐ 10/2021",
+        taskProgress: 58
       },
       {
         id: "qs_civil",
@@ -145,7 +189,10 @@ class Office3DFloorEngine {
         dept: "QS",
         color: 0x10b981,
         deskPos: { x: 6, z: 14.5, rot: 0 },
-        meetPos: { x: 23.5, z: -17.2, rot: Math.PI }
+        meetPos: { x: 23.5, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Bóc tách hình học CAD/DXF: 5/8 tệp",
+        taskProgress: 63
       },
       {
         id: "qs_mep",
@@ -155,7 +202,10 @@ class Office3DFloorEngine {
         dept: "QS",
         color: 0x34d399,
         deskPos: { x: 10, z: 14.5, rot: 0 },
-        meetPos: { x: 24.8, z: -17.2, rot: Math.PI }
+        meetPos: { x: 24.8, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Dự toán Cơ Điện MEP & PCCC QCVN 06:2022",
+        taskProgress: 75
       },
       // 4. Ban Quản lý Chất lượng QA/QC (4 nhân sự: 1 Trưởng ban + 3 Chuyên viên)
       {
@@ -166,7 +216,10 @@ class Office3DFloorEngine {
         dept: "QAQC",
         color: 0xc2410c,
         deskPos: { x: 21.5, z: 10.5, rot: 0 },
-        meetPos: { x: 21.5, z: -12.8, rot: 0 }
+        meetPos: { x: 21.5, z: -12.8, rot: 0 },
+        statusType: "CHECKING",
+        statusText: "Thẩm định Điều 13 NĐ 06, cấp Lệnh Chuyển bước",
+        taskProgress: 86
       },
       {
         id: "qaqc_qa",
@@ -176,7 +229,10 @@ class Office3DFloorEngine {
         dept: "QAQC",
         color: 0xea580c,
         deskPos: { x: 17.5, z: 14.5, rot: 0 },
-        meetPos: { x: 22.8, z: -12.8, rot: 0 }
+        meetPos: { x: 22.8, z: -12.8, rot: 0 },
+        statusType: "WORKING",
+        statusText: "Phê duyệt 1.BM-PD NTP & PTN LAS-XD",
+        taskProgress: 80
       },
       {
         id: "qaqc_qc",
@@ -186,7 +242,10 @@ class Office3DFloorEngine {
         dept: "QAQC",
         color: 0xf97316,
         deskPos: { x: 21.5, z: 14.5, rot: 0 },
-        meetPos: { x: 24.0, z: -12.8, rot: 0 }
+        meetPos: { x: 24.0, z: -12.8, rot: 0 },
+        statusType: "WORKING",
+        statusText: "Kiểm tra phiếu nén mẫu R28 & BBNTCV",
+        taskProgress: 74
       },
       {
         id: "qaqc_hse",
@@ -196,7 +255,10 @@ class Office3DFloorEngine {
         dept: "QAQC",
         color: 0xfb923c,
         deskPos: { x: 25.5, z: 14.5, rot: 0 },
-        meetPos: { x: 25.2, z: -12.8, rot: 0 }
+        meetPos: { x: 25.2, z: -12.8, rot: 0 },
+        statusType: "WARNING",
+        statusText: "Kiểm tra an toàn giàn giáo & ATLĐ 16.BM",
+        taskProgress: 48
       },
       // 5. Ban Kiểm toán Thanh & Quyết toán (2 nhân sự)
       {
@@ -207,7 +269,10 @@ class Office3DFloorEngine {
         dept: "SETTLEMENT",
         color: 0xbe185d,
         deskPos: { x: -6, z: -15, rot: 0 },
-        meetPos: { x: 26.5, z: -12.8, rot: 0 }
+        meetPos: { x: 26.5, z: -12.8, rot: 0 },
+        statusType: "CHECKING",
+        statusText: "Kiểm toán 4 tầng & Luật 3 lỗi QĐ 122/123",
+        taskProgress: 94
       },
       {
         id: "settlement_specialist",
@@ -217,7 +282,10 @@ class Office3DFloorEngine {
         dept: "SETTLEMENT",
         color: 0xdb2777,
         deskPos: { x: -10, z: -15, rot: 0 },
-        meetPos: { x: 26.0, z: -17.2, rot: Math.PI }
+        meetPos: { x: 26.0, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Lập bảng tính Mẫu 08a lũy kế NĐ 99",
+        taskProgress: 68
       },
       // 6. Ban Marketing & Truyền thông (3 nhân sự)
       {
@@ -228,7 +296,10 @@ class Office3DFloorEngine {
         dept: "MARKETING",
         color: 0xa21caf,
         deskPos: { x: 9, z: -12, rot: Math.PI / 4 },
-        meetPos: { x: 27.5, z: -12.8, rot: 0 }
+        meetPos: { x: 27.5, z: -12.8, rot: 0 },
+        statusType: "CHECKING",
+        statusText: "Thẩm định Gate thông điệp truyền thông",
+        taskProgress: 85
       },
       {
         id: "marketing_content",
@@ -238,7 +309,10 @@ class Office3DFloorEngine {
         dept: "MARKETING",
         color: 0xe879f9,
         deskPos: { x: 3, z: -15, rot: 0 },
-        meetPos: { x: 27.2, z: -17.2, rot: Math.PI }
+        meetPos: { x: 27.2, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Sáng tạo bài viết PR báo chí & Social",
+        taskProgress: 77
       },
       {
         id: "marketing_video",
@@ -248,7 +322,10 @@ class Office3DFloorEngine {
         dept: "MARKETING",
         color: 0xc026d3,
         deskPos: { x: 7, z: -15, rot: 0 },
-        meetPos: { x: 28.2, z: -17.2, rot: Math.PI }
+        meetPos: { x: 28.2, z: -17.2, rot: Math.PI },
+        statusType: "WORKING",
+        statusText: "Render Storyboard & Video năng lực 4K",
+        taskProgress: 81
       },
       // 7. Nhân sự Căn Tin & Dịch Vụ Văn Phòng (2 nhân sự)
       {
@@ -259,7 +336,10 @@ class Office3DFloorEngine {
         dept: "CANTEEN",
         color: 0x14b8a6, // Teal
         deskPos: { x: 18.5, z: -2.8, rot: 0 },
-        meetPos: { x: 28.5, z: -15, rot: 0 }
+        meetPos: { x: 28.5, z: -15, rot: 0 },
+        statusType: "SERVICE",
+        statusText: "Pha chế Espresso & Phục vụ quầy bar",
+        taskProgress: 100
       },
       {
         id: "canteen_chef",
@@ -269,7 +349,10 @@ class Office3DFloorEngine {
         dept: "CANTEEN",
         color: 0xf97316, // Orange
         deskPos: { x: 21.5, z: -2.8, rot: 0 },
-        meetPos: { x: 28.5, z: -14, rot: 0 }
+        meetPos: { x: 28.5, z: -14, rot: 0 },
+        statusType: "SERVICE",
+        statusText: "Chuẩn bị bữa nhẹ năng lượng cao",
+        taskProgress: 100
       }
     ];
 
@@ -317,10 +400,17 @@ class Office3DFloorEngine {
     // 7. Bố trí nội thất từng phòng ban (Furniture, Desks, Bookshelves, Boardroom)
     this.buildAllFurniture();
 
-    // 8. Tạo 11 Nhân sự AI 3D (Humanoid Avatars)
+    // 8. Tạo 22 Nhân sự AI 3D (Humanoid Avatars)
     this.spawnStaffAvatars();
 
-    // 9. Lắng nghe sự kiện (Events)
+    // 9. Hiệu ứng đồ họa chuyên sâu (PAN Digital Company Style)
+    this.createNeonFloorRings();
+    this.createServerRackCluster(-24.5, -12);
+    this.createMonsteraPlants();
+    this.createCourierAgent();
+    this.setupAnimatedScreens();
+
+    // 10. Lắng nghe sự kiện (Events)
     window.addEventListener("resize", () => this.onWindowResize());
     this.renderer.domElement.addEventListener("click", (e) => this.onPointerClick(e));
 
@@ -885,6 +975,7 @@ class Office3DFloorEngine {
     // Màn hình hiển thị bản vẽ CAD / tiến độ dự án
     const tvScreenMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
     const tvScreen = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 2.0), tvScreenMat);
+    tvScreen.name = "screenMesh";
     tvScreen.position.set(0, 2.6, -5.73);
     group.add(tvScreen);
 
@@ -1339,42 +1430,492 @@ class Office3DFloorEngine {
     rightLeg.castShadow = true;
     group.add(rightLeg);
 
-    // 5. Nameplate Hologram lơ lửng trên đầu
-    this.attachNameplate(group, staffInfo.name, staffInfo.level, staffInfo.color);
+    // 5. Status Bubble Hologram 3 tầng lơ lửng trên đầu (P&N Digital Style)
+    this.attachStatusBubble(group, staffInfo);
 
     return group;
   }
 
-  attachNameplate(avatarGroup, name, level, colorHex) {
+  attachStatusBubble(avatarGroup, staffInfo) {
     const canvas = document.createElement("canvas");
-    canvas.width = 256;
-    canvas.height = 64;
+    canvas.width = 512;
+    canvas.height = 140;
     const ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
-    ctx.roundRect(2, 2, 252, 60, 12);
+    const statusType = staffInfo.statusType || "WORKING";
+    let statusBadgeText = "🟢 ĐANG LÀM";
+    let badgeBg = "rgba(16, 185, 129, 0.25)";
+    let badgeBorder = "#10b981";
+    let badgeColor = "#34d399";
+
+    if (statusType === "FOUNDER") {
+      statusBadgeText = "👑 FOUNDER";
+      badgeBg = "rgba(245, 158, 11, 0.3)";
+      badgeBorder = "#f59e0b";
+      badgeColor = "#fbbf24";
+    } else if (statusType === "CHECKING") {
+      statusBadgeText = "🧑‍⚖️ THẨM ĐỊNH";
+      badgeBg = "rgba(56, 189, 248, 0.25)";
+      badgeBorder = "#38bdf8";
+      badgeColor = "#7dd3fc";
+    } else if (statusType === "WARNING") {
+      statusBadgeText = "⚠️ CẦN LÀM RÕ";
+      badgeBg = "rgba(244, 63, 94, 0.25)";
+      badgeBorder = "#f43f5e";
+      badgeColor = "#fb7185";
+    } else if (statusType === "SERVICE") {
+      statusBadgeText = "☕ DỊCH VỤ";
+      badgeBg = "rgba(20, 184, 166, 0.25)";
+      badgeBorder = "#14b8a6";
+      badgeColor = "#2dd4bf";
+    }
+
+    // Nền Dark Glassmorphism
+    ctx.fillStyle = "rgba(11, 19, 38, 0.92)";
+    ctx.beginPath();
+    ctx.roundRect(8, 8, 496, 124, 16);
     ctx.fill();
 
-    ctx.strokeStyle = `#${colorHex.toString(16).padStart(6, "0")}`;
-    ctx.lineWidth = 4;
-    ctx.roundRect(2, 2, 252, 60, 12);
+    // Viền phát sáng theo màu phòng ban
+    const hexColor = `#${(staffInfo.color || 0x38bdf8).toString(16).padStart(6, "0")}`;
+    ctx.strokeStyle = hexColor;
+    ctx.lineWidth = 3;
     ctx.stroke();
 
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 20px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(name, 128, 28);
+    // Dòng 1: Badge Trạng Thái + Tên + Level
+    ctx.fillStyle = badgeBg;
+    ctx.beginPath();
+    ctx.roundRect(20, 18, 140, 28, 8);
+    ctx.fill();
+    ctx.strokeStyle = badgeBorder;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
+    ctx.font = "bold 13px 'Segoe UI', Arial, sans-serif";
+    ctx.fillStyle = badgeColor;
+    ctx.textAlign = "center";
+    ctx.fillText(statusBadgeText, 90, 37);
+
+    ctx.font = "bold 18px 'Segoe UI', Arial, sans-serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.textAlign = "left";
+    ctx.fillText(staffInfo.name, 172, 38);
+
+    ctx.font = "12px 'Segoe UI', Arial, sans-serif";
+    ctx.fillStyle = "#94a3b8";
+    ctx.fillText(`• ${staffInfo.level}`, 390, 38);
+
+    // Dòng 2: Nội dung công việc đang thực hiện
+    ctx.font = "14px 'Segoe UI', Arial, sans-serif";
+    ctx.fillStyle = "#cbd5e1";
+    ctx.textAlign = "left";
+    const text = staffInfo.statusText || staffInfo.role;
+    const truncatedText = text.length > 46 ? text.substring(0, 44) + "..." : text;
+    ctx.fillText(truncatedText, 22, 74);
+
+    // Dòng 3: Progress Bar & %
+    const progress = Math.min(Math.max(staffInfo.taskProgress || 70, 0), 100);
+    const barX = 22;
+    const barY = 92;
+    const barW = 380;
+    const barH = 12;
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, barW, barH, 6);
+    ctx.fill();
+
+    const fillW = Math.max((barW * progress) / 100, 6);
+    const grad = ctx.createLinearGradient(barX, 0, barX + fillW, 0);
+    grad.addColorStop(0, badgeBorder);
+    grad.addColorStop(1, hexColor);
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, fillW, barH, 6);
+    ctx.fill();
+
+    ctx.font = "bold 14px 'Segoe UI', Arial, sans-serif";
     ctx.fillStyle = "#38bdf8";
-    ctx.font = "14px Arial";
-    ctx.fillText(`[${level}]`, 128, 50);
+    ctx.textAlign = "right";
+    ctx.fillText(`${progress}%`, 485, 104);
+
+    // Mũi nhọn speech bubble
+    ctx.fillStyle = "rgba(11, 19, 38, 0.92)";
+    ctx.beginPath();
+    ctx.moveTo(246, 132);
+    ctx.lineTo(256, 140);
+    ctx.lineTo(266, 132);
+    ctx.closePath();
+    ctx.fill();
 
     const texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
     const mat = new THREE.SpriteMaterial({ map: texture, transparent: true });
     const sprite = new THREE.Sprite(mat);
-    sprite.scale.set(1.8, 0.45, 1);
-    sprite.position.y = 2.15;
+    sprite.scale.set(2.7, 0.74, 1);
+    sprite.position.y = 2.45;
     avatarGroup.add(sprite);
+    avatarGroup.userData.statusSprite = sprite;
+  }
+
+  // --- CÁC HIỆU ỨNG ĐỒ HỌA NÂNG CAO (PAN DIGITAL / 3D AI OFFICE STYLE) ---
+
+  createNeonFloorRings() {
+    Object.keys(this.ZONES).forEach((key, idx) => {
+      const zone = this.ZONES[key];
+      if (!zone.center) return;
+
+      const ringGeo = new THREE.RingGeometry(2.6, 2.9, 48);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: zone.color,
+        transparent: true,
+        opacity: 0.55,
+        side: THREE.DoubleSide
+      });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = -Math.PI / 2;
+      ring.position.set(zone.center.x, 0.04, zone.center.z);
+      this.scene.add(ring);
+
+      this.neonRings.push({
+        mesh: ring,
+        baseColor: zone.color,
+        baseOpacity: 0.55,
+        offset: idx * 0.8
+      });
+    });
+  }
+
+  createServerRackCluster(x, z) {
+    const rackGroup = new THREE.Group();
+    rackGroup.position.set(x, 0, z);
+
+    // 2 Tủ Server Racks cạnh nhau
+    [-0.9, 0.9].forEach((ox) => {
+      // Vỏ tủ sắt màu đen nhám
+      const cabMat = new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.85, roughness: 0.25 });
+      const cab = new THREE.Mesh(new THREE.BoxGeometry(1.2, 3.4, 0.9), cabMat);
+      cab.position.set(ox, 1.7, 0);
+      cab.castShadow = true;
+      rackGroup.add(cab);
+
+      // Cửa kính mica khói phía trước
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x0284c7,
+        transparent: true,
+        opacity: 0.45,
+        roughness: 0.1,
+        metalness: 0.2
+      });
+      const glassDoor = new THREE.Mesh(new THREE.BoxGeometry(1.1, 3.2, 0.05), glassMat);
+      glassDoor.position.set(ox, 1.7, 0.46);
+      rackGroup.add(glassDoor);
+
+      // Các khay máy chủ (Server blades) với dãy đèn LED
+      const ledColors = [0x10b981, 0x06b6d4, 0x3b82f6, 0x10b981, 0xf59e0b];
+      for (let slot = 0; slot < 8; slot++) {
+        const sy = 0.5 + slot * 0.35;
+        const blade = new THREE.Mesh(
+          new THREE.BoxGeometry(1.05, 0.22, 0.75),
+          new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.9, roughness: 0.3 })
+        );
+        blade.position.set(ox, sy, 0.05);
+        rackGroup.add(blade);
+
+        // 4 bóng LED nhỏ trên mỗi blade
+        for (let l = 0; l < 4; l++) {
+          const ledMat = new THREE.MeshBasicMaterial({ color: ledColors[(slot + l) % ledColors.length] });
+          const led = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 8), ledMat);
+          led.position.set(ox - 0.38 + l * 0.25, sy, 0.44);
+          rackGroup.add(led);
+          this.serverLeds.push({ mesh: led, origColor: ledColors[(slot + l) % ledColors.length], timer: Math.random() });
+        }
+      }
+    });
+
+    // Đế phát sáng xanh neon bên dưới sàn
+    const glowBase = new THREE.Mesh(
+      new THREE.PlaneGeometry(3.2, 1.6),
+      new THREE.MeshBasicMaterial({ color: 0x0284c7, transparent: true, opacity: 0.6, side: THREE.DoubleSide })
+    );
+    glowBase.rotation.x = -Math.PI / 2;
+    glowBase.position.y = 0.03;
+    rackGroup.add(glowBase);
+
+    // Bảng tên Hologram "CENTRAL AI CLUSTER & SERVER CORE"
+    const signCanvas = document.createElement("canvas");
+    signCanvas.width = 256;
+    signCanvas.height = 64;
+    const sctx = signCanvas.getContext("2d");
+    sctx.fillStyle = "rgba(14, 165, 233, 0.2)";
+    sctx.roundRect(4, 4, 248, 56, 8);
+    sctx.fill();
+    sctx.strokeStyle = "#38bdf8";
+    sctx.lineWidth = 2;
+    sctx.stroke();
+    sctx.fillStyle = "#38bdf8";
+    sctx.font = "bold 15px 'Segoe UI', Arial";
+    sctx.textAlign = "center";
+    sctx.fillText("AI CORE & SERVER RACK", 128, 30);
+    sctx.font = "11px 'Segoe UI', Arial";
+    sctx.fillStyle = "#94a3b8";
+    sctx.fillText("DATA CLOUD & HIGH COMPUTE", 128, 48);
+
+    const sTex = new THREE.CanvasTexture(signCanvas);
+    const sMat = new THREE.SpriteMaterial({ map: sTex, transparent: true });
+    const sSprite = new THREE.Sprite(sMat);
+    sSprite.scale.set(2.4, 0.6, 1);
+    sSprite.position.set(0, 3.8, 0);
+    rackGroup.add(sSprite);
+
+    this.scene.add(rackGroup);
+  }
+
+  createMonsteraPlants() {
+    const plantSpots = [
+      { x: -14, z: -8 },
+      { x: 14, z: -8 },
+      { x: -14, z: 5 },
+      { x: 14, z: 5 },
+      { x: -28, z: -5 },
+      { x: 28, z: -5 },
+      { x: -3, z: -18 },
+      { x: 13, z: -18 }
+    ];
+
+    plantSpots.forEach((spot) => {
+      const potGroup = new THREE.Group();
+      potGroup.position.set(spot.x, 0, spot.z);
+
+      // Chậu sứ trắng hiện đại
+      const potGeo = new THREE.CylinderGeometry(0.35, 0.25, 0.7, 16);
+      const potMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
+      const pot = new THREE.Mesh(potGeo, potMat);
+      pot.position.y = 0.35;
+      pot.castShadow = true;
+      potGroup.add(pot);
+
+      // Đất trồng
+      const soilGeo = new THREE.CylinderGeometry(0.33, 0.33, 0.05, 16);
+      const soilMat = new THREE.MeshStandardMaterial({ color: 0x3f2e18, roughness: 0.9 });
+      const soil = new THREE.Mesh(soilGeo, soilMat);
+      soil.position.y = 0.68;
+      potGroup.add(soil);
+
+      // 6 Lá Monstera xòe tán nhiệt đới
+      const leafMat = new THREE.MeshStandardMaterial({
+        color: 0x15803d,
+        roughness: 0.4,
+        side: THREE.DoubleSide
+      });
+
+      for (let i = 0; i < 6; i++) {
+        const leafAngle = (i * Math.PI * 2) / 6;
+        const stemGeo = new THREE.CylinderGeometry(0.018, 0.025, 0.7, 6);
+        const stemMat = new THREE.MeshStandardMaterial({ color: 0x166534 });
+        const stem = new THREE.Mesh(stemGeo, stemMat);
+        stem.position.set(Math.cos(leafAngle) * 0.1, 0.9, Math.sin(leafAngle) * 0.1);
+        stem.rotation.z = Math.cos(leafAngle) * 0.45;
+        stem.rotation.x = Math.sin(leafAngle) * 0.45;
+        potGroup.add(stem);
+
+        const leafShape = new THREE.SphereGeometry(0.25, 8, 8);
+        leafShape.scale(1.2, 0.1, 1.8);
+        const leaf = new THREE.Mesh(leafShape, leafMat);
+        leaf.position.set(Math.cos(leafAngle) * 0.45, 1.25, Math.sin(leafAngle) * 0.45);
+        leaf.rotation.y = leafAngle;
+        leaf.rotation.x = 0.4;
+        potGroup.add(leaf);
+      }
+
+      this.scene.add(potGroup);
+    });
+  }
+
+  createCourierAgent() {
+    const courierGroup = new THREE.Group();
+
+    // 1. Mesh người vận chuyển (Humanoid thể thao áo vàng cam)
+    const suitMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.35 });
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xfbbf24, roughness: 0.5 });
+
+    // Đầu
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), skinMat);
+    head.position.y = 1.55;
+    head.castShadow = true;
+    courierGroup.add(head);
+
+    // Mũ lưỡi trai phong cách công nghệ
+    const capMat = new THREE.MeshStandardMaterial({ color: 0x0284c7 });
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.12, 16), capMat);
+    cap.position.y = 1.66;
+    courierGroup.add(cap);
+
+    const visor = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.02, 0.18), capMat);
+    visor.position.set(0, 1.62, 0.2);
+    courierGroup.add(visor);
+
+    // Thân
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.2, 0.65, 12), suitMat);
+    torso.position.y = 1.05;
+    torso.castShadow = true;
+    courierGroup.add(torso);
+
+    // Tay cầm tệp hồ sơ / Dossier Folder (Màu xanh neon phát sáng như video TikTok)
+    const armGeo = new THREE.CylinderGeometry(0.07, 0.07, 0.55, 8);
+    const leftArm = new THREE.Mesh(armGeo, suitMat);
+    leftArm.position.set(-0.32, 1.05, 0.08);
+    leftArm.rotation.x = -0.4;
+    courierGroup.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeo, suitMat);
+    rightArm.position.set(0.32, 1.05, 0.08);
+    rightArm.rotation.x = -0.4;
+    courierGroup.add(rightArm);
+
+    // Dossier Folder phát sáng cầm trước ngực
+    const folderMat = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.6,
+      metalness: 0.3
+    });
+    const folder = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.45, 0.08), folderMat);
+    folder.position.set(0, 1.05, 0.32);
+    folder.rotation.x = 0.2;
+    courierGroup.add(folder);
+
+    // Chân
+    const pantsMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+    const legGeo = new THREE.CylinderGeometry(0.08, 0.07, 0.72, 8);
+    const leftLeg = new THREE.Mesh(legGeo, pantsMat);
+    leftLeg.position.set(-0.13, 0.36, 0);
+    courierGroup.add(leftLeg);
+
+    const rightLeg = new THREE.Mesh(legGeo, pantsMat);
+    rightLeg.position.set(0.13, 0.36, 0);
+    courierGroup.add(rightLeg);
+
+    // 2. Speech Bubble lơ lửng trên đầu Courier
+    const canvas = document.createElement("canvas");
+    canvas.width = 380;
+    canvas.height = 96;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+    ctx.beginPath();
+    ctx.roundRect(6, 6, 368, 84, 12);
+    ctx.fill();
+    ctx.strokeStyle = "#f59e0b";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    ctx.fillStyle = "#f59e0b";
+    ctx.font = "bold 16px 'Segoe UI', Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("📦 AI COURIER • GIAO LIÊN PHÒNG BAN", 190, 32);
+
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "14px 'Segoe UI', Arial";
+    ctx.fillText("Chuyển: Tệp HSMT & Dự toán QS", 190, 60);
+
+    const tex = new THREE.CanvasTexture(canvas);
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true });
+    const sprite = new THREE.Sprite(mat);
+    sprite.scale.set(2.4, 0.6, 1);
+    sprite.position.y = 2.3;
+    courierGroup.add(sprite);
+
+    // 3. Waypoint tuần tra liên phòng ban
+    const waypoints = [
+      { x: -22, z: -10, name: "Văn Phòng Founder & CEO", doc: "Tệp Phê duyệt Kế hoạch Mua sắm" },
+      { x: -20, z: 8, name: "Ban Pháp Chế", doc: "Tệp Rà soát 12 Bẫy Hợp Đồng NĐ 210" },
+      { x: -8, z: 8, name: "Ban Đấu Thầu & Mua Sắm", doc: "Tệp E-HSMT & Đánh giá 3 Báo Giá" },
+      { x: 6, z: 8, name: "Ban Dự Toán QS & BOQ", doc: "Tệp Bóc Tách Khối Lượng CAD Móng" },
+      { x: 21.5, z: 8, name: "Ban Quản Lý QA/QC", doc: "Tệp BBNTCV & Thí Nghiệm LAS-XD" },
+      { x: -8, z: -10, name: "Ban Kiểm Toán Quyết Toán", doc: "Tệp Thẩm Tra Mẫu 08a Thanh Toán" },
+      { x: 6, z: -10, name: "Ban Marketing & Video", doc: "Tệp Kịch Bản Phim Doanh Nghiệp" }
+    ];
+
+    courierGroup.position.set(waypoints[0].x, 0, waypoints[0].z);
+    this.scene.add(courierGroup);
+
+    this.courier = {
+      group: courierGroup,
+      sprite: sprite,
+      canvas: canvas,
+      ctx: ctx,
+      waypoints: waypoints,
+      targetIdx: 1,
+      speed: 3.2,
+      stayTimer: 0
+    };
+  }
+
+  setupAnimatedScreens() {
+    const termCanvas = document.createElement("canvas");
+    termCanvas.width = 512;
+    termCanvas.height = 256;
+    const tctx = termCanvas.getContext("2d");
+
+    const termTexture = new THREE.CanvasTexture(termCanvas);
+
+    this.scene.traverse((child) => {
+      if (child.isMesh && child.name === "screenMesh") {
+        child.material = new THREE.MeshBasicMaterial({ map: termTexture });
+        this.animatedScreens.push({
+          mesh: child,
+          texture: termTexture,
+          canvas: termCanvas,
+          ctx: tctx
+        });
+      }
+    });
+
+    this.updateTerminalScreen(termCanvas, tctx, termTexture);
+  }
+
+  updateTerminalScreen(canvas, ctx, texture) {
+    ctx.fillStyle = "#030712";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Header bar terminal
+    ctx.fillStyle = "#1e293b";
+    ctx.fillRect(0, 0, canvas.width, 32);
+    ctx.fillStyle = "#ef4444";
+    ctx.beginPath();
+    ctx.arc(16, 16, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#f59e0b";
+    ctx.beginPath();
+    ctx.arc(32, 16, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#10b981";
+    ctx.beginPath();
+    ctx.arc(48, 16, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "bold 13px Consolas, Monaco, monospace";
+    ctx.fillText("LIVE AGENT PIPELINE MONITOR • PAN DIGITAL", 65, 21);
+
+    // Các dòng log
+    ctx.font = "12px Consolas, Monaco, monospace";
+    const startIdx = Math.max(0, this.terminalActiveLine - 7);
+    for (let i = 0; i < 8; i++) {
+      const lineIdx = (startIdx + i) % this.terminalLines.length;
+      const text = this.terminalLines[lineIdx];
+      const y = 60 + i * 24;
+
+      if (i === 7) {
+        ctx.fillStyle = "#34d399";
+        ctx.fillText(`> ${text} █`, 15, y);
+      } else {
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillText(`  ${text}`, 15, y);
+      }
+    }
+
+    texture.needsUpdate = true;
   }
 
   // --- HÀM TƯƠNG TÁC ĐIỀU KHIỂN & DI CHUYỂN NHÂN SỰ ---
@@ -1553,6 +2094,85 @@ class Office3DFloorEngine {
         }
       }
     });
+
+    // Cập nhật Courier chuyển phát hồ sơ liên phòng ban
+    if (this.courier) {
+      const c = this.courier;
+      if (c.stayTimer > 0) {
+        c.stayTimer -= delta;
+      } else {
+        const target = c.waypoints[c.targetIdx];
+        const dx = target.x - c.group.position.x;
+        const dz = target.z - c.group.position.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist > 0.25) {
+          const move = Math.min(c.speed * delta, dist);
+          c.group.position.x += (dx / dist) * move;
+          c.group.position.z += (dz / dist) * move;
+          c.group.rotation.y = Math.atan2(dx, dz);
+          c.group.position.y = Math.abs(Math.sin(this.clock.getElapsedTime() * 12)) * 0.09;
+        } else {
+          // Đến nơi: Dừng lại 2.5s để bàn giao và đổi thẻ hồ sơ
+          c.group.position.x = target.x;
+          c.group.position.z = target.z;
+          c.group.position.y = 0;
+          c.stayTimer = 2.5;
+
+          c.ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
+          c.ctx.beginPath();
+          c.roundRect(6, 6, 368, 84, 12);
+          c.ctx.fill();
+          c.ctx.strokeStyle = "#10b981";
+          c.ctx.lineWidth = 3;
+          c.ctx.stroke();
+
+          c.ctx.fillStyle = "#34d399";
+          c.ctx.font = "bold 15px 'Segoe UI', Arial";
+          c.ctx.textAlign = "center";
+          c.ctx.fillText(`📬 ĐÃ ĐẾN: ${target.name}`, 190, 32);
+
+          c.ctx.fillStyle = "#38bdf8";
+          c.ctx.font = "13px 'Segoe UI', Arial";
+          c.ctx.fillText(`Bàn giao: ${target.doc}`, 190, 60);
+          c.sprite.material.map.needsUpdate = true;
+
+          c.targetIdx = (c.targetIdx + 1) % c.waypoints.length;
+        }
+      }
+    }
+
+    // Hiệu ứng nhấp nháy đèn LED tủ server rack
+    const time = this.clock.getElapsedTime();
+    if (this.serverLeds && this.serverLeds.length > 0) {
+      this.serverLeds.forEach((led) => {
+        led.timer -= delta;
+        if (led.timer <= 0) {
+          led.timer = 0.2 + Math.random() * 0.6;
+          const isOn = Math.random() > 0.3;
+          led.mesh.material.color.setHex(isOn ? led.origColor : 0x052e16);
+        }
+      });
+    }
+
+    // Hiệu ứng vòng neon sàn nhấp nháy hào quang nhẹ
+    if (this.neonRings && this.neonRings.length > 0) {
+      this.neonRings.forEach((ring) => {
+        const pulse = 0.4 + 0.25 * Math.sin(time * 2.5 + ring.offset);
+        ring.mesh.material.opacity = pulse;
+      });
+    }
+
+    // Cập nhật màn hình terminal chạy code sau mỗi 2.2 giây
+    this.terminalTimer += delta;
+    if (this.terminalTimer >= 2.2) {
+      this.terminalTimer = 0;
+      this.terminalActiveLine = (this.terminalActiveLine + 1) % this.terminalLines.length;
+      if (this.animatedScreens.length > 0) {
+        const scr = this.animatedScreens[0];
+        this.updateTerminalScreen(scr.canvas, scr.ctx, scr.texture);
+      }
+    }
 
     if (this.controls) {
       this.controls.update();

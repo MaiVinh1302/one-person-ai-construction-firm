@@ -66,6 +66,13 @@
       <h1>🏢 T&T ONE-PERSON AI CONSTRUCTION ENTERPRISE</h1>
       <p>Hệ Thống Đa Đại Lý AI Điều Hành Công Ty Xây Dựng 1 Người • Căn Cứ Pháp Luật Xây Dựng 2026</p>
     </div>
+
+    <!-- GLOBAL COMMAND PALETTE BAR (CTRL + K - P&N DIGITAL STYLE) -->
+    <div class="cmd-search-bar" onclick="openCommandPalette()" title="Nhấn Ctrl + K để mở tìm kiếm nhanh">
+      <span>🔍 Đi tới hoặc ra lệnh: phòng, người, dự án, pháp luật...</span>
+      <span class="cmd-shortcut">Ctrl K</span>
+    </div>
+
     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
       <a href="https://github.com/MaiVinh1302/one-person-ai-construction-firm" target="_blank" style="display:flex; align-items:center; gap:6px; background:#1e293b; border:1px solid #334155; padding:7px 12px; border-radius:20px; color:#e2e8f0; text-decoration:none; font-size:0.82rem; font-weight:600;">
         <span>🐙</span>
@@ -878,13 +885,171 @@
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#d946ef; color:#f0abfc;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('MARKETING')">🎬 Ban Marketing</button>
         </div>
 
+        <!-- TOP WORKFLOW PIPELINE BAR (PAN DIGITAL STYLE) -->
+        <div class="workflow-pipeline">
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('FOUNDER')" title="Nhấp để chuyển camera về phòng Founder">
+            <span class="pipeline-node-icon">👑</span>
+            <span class="pipeline-node-title">1. Founder</span>
+            <span class="pipeline-node-status">🟢 Phê duyệt</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('LEGAL')" title="Nhấp để chuyển camera về Ban Pháp Chế">
+            <span class="pipeline-node-icon">⚖️</span>
+            <span class="pipeline-node-title">2. Pháp Chế</span>
+            <span class="pipeline-node-status">🟢 2 Trực tuyến</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('BIDDING')" title="Nhấp để chuyển camera về Ban Đấu Thầu">
+            <span class="pipeline-node-icon">📋</span>
+            <span class="pipeline-node-title">3. Đấu Thầu</span>
+            <span class="pipeline-node-status">🟢 4 Trực tuyến</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QS')" title="Nhấp để chuyển camera về Ban Dự Toán QS">
+            <span class="pipeline-node-icon">📐</span>
+            <span class="pipeline-node-title">4. Dự Toán QS</span>
+            <span class="pipeline-node-status">🟢 4 Trực tuyến</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node active-glow" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QAQC')" title="Nhấp để chuyển camera về Ban QA/QC">
+            <span class="pipeline-node-icon">🏗️</span>
+            <span class="pipeline-node-title">5. QA/QC</span>
+            <span class="pipeline-node-status" style="color:#fbbf24;">⚡ Đang thẩm định</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('SETTLEMENT')" title="Nhấp để chuyển camera về Ban Quyết Toán">
+            <span class="pipeline-node-icon">💰</span>
+            <span class="pipeline-node-title">6. Quyết Toán</span>
+            <span class="pipeline-node-status">🟢 2 Trực tuyến</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('MARKETING')" title="Nhấp để chuyển camera về Ban Marketing">
+            <span class="pipeline-node-icon">🎬</span>
+            <span class="pipeline-node-title">7. Marketing</span>
+            <span class="pipeline-node-status">🟢 3 Trực tuyến</span>
+          </div>
+        </div>
+
         <!-- 3D Canvas Box -->
         <div style="position:relative; width:100%; height:650px; background:#070a13; border:2px solid #0284c7; border-radius:12px; overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.6);">
           <div id="office-3d-canvas-container" style="width:100%; height:100%;"></div>
 
-          <!-- HUD Overlay Controls Guidance -->
-          <div style="position:absolute; bottom:12px; left:12px; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); border:1px solid #334155; padding:8px 14px; border-radius:8px; font-size:0.78rem; color:#cbd5e1; pointer-events:none;">
-            💡 <b>Điều Khiển:</b> Chuột trái xoay 360° • Chuột phải di chuyển • Cuộn chuột Zoom • Click nhân sự để xem & giao việc • Click sàn để nhân sự đi bộ đến vị trí
+          <!-- DRAWER TOGGLE BUTTON (TRẠNG THÁI PHÒNG BAN) -->
+          <button class="drawer-toggle-btn" onclick="toggleDeptDrawer()">
+            <span>📊 TRẠNG THÁI PHÒNG BAN</span>
+            <span style="background:#0284c7; color:#fff; border-radius:10px; padding:1px 6px; font-size:0.7rem;">Live</span>
+          </button>
+
+          <!-- REALTIME DEPARTMENT STATUS DRAWER (PAN DIGITAL STYLE) -->
+          <div id="dept-status-drawer" class="dept-status-drawer">
+            <div class="drawer-header">
+              <div style="font-weight:700; color:#38bdf8; font-size:0.92rem; display:flex; align-items:center; gap:6px;">
+                <span>⚡ TRẠNG THÁI PHÒNG BAN & TIẾN ĐỘ</span>
+              </div>
+              <button onclick="toggleDeptDrawer()" style="background:none; border:none; color:#94a3b8; font-size:1.1rem; cursor:pointer;">✕</button>
+            </div>
+            <div class="drawer-body">
+              <!-- Chờ bạn duyệt section -->
+              <div style="background:rgba(245,158,11,0.1); border:1px solid #f59e0b; border-radius:8px; padding:10px;">
+                <div style="color:#fbbf24; font-weight:700; font-size:0.8rem; margin-bottom:6px;">⏳ CHỜ BẠN DUYỆT (2 HỒ SƠ)</div>
+                <div class="approval-card-drawer" style="margin-bottom:6px;">
+                  <div style="font-weight:600; color:#e2e8f0;">Thẩm duyệt Mẫu 08a Đợt 4 (18.6 tỷ)</div>
+                  <div style="font-size:0.72rem; color:#94a3b8; margin:3px 0;">Ban Quyết toán • NĐ 254/2025</div>
+                  <button class="btn-primary" style="padding:3px 8px; font-size:0.72rem; background:#10b981;" onclick="switchTab('approvals')">Xem Phê Duyệt</button>
+                </div>
+                <div class="approval-card-drawer">
+                  <div style="font-weight:600; color:#e2e8f0;">Lệnh chuyển bước Đổ bê tông dầm sàn T5</div>
+                  <div style="font-size:0.72rem; color:#94a3b8; margin:3px 0;">Ban QA/QC • Điều 13 NĐ 06/2021</div>
+                  <button class="btn-primary" style="padding:3px 8px; font-size:0.72rem; background:#10b981;" onclick="switchTab('approvals')">Xem Phê Duyệt</button>
+                </div>
+              </div>
+
+              <!-- Danh sách tiến độ 6 Ban -->
+              <div style="font-size:0.8rem; color:#94a3b8; font-weight:700; text-transform:uppercase;">Tiến Độ 6 Ban & Dịch Vụ</div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#c084fc;">⚖️ Ban Pháp Chế (2 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 88%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Rà soát 12 bẫy HĐ & tạm ứng 30% NĐ 210</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#60a5fa;">📋 Ban Đấu Thầu (4 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 82%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Lập E-HSMT & thẩm tra 3 báo giá NĐ 349</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#34d399;">📐 Ban Dự Toán QS (4 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 79%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Bóc CAD kết cấu, hạ tầng san nền & MEP TT 09/2024</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#fb923c;">🏗️ Ban QA/QC (4 NS)</span>
+                  <span style="font-size:0.7rem; color:#fbbf24;">● 70%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Kiểm định mẫu R28 LAS-XD & quy trình 16.BM</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#f472b6;">💰 Ban Quyết Toán (2 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 81%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Kiểm toán 4 tầng & soát sai lệch Mẫu 08a Đợt 4</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#f0abfc;">🎬 Ban Marketing (3 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 81%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Sản xuất bài viết PR báo chí & video năng lực 4K</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#2dd4bf;">☕ Căn Tin & Dịch Vụ (2 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 100%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Barista quầy bar & bếp dinh dưỡng sẵn sàng phục vụ</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM PROJECT TICKER PILLS (PAN DIGITAL STYLE) -->
+          <div class="project-ticker-container">
+            <div class="project-ticker-pill" onclick="switchTab('gdrive')">
+              <span>🏢 Dự án 1: KĐT T&T City Complex</span>
+              <span style="color:#10b981; font-weight:bold;">84%</span>
+            </div>
+            <div class="project-ticker-pill" onclick="switchTab('gdrive')">
+              <span>🏗️ Dự án 2: Tòa nhà hỗn hợp T&T Tower</span>
+              <span style="color:#38bdf8; font-weight:bold;">62%</span>
+            </div>
+            <div class="project-ticker-pill" onclick="switchTab('gdrive')">
+              <span>🌉 Dự án 3: Hạ tầng KCN Công nghệ cao</span>
+              <span style="color:#fbbf24; font-weight:bold;">Thẩm tra CAD</span>
+            </div>
+          </div>
+
+          <!-- REALTIME METRICS FOOTER (3D CONTAINER) -->
+          <div class="metrics-footer-3d">
+            <span style="color:#34d399; font-weight:bold;">● 22 Nhân sự AI đang trực</span>
+            <span>•</span>
+            <span style="color:#e2e8f0;">0 Cần chú ý</span>
+            <span>•</span>
+            <span style="color:#fbbf24; font-weight:bold;">2 Chờ phê duyệt</span>
+            <span>•</span>
+            <span style="color:#38bdf8;">⚡ Hệ thống ổn định</span>
           </div>
 
           <!-- Interactive Hologram Modal Popup -->
@@ -3053,7 +3218,117 @@
       document.getElementById('staff-3d-modal').style.display = 'none';
     }
 
+    // Command Palette & Department Drawer Controller (P&N Digital Style)
+    window.toggleDeptDrawer = function() {
+      const drawer = document.getElementById('dept-status-drawer');
+      if (drawer) drawer.classList.toggle('open');
+    };
+
+    window.openCommandPalette = function() {
+      const overlay = document.getElementById('cmd-palette-overlay');
+      const input = document.getElementById('cmd-palette-input');
+      if (overlay && input) {
+        overlay.style.display = 'flex';
+        input.value = '';
+        filterCommandPalette('');
+        setTimeout(() => input.focus(), 60);
+      }
+    };
+
+    window.closeCommandPalette = function() {
+      const overlay = document.getElementById('cmd-palette-overlay');
+      if (overlay) overlay.style.display = 'none';
+    };
+
+    window.closeCommandPaletteOnBackdrop = function(e) {
+      if (e.target.id === 'cmd-palette-overlay') {
+        closeCommandPalette();
+      }
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openCommandPalette();
+      } else if (e.key === 'Escape') {
+        closeCommandPalette();
+      }
+    });
+
+    const CMD_ITEMS = [
+      { type: 'Phòng Ban', name: 'Ban Pháp Chế & Đàm Phán Hợp Đồng (2 NS)', icon: '⚖️', action: () => { switchTab('contract'); } },
+      { type: 'Phòng Ban', name: 'Ban Quản Lý Đấu Thầu & Mua Sắm (4 NS)', icon: '📋', action: () => { switchTab('bidding'); } },
+      { type: 'Phòng Ban', name: 'Ban Kỹ Sư Dự Toán QS & BOQ (4 NS)', icon: '📐', action: () => { switchTab('qs_boq'); } },
+      { type: 'Phòng Ban', name: 'Ban Quản Lý Chất Lượng QA/QC (4 NS)', icon: '🏗️', action: () => { switchTab('qaqc'); } },
+      { type: 'Phòng Ban', name: 'Ban Kiểm Toán Thanh & Quyết Toán (2 NS)', icon: '💰', action: () => { switchTab('settlement'); } },
+      { type: 'Phòng Ban', name: 'Ban Marketing & Truyền Thông (3 NS)', icon: '🎬', action: () => { switchTab('marketing'); } },
+      { type: '3D Floor', name: 'Mô hình 3D Sàn Văn Phòng Trực Quan (22 Nhân sự)', icon: '🏛️', action: () => { switchTab('floor3d'); } },
+      { type: '3D Cam', name: '3D: Góc nhìn Phòng Founder & CEO Mai Quang Vinh', icon: '👑', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('FOUNDER'); } },
+      { type: '3D Cam', name: '3D: Góc nhìn Phòng Họp Lớn & Hội Đồng Xét Thầu', icon: '🏛️', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('BOARDROOM'); } },
+      { type: '3D Cam', name: '3D: Góc nhìn Phòng Giải Trí Wellness & Gym', icon: '🎮', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('RECREATION'); } },
+      { type: '3D Cam', name: '3D: Góc nhìn Căn Tin & Quầy Bar Phục Vụ', icon: '☕', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('CANTEEN'); } },
+      { type: 'Hồ Sơ', name: 'Kho Lưu Trữ Google Drive Dự Án 1 & 2', icon: '☁️', action: () => { switchTab('gdrive'); } },
+      { type: 'Quy Trình', name: 'Hệ Thống Quy Trình & Biểu Mẫu T&T Group', icon: '📑', action: () => { switchTab('sops'); } },
+      { type: 'Phê Duyệt', name: 'Cổng Phê Duyệt Founder (2 hồ sơ chờ duyệt)', icon: '🛡️', action: () => { switchTab('approvals'); } },
+      { type: 'Tra Cứu', name: 'Tra Cứu Pháp Luật Xây Dựng 2026 Tại Chỗ', icon: '🔍', action: () => { switchTab('legal_search'); } },
+      { type: 'Lệnh 3D', name: '3D: Triệu Tập Toàn Bộ Nhân Sự Vào Phòng Họp', icon: '📢', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.gatherAllToMeeting(); } },
+      { type: 'Lệnh 3D', name: '3D: Cho Toàn Bộ Nhân Sự Nghỉ Giải Lao (Căn Tin/Gym)', icon: '☕', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.gatherAllToBreak(); } },
+      { type: 'Lệnh 3D', name: '3D: Toàn Bộ Nhân Sự Trở Về Bàn Làm Việc', icon: '🏃', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.sendAllBackToDesks(); } }
+    ];
+
+    window.filterCommandPalette = function(query) {
+      const list = document.getElementById('cmd-palette-list');
+      if (!list) return;
+      const q = (query || '').toLowerCase().trim();
+      const filtered = CMD_ITEMS.filter(item => item.name.toLowerCase().includes(q) || item.type.toLowerCase().includes(q));
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div style="padding:16px; text-align:center; color:#64748b; font-size:0.85rem;">Không tìm thấy lệnh hoặc phòng ban phù hợp.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map((item, idx) => `
+        <div class="cmd-palette-item ${idx === 0 ? 'active' : ''}" onclick="executeCmdItem(${idx})">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.15rem;">${item.icon}</span>
+            <span>${item.name}</span>
+          </div>
+          <span class="cmd-palette-badge">${item.type}</span>
+        </div>
+      `).join('');
+    };
+
+    window.executeCmdItem = function(idx) {
+      const input = document.getElementById('cmd-palette-input');
+      const q = (input ? input.value : '').toLowerCase().trim();
+      const filtered = CMD_ITEMS.filter(item => item.name.toLowerCase().includes(q) || item.type.toLowerCase().includes(q));
+      if (filtered[idx]) {
+        filtered[idx].action();
+        closeCommandPalette();
+      }
+    };
+
+    window.handleCommandKey = function(e) {
+      if (e.key === 'Enter') {
+        executeCmdItem(0);
+      }
+    };
+
     updateApprovalCount();
   </script>
+
+  <!-- COMMAND PALETTE MODAL (CTRL + K - P&N DIGITAL STYLE) -->
+  <div id="cmd-palette-overlay" class="cmd-palette-overlay" onclick="closeCommandPaletteOnBackdrop(event)">
+    <div class="cmd-palette-box">
+      <div class="cmd-palette-header">
+        <span style="font-size:1.2rem; color:#38bdf8;">🔍</span>
+        <input type="text" id="cmd-palette-input" class="cmd-palette-input" placeholder="Gõ tên phòng ban, nhân sự, dự án, hoặc lệnh..." oninput="filterCommandPalette(this.value)" onkeydown="handleCommandKey(event)">
+        <span class="cmd-shortcut">ESC</span>
+      </div>
+      <div id="cmd-palette-list" class="cmd-palette-list">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </div>
+  </div>
 </body>
 </html>
