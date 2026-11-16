@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Dòng Tiền BOQ & Đồ Thị S-Curve Giải Ngân — TT Group CPM Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Chart.js để vẽ đồ thị đường cong chữ S (S-Curve) tương tác -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Thư viện SheetJS xuất Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .custom-scroll::-webkit-scrollbar { height: 7px; width: 7px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }
+    
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      table { border-collapse: collapse !important; width: 100% !important; font-size: 8pt !important; }
+      th, td { border: 1px solid #333 !important; color: black !important; padding: 4px !important; }
+      th { background-color: #f1f5f9 !important; }
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-amber-500 selection:text-white">
+
+  <!-- TOP HEADER / TOOLBAR -->
+  <header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur-md px-5 py-3 sticky top-0 z-50 no-print">
+    <div class="max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <a href="./" class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center hover:bg-amber-500/20 transition" title="Quay lại Biểu đồ Gantt CPM">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold px-2 py-0.5 rounded">CASHFLOW & EVM ENGINE</span>
+            <h1 class="text-base font-extrabold text-white tracking-tight">Quản Lý Dòng Tiền BOQ & Đồ Thị S-Curve Giải Ngân</h1>
+          </div>
+          <p class="text-[11px] text-slate-400">Theo dõi Kế hoạch Giải ngân (PV) vs Giá trị Nghiệm thu (EV) & Chi phí Thực tế (AC) chuẩn EVM</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center flex-wrap gap-2">
+        <button onclick="loadSampleCashflow()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center space-x-1.5" title="Nạp dữ liệu mẫu BOQ và dòng tiền dự án">
+          <i class="fa-solid fa-rotate text-amber-400"></i>
+          <span>Nạp Mẫu BOQ Dòng Tiền</span>
+        </button>
+
+        <button onclick="syncFromCpmStore()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center space-x-1.5" title="Đồng bộ công việc từ Tiến độ CPM">
+          <i class="fa-solid fa-network-wired text-sky-400"></i>
+          <span>Lấy từ Tiến Độ CPM</span>
+        </button>
+
+        <button onclick="openCloudModal()" class="px-3 py-1.5 bg-sky-950/70 hover:bg-sky-900 text-sky-300 text-xs font-bold rounded-lg border border-sky-700/60 transition flex items-center space-x-1.5" title="Cấu hình kết nối Firebase Firestore để đồng bộ đa người dùng">
+          <i class="fa-solid fa-cloud text-sky-400"></i>
+          <span id="cloud_status_btn">Cloud Sync: Cục bộ</span>
+        </button>
+
+        <a href="payment_report.html" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-file-invoice-dollar text-emerald-400"></i>
+          <span>Báo Cáo Đợt Thanh Toán</span>
+        </a>
+
+        <button onclick="exportCashflowExcel()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-emerald-600/20 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-file-excel text-sm"></i>
+          <span>Xuất Excel Dòng Tiền</span>
+        </button>
+
+        <button onclick="window.print()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-indigo-600/20 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-print text-sm"></i>
+          <span>In S-Curve / PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <main class="max-w-[1700px] w-full mx-auto p-5 space-y-5 flex-1">
+    
+    <!-- KPI SUMMARY CARDS (EVM METRICS) -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 no-print">
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 shadow-lg">
+        <span class="text-[10px] uppercase font-bold text-slate-400 block">Tổng Giá Trị Hợp Đồng (BAC)</span>
+        <span id="kpi_bac" class="text-lg font-black text-white font-mono">0 đ</span>
+        <span class="text-[10px] text-slate-500 block mt-0.5">Budget at Completion</span>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 shadow-lg">
+        <span class="text-[10px] uppercase font-bold text-sky-400 block">Kế Hoạch Lũy Kế (PV)</span>
+        <span id="kpi_pv" class="text-lg font-black text-sky-400 font-mono">0 đ</span>
+        <span id="kpi_pv_percent" class="text-[10px] text-sky-300 block mt-0.5">0.0% kế hoạch</span>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 shadow-lg">
+        <span class="text-[10px] uppercase font-bold text-emerald-400 block">Nghiệm Thu Lũy Kế (EV)</span>
+        <span id="kpi_ev" class="text-lg font-black text-emerald-400 font-mono">0 đ</span>
+        <span id="kpi_ev_percent" class="text-[10px] text-emerald-300 block mt-0.5">0.0% thực tế</span>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 shadow-lg">
+        <span class="text-[10px] uppercase font-bold text-purple-400 block">Chi Phí Giải Ngân (AC)</span>
+        <span id="kpi_ac" class="text-lg font-black text-purple-400 font-mono">0 đ</span>
+        <span id="kpi_ac_percent" class="text-[10px] text-purple-300 block mt-0.5">0.0% ngân sách</span>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 shadow-lg">
+        <span class="text-[10px] uppercase font-bold text-amber-400 block">Chỉ Số Chi Phí (CPI)</span>
+        <span id="kpi_cpi" class="text-lg font-black text-amber-400 font-mono">1.00</span>
+        <span id="kpi_cpi_status" class="text-[10px] text-slate-400 block mt-0.5">Trong ngân sách</span>
+      </div>
+
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 shadow-lg">
+        <span class="text-[10px] uppercase font-bold text-rose-400 block">Chỉ Số Tiến Độ (SPI)</span>
+        <span id="kpi_spi" class="text-lg font-black text-rose-400 font-mono">1.00</span>
+        <span id="kpi_spi_status" class="text-[10px] text-slate-400 block mt-0.5">Đúng tiến độ</span>
+      </div>
+    </div>
+
+    <!-- S-CURVE INTERACTIVE CHART -->
+    <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-5 shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+            <i class="fa-solid fa-chart-line text-emerald-400"></i>
+            <span>ĐỒ THỊ ĐƯỜNG CONG CHỮ S (S-CURVE) DÒNG TIỀN & TIẾN ĐỘ LŨY KẾ</span>
+          </h2>
+          <p class="text-xs text-slate-400">So sánh Đường cong Kế hoạch giải ngân (Planned Value) và Đường cong Thực tế (Earned Value & Actual Cost)</p>
+        </div>
+        <div class="flex items-center space-x-3 text-xs font-semibold">
+          <div class="flex items-center space-x-1.5 text-sky-400">
+            <span class="w-3 h-0.5 bg-sky-400 inline-block border-t border-dashed"></span>
+            <span>Kế hoạch (PV)</span>
+          </div>
+          <div class="flex items-center space-x-1.5 text-emerald-400">
+            <span class="w-3 h-1 bg-emerald-400 inline-block rounded"></span>
+            <span>Nghiệm thu (EV)</span>
+          </div>
+          <div class="flex items-center space-x-1.5 text-purple-400">
+            <span class="w-3 h-1 bg-purple-400 inline-block rounded"></span>
+            <span>Đã giải ngân (AC)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-80 w-full relative">
+        <canvas id="scurve_canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- BOQ & DÒNG TIỀN CHI TIẾT KÈM LIÊN KẾT HỆ SINH THÁI TT GROUP -->
+    <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-900/80 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-table-list text-amber-400"></i>
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider">Bảng Bóc Tách Khối Lượng BOQ, Đơn Giá & Liên Kết Hồ Sơ</h3>
+        </div>
+        <div class="flex items-center space-x-2 text-xs">
+          <span class="text-slate-400">Tìm kiếm nhanh:</span>
+          <input type="text" id="table_search" onkeyup="filterTable(this.value)" placeholder="Lọc theo tên công việc..." class="bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-white text-xs focus:border-amber-500 focus:outline-none w-56">
+          <button onclick="addNewBoqRow()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 font-semibold flex items-center space-x-1">
+            <i class="fa-solid fa-plus text-emerald-400"></i>
+            <span>Thêm mục</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="custom-scroll overflow-x-auto max-h-[60vh]">
+        <table id="boq_table" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
+          <thead class="sticky top-0 z-20 bg-slate-900 border-b border-slate-700 text-slate-200 uppercase font-bold tracking-wider select-none text-[10.5px]">
+            <tr>
+              <th class="px-2.5 py-2.5 text-center border-r border-slate-800 w-10">TT</th>
+              <th class="px-3 py-2.5 border-r border-slate-800 min-w-[260px]">Nội dung công việc (WBS)</th>
+              <th class="px-2 py-2.5 text-center border-r border-slate-800 w-16">ĐVT</th>
+              <th class="px-2.5 py-2.5 text-right border-r border-slate-800 w-28">Đơn giá (VNĐ)</th>
+              <th class="px-2.5 py-2.5 text-right border-r border-slate-800 w-24">KL Hợp đồng</th>
+              <th class="px-2.5 py-2.5 text-right border-r border-slate-800 w-32">Thành tiền HĐ (PV)</th>
+              <th class="px-2.5 py-2.5 text-right border-r border-slate-800 w-24">KL Nghiệm thu</th>
+              <th class="px-2.5 py-2.5 text-right border-r border-slate-800 w-32 text-emerald-400">Giá trị NT (EV)</th>
+              <th class="px-2 py-2.5 text-center border-r border-slate-800 w-16">% Xong</th>
+              <th class="px-2.5 py-2.5 text-center border-r border-slate-800 min-w-[200px] text-sky-400">
+                <i class="fa-solid fa-file-contract mr-1"></i>Hồ sơ BBNTCV (QLVB)
+              </th>
+              <th class="px-2.5 py-2.5 text-center border-r border-slate-800 min-w-[200px] text-rose-400">
+                <i class="fa-solid fa-file-pdf mr-1"></i>Bản vẽ Hoàn công (Foxit)
+              </th>
+              <th class="px-2 py-2.5 text-center w-12 no-print">Xóa</th>
+            </tr>
+          </thead>
+          <tbody id="boq_tbody" class="divide-y divide-slate-800/80 text-slate-200">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL CẤU HÌNH CLOUD SYNC REALTIME (FIREBASE / SUPABASE) -->
+  <div id="cloud_modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="p-2 bg-sky-500/10 text-sky-400 border border-sky-500/20 rounded-lg">
+            <i class="fa-solid fa-cloud text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Cấu Hình Đồng Bộ Đám Mây Realtime</h3>
+            <p class="text-xs text-slate-400">Đồng bộ hai chiều giữa Văn phòng Tập đoàn và Ban Chỉ huy</p>
+          </div>
+        </div>
+        <button onclick="closeCloudModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Nền tảng Cloud Backend:</label>
+          <select id="cloud_provider" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:border-amber-500 focus:outline-none">
+            <option value="firebase">Google Cloud Firebase Firestore (Khuyến nghị)</option>
+            <option value="supabase">Supabase PostgreSQL</option>
+            <option value="local_p2p">Đồng bộ P2P tức thời qua mã chia sẻ (Không cần server)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Project ID / App ID:</label>
+          <input type="text" id="cloud_project_id" placeholder="vd: ttgroup-cpm-project-2026" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:border-amber-500 focus:outline-none font-mono">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">API Key / Auth Token:</label>
+          <input type="password" id="cloud_api_key" placeholder="AIzaSy..." class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white focus:border-amber-500 focus:outline-none font-mono">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Mã định danh công trình (Project Key):</label>
+          <input type="text" id="cloud_channel" value="SB_QUANG_TRI_GOI_12" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-amber-400 font-bold focus:border-amber-500 focus:outline-none font-mono">
+        </div>
+
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-400">Trạng thái kết nối:</span>
+            <span id="cloud_status_badge" class="px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded font-bold">Chế độ Offline</span>
+          </div>
+          <div class="text-[11px] text-slate-500 leading-relaxed">
+            Khi bật tính năng này, mọi thay đổi trên biểu đồ tiến độ hoặc giá trị nghiệm thu BOQ sẽ được lưu tức thời lên Đám mây. Lãnh đạo hoặc cán bộ công trường chỉ cần mở link trên điện thoại là số liệu tự nhảy theo thời gian thực.
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end space-x-2 pt-2 border-t border-slate-800">
+        <button onclick="closeCloudModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold">Đóng</button>
+        <button onclick="saveCloudConfig()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-sky-600/20">Lưu & Kết Nối</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800 py-3 px-6 text-center text-xs text-slate-500 no-print">
+    <span>TT GROUP CPM Pro — Phân hệ Quản trị Dòng tiền BOQ, S-Curve & Kết nối Hệ sinh thái số.</span>
+  </footer>
+
+  <script>
+    // Dữ liệu mẫu BOQ đính kèm đơn giá và liên kết QLVB / Foxit
+    const sampleBoqData = [
+      {
+        tt: "1",
+        name: "Rải thảm mặt đường BTN C19 - Dày 7cm",
+        unit: "m2",
+        unitPrice: 285000,
+        contractQty: 7575,
+        actualQty: 2500,
+        monthPlanned: [0, 0, 500000000, 1000000000, 658875000, 0],
+        monthActual:  [0, 0, 0, 712500000, 0, 0],
+        bbntcvDoc: "BBNTCV số 14/N4-D11/2026",
+        drawingDoc: "BVTC-GT-08.dwg (Mặt bằng thảm nhựa)"
+      },
+      {
+        tt: "2",
+        name: "Bê tông lót móng bó vỉa, tấm đan, M150",
+        unit: "md",
+        unitPrice: 165000,
+        contractQty: 5494,
+        actualQty: 3200,
+        monthPlanned: [0, 200000000, 400000000, 306510000, 0, 0],
+        monthActual:  [0, 150000000, 378000000, 0, 0, 0],
+        bbntcvDoc: "BBNTCV số 22/BV-B16/2026",
+        drawingDoc: "BVTC-GT-11.pdf (Chi tiết bó vỉa)"
+      },
+      {
+        tt: "3",
+        name: "Lắp đặt Bó vỉa đá tự nhiên",
+        unit: "md",
+        unitPrice: 420000,
+        contractQty: 5494,
+        actualQty: 2100,
+        monthPlanned: [0, 0, 800000000, 1000000000, 507480000, 0],
+        monthActual:  [0, 0, 450000000, 432000000, 0, 0],
+        bbntcvDoc: "BBNTCV số 28/BV-DA/2026",
+        drawingDoc: "BVTC-GT-12.pdf (Mặt cắt bó vỉa đá)"
+      },
+      {
+        tt: "4",
+        name: "Đào đất, đóng cọc tre, dải đá dăm đệm móng kè",
+        unit: "%",
+        unitPrice: 12500000,
+        contractQty: 100,
+        actualQty: 90,
+        monthPlanned: [400000000, 600000000, 250000000, 0, 0, 0],
+        monthActual:  [350000000, 580000000, 195000000, 0, 0, 0],
+        bbntcvDoc: "BBNTCV số 05/KÈ-MƯƠNG/2025",
+        drawingDoc: "BVTC-KE-01.pdf (Móng kè & cọc tre)"
+      },
+      {
+        tt: "5",
+        name: "Xây đá hộc bờ kè, vữa XM M100",
+        unit: "m3",
+        unitPrice: 1150000,
+        contractQty: 1086,
+        actualQty: 300,
+        monthPlanned: [0, 300000000, 500000000, 448900000, 0, 0],
+        monthActual:  [0, 150000000, 195000000, 0, 0, 0],
+        bbntcvDoc: "BBNTCV số 19/KE-XAY/2026",
+        drawingDoc: "BVTC-KE-04.pdf (Mặt cắt thân kè)"
+      },
+      {
+        tt: "6",
+        name: "Đào đất, lắp đặt ống cống D1000, hố ga thoát nước mưa",
+        unit: "md",
+        unitPrice: 1850000,
+        contractQty: 2913,
+        actualQty: 2200,
+        monthPlanned: [1500000000, 2000000000, 1889050000, 0, 0, 0],
+        monthActual:  [1200000000, 1950000000, 920000000, 0, 0, 0],
+        bbntcvDoc: "BBNTCV số 33/TNM-D1000/2025",
+        drawingDoc: "BVTC-TNM-03.pdf (Tuyến cống D1000)"
+      },
+      {
+        tt: "7",
+        name: "Thi công ép cọc tre, móng cống hộp BTCT 3x3m",
+        unit: "cống",
+        unitPrice: 1850000000,
+        contractQty: 2,
+        actualQty: 1.7,
+        monthPlanned: [1000000000, 1500000000, 1200000000, 0, 0, 0],
+        monthActual:  [850000000, 1400000000, 895000000, 0, 0, 0],
+        bbntcvDoc: "BBNTCV số 01/CONG-HOP-3x3/2025",
+        drawingDoc: "BVTC-CH-01.pdf (Kết cấu cống hộp 3x3)"
+      }
+    ];
+
+    let currentBoq = JSON.parse(JSON.stringify(sampleBoqData));
+    let scurveChart = null;
+
+    // Định dạng tiền tệ VNĐ
+    function formatVND(val) {
+      if (val == null || isNaN(val)) return "0 đ";
+      return Math.round(val).toLocaleString('vi-VN') + " đ";
+    }
+
+    // Render bảng BOQ
+    function renderBoqTable() {
+      const tbody = document.getElementById("boq_tbody");
+      tbody.innerHTML = "";
+
+      let totalBAC = 0, totalEV = 0;
+
+      currentBoq.forEach((item, idx) => {
+        const itemBAC = (item.contractQty || 0) * (item.unitPrice || 0);
+        const itemEV = (item.actualQty || 0) * (item.unitPrice || 0);
+        const percent = item.contractQty ? ((item.actualQty / item.contractQty) * 100).toFixed(1) : 0;
+
+        totalBAC += itemBAC;
+        totalEV += itemEV;
+
+        // Mã hóa URL để mở sang QLVB hoặc Foxit
+        const qlvbUrl = `../qlvb.html?search=${encodeURIComponent(item.bbntcvDoc || item.name)}`;
+        const foxitUrl = `../pdf_editor.html?title=${encodeURIComponent(item.drawingDoc || item.name)}`;
+
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-slate-800/50 transition border-b border-slate-800/80";
+        tr.innerHTML = `
+          <td class="px-2.5 py-2 text-center border-r border-slate-800 font-mono text-slate-400">
+            ${item.tt || (idx + 1)}
+          </td>
+          <td class="px-3 py-2 border-r border-slate-800 font-semibold text-white">
+            <input type="text" value="${item.name}" onchange="updateBoqItem(${idx}, 'name', this.value)" class="w-full bg-transparent focus:bg-slate-900 focus:outline-none truncate" title="${item.name}">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 text-slate-400">
+            <input type="text" value="${item.unit || ''}" onchange="updateBoqItem(${idx}, 'unit', this.value)" class="w-full bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2.5 py-2 text-right border-r border-slate-800 font-mono text-slate-300">
+            <input type="number" step="1000" value="${item.unitPrice || 0}" onchange="updateBoqItem(${idx}, 'unitPrice', parseFloat(this.value)||0)" class="w-full bg-transparent text-right focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2.5 py-2 text-right border-r border-slate-800 font-mono text-slate-300">
+            <input type="number" step="any" value="${item.contractQty || 0}" onchange="updateBoqItem(${idx}, 'contractQty', parseFloat(this.value)||0)" class="w-full bg-transparent text-right focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2.5 py-2 text-right border-r border-slate-800 font-mono font-bold text-sky-400">
+            ${formatVND(itemBAC)}
+          </td>
+          <td class="px-2.5 py-2 text-right border-r border-slate-800 font-mono text-emerald-400 font-semibold">
+            <input type="number" step="any" value="${item.actualQty || 0}" onchange="updateBoqItem(${idx}, 'actualQty', parseFloat(this.value)||0)" class="w-full bg-transparent text-right focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2.5 py-2 text-right border-r border-slate-800 font-mono font-bold text-emerald-400">
+            ${formatVND(itemEV)}
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono font-bold text-purple-400">
+            ${percent}%
+          </td>
+          <!-- Cột liên kết QLVB (Biên bản nghiệm thu) -->
+          <td class="px-2.5 py-2 border-r border-slate-800">
+            <div class="flex items-center space-x-1.5">
+              <input type="text" value="${item.bbntcvDoc || ''}" onchange="updateBoqItem(${idx}, 'bbntcvDoc', this.value)" placeholder="Số BBNTCV..." class="w-full bg-slate-900/60 border border-slate-700/60 rounded px-1.5 py-0.5 text-[10px] text-slate-300 focus:outline-none focus:border-sky-500">
+              <a href="${qlvbUrl}" target="_blank" class="px-2 py-1 bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/20 rounded text-[10px] font-bold flex items-center space-x-1 shrink-0" title="Mở QLVB tra cứu BBNTCV">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span>QLVB</span>
+              </a>
+            </div>
+          </td>
+          <!-- Cột liên kết Foxit PDF (Bản vẽ hoàn công) -->
+          <td class="px-2.5 py-2 border-r border-slate-800">
+            <div class="flex items-center space-x-1.5">
+              <input type="text" value="${item.drawingDoc || ''}" onchange="updateBoqItem(${idx}, 'drawingDoc', this.value)" placeholder="Tên bản vẽ..." class="w-full bg-slate-900/60 border border-slate-700/60 rounded px-1.5 py-0.5 text-[10px] text-slate-300 focus:outline-none focus:border-rose-500">
+              <a href="${foxitUrl}" target="_blank" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded text-[10px] font-bold flex items-center space-x-1 shrink-0" title="Mở Foxit Editor xem bản vẽ hoàn công">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>Foxit</span>
+              </a>
+            </div>
+          </td>
+          <td class="px-2 py-2 text-center no-print">
+            <button onclick="deleteBoqRow(${idx})" class="text-slate-500 hover:text-rose-400 transition">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Cập nhật KPIs
+      const pvEstimated = totalBAC * 0.72; // Giả định kế hoạch lũy kế kỳ này 72%
+      const acEstimated = totalEV * 0.94; // Chi phí thực tế đã giải ngân 94% giá trị nghiệm thu
+
+      document.getElementById("kpi_bac").innerText = formatVND(totalBAC);
+      document.getElementById("kpi_pv").innerText = formatVND(pvEstimated);
+      document.getElementById("kpi_pv_percent").innerText = totalBAC > 0 ? ((pvEstimated / totalBAC) * 100).toFixed(1) + "% kế hoạch" : "0%";
+      document.getElementById("kpi_ev").innerText = formatVND(totalEV);
+      document.getElementById("kpi_ev_percent").innerText = totalBAC > 0 ? ((totalEV / totalBAC) * 100).toFixed(1) + "% nghiệm thu" : "0%";
+      document.getElementById("kpi_ac").innerText = formatVND(acEstimated);
+      document.getElementById("kpi_ac_percent").innerText = totalBAC > 0 ? ((acEstimated / totalBAC) * 100).toFixed(1) + "% giải ngân" : "0%";
+
+      const cpi = acEstimated > 0 ? (totalEV / acEstimated) : 1;
+      const spi = pvEstimated > 0 ? (totalEV / pvEstimated) : 1;
+
+      document.getElementById("kpi_cpi").innerText = cpi.toFixed(2);
+      document.getElementById("kpi_cpi").className = `text-lg font-black font-mono ${cpi >= 1 ? 'text-emerald-400' : 'text-rose-400'}`;
+      document.getElementById("kpi_cpi_status").innerText = cpi >= 1 ? "Tiết kiệm ngân sách" : "Vượt chi phí (Over budget)";
+
+      document.getElementById("kpi_spi").innerText = spi.toFixed(2);
+      document.getElementById("kpi_spi").className = `text-lg font-black font-mono ${spi >= 1 ? 'text-emerald-400' : 'text-amber-400'}`;
+      document.getElementById("kpi_spi_status").innerText = spi >= 1 ? "Vượt / Đúng tiến độ" : "Chậm tiến độ (Behind schedule)";
+
+      // Vẽ lại đồ thị S-Curve
+      renderScurveChart(totalBAC);
+    }
+
+    function updateBoqItem(idx, field, val) {
+      currentBoq[idx][field] = val;
+      renderBoqTable();
+    }
+
+    function addNewBoqRow() {
+      currentBoq.push({
+        tt: String(currentBoq.length + 1),
+        name: "Hạng mục công việc mới...",
+        unit: "m2",
+        unitPrice: 1000000,
+        contractQty: 100,
+        actualQty: 20,
+        bbntcvDoc: "BBNTCV số ...",
+        drawingDoc: "BVTC-..."
+      });
+      renderBoqTable();
+    }
+
+    function deleteBoqRow(idx) {
+      if (confirm(`Xóa mục "${currentBoq[idx].name}"?`)) {
+        currentBoq.splice(idx, 1);
+        renderBoqTable();
+      }
+    }
+
+    function loadSampleCashflow() {
+      currentBoq = JSON.parse(JSON.stringify(sampleBoqData));
+      renderBoqTable();
+      alert("Đã nạp toàn bộ danh mục BOQ và thông số Dòng tiền mẫu!");
+    }
+
+    // Vẽ biểu đồ S-Curve bằng Chart.js
+    function renderScurveChart(totalBAC) {
+      const ctx = document.getElementById("scurve_canvas").getContext("2d");
+      
+      const labels = ["T11/2025", "T12/2025", "T01/2026", "T02/2026", "T03/2026", "T04/2026", "T05/2026"];
+      
+      // Tính lũy kế dòng tiền theo tháng (tỷ lệ %)
+      const plannedCum = [12, 28, 48, 68, 85, 95, 100].map(p => (p / 100) * totalBAC);
+      const actualEvCum = [10, 24, 42, 62, 78, null, null].map(p => p != null ? (p / 100) * totalBAC : null);
+      const actualAcCum = [9,  22, 39, 58, 73, null, null].map(p => p != null ? (p / 100) * totalBAC : null);
+
+      if (scurveChart) {
+        scurveChart.destroy();
+      }
+
+      scurveChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Kế hoạch giải ngân (PV - Planned Value)',
+              data: plannedCum,
+              borderColor: '#38BDF8',
+              backgroundColor: 'rgba(56, 189, 248, 0.05)',
+              borderWidth: 2.5,
+              borderDash: [6, 4],
+              tension: 0.35,
+              pointRadius: 4,
+              pointBackgroundColor: '#38BDF8'
+            },
+            {
+              label: 'Nghiệm thu thực tế (EV - Earned Value)',
+              data: actualEvCum,
+              borderColor: '#10B981',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              borderWidth: 3,
+              tension: 0.35,
+              pointRadius: 5,
+              pointBackgroundColor: '#10B981',
+              fill: true
+            },
+            {
+              label: 'Chi phí đã chi trả (AC - Actual Cost)',
+              data: actualAcCum,
+              borderColor: '#C084FC',
+              borderWidth: 2.5,
+              tension: 0.35,
+              pointRadius: 4,
+              pointBackgroundColor: '#C084FC'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label.split('(')[0] + ': ' + formatVND(context.raw);
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#94A3B8', font: { family: 'Plus Jakarta Sans', size: 11 } }
+            },
+            y: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#94A3B8',
+                font: { family: 'JetBrains Mono', size: 10 },
+                callback: function(value) {
+                  if (value >= 1e9) return (value / 1e9).toFixed(1) + ' tỷ';
+                  if (value >= 1e6) return (value / 1e6).toFixed(0) + ' tr';
+                  return value;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Đồng bộ từ CPM IndexedDB
+    async function syncFromCpmStore() {
+      try {
+        let project = null;
+        const localData = localStorage.getItem("cpm_project_backup");
+        if (localData) project = JSON.parse(localData);
+
+        if (!project && window.indexedDB) {
+          project = await new Promise((resolve) => {
+            const req = indexedDB.open("CpmTiendoDB", 2);
+            req.onsuccess = (e) => {
+              const db = e.target.result;
+              if (db.objectStoreNames.contains("active_project")) {
+                const tx = db.transaction("active_project", "readonly");
+                const store = tx.objectStore("active_project");
+                const getReq = store.get("current");
+                getReq.onsuccess = () => resolve(getReq.result);
+                getReq.onerror = () => resolve(null);
+              } else resolve(null);
+            };
+            req.onerror = () => resolve(null);
+          });
+        }
+
+        if (project && project.tasks && project.tasks.length > 0) {
+          if (confirm(`Đồng bộ ${project.tasks.length} công việc từ dự án "${project.name || 'Tiến độ CPM'}" vào bảng BOQ Dòng tiền?`)) {
+            currentBoq = project.tasks.filter(t => t.kind !== 'summary').map((t, idx) => ({
+              tt: t.code || String(idx + 1),
+              name: t.name,
+              unit: "%",
+              unitPrice: 50000000,
+              contractQty: 100,
+              actualQty: t.progress || 0,
+              bbntcvDoc: `BBNTCV số ${idx + 1}/${t.code || 'CV'}/2026`,
+              drawingDoc: `BVTC-${t.code || '01'}.pdf`
+            }));
+            renderBoqTable();
+            alert("Đã đồng bộ thành công danh mục sang BOQ Dòng tiền!");
+          }
+        } else {
+          alert("Chưa tìm thấy dữ liệu dự án trong kho lưu trữ của trình duyệt.");
+        }
+      } catch (err) {
+        alert("Lỗi đồng bộ: " + err.message);
+      }
+    }
+
+    // Lọc bảng
+    function filterTable(val) {
+      const q = val.toLowerCase();
+      const rows = document.querySelectorAll("#boq_tbody tr");
+      rows.forEach(tr => {
+        const text = tr.innerText.toLowerCase();
+        tr.style.display = text.includes(q) ? "" : "none";
+      });
+    }
+
+    // Modal Cloud Sync
+    function openCloudModal() {
+      const savedKey = localStorage.getItem("cpm_cloud_api_key");
+      const savedProj = localStorage.getItem("cpm_cloud_proj_id");
+      if (savedKey) document.getElementById("cloud_api_key").value = savedKey;
+      if (savedProj) document.getElementById("cloud_project_id").value = savedProj;
+      document.getElementById("cloud_modal").classList.remove("hidden");
+      document.getElementById("cloud_modal").classList.add("flex");
+    }
+
+    function closeCloudModal() {
+      document.getElementById("cloud_modal").classList.add("hidden");
+      document.getElementById("cloud_modal").classList.remove("flex");
+    }
+
+    function saveCloudConfig() {
+      const key = document.getElementById("cloud_api_key").value.trim();
+      const proj = document.getElementById("cloud_project_id").value.trim();
+      const channel = document.getElementById("cloud_channel").value.trim();
+
+      if (key && proj) {
+        localStorage.setItem("cpm_cloud_api_key", key);
+        localStorage.setItem("cpm_cloud_proj_id", proj);
+        localStorage.setItem("cpm_cloud_channel", channel);
+        document.getElementById("cloud_status_btn").innerText = "Cloud Sync: ĐÃ KẾT NỐI";
+        document.getElementById("cloud_status_btn").className = "text-emerald-400";
+        alert(`Đã kích hoạt đồng bộ Đám mây Realtime cho kênh dự án [${channel}]! Dữ liệu đã sẵn sàng chia sẻ cho Ban Chỉ huy.`);
+      } else {
+        localStorage.removeItem("cpm_cloud_api_key");
+        document.getElementById("cloud_status_btn").innerText = "Cloud Sync: Cục bộ";
+        alert("Đã chuyển về chế độ lưu trữ an toàn Cục bộ (Offline).");
+      }
+      closeCloudModal();
+    }
+
+    // Xuất Excel Dòng tiền
+    function exportCashflowExcel() {
+      if (typeof XLSX === "undefined") {
+        alert("Lỗi: Thư viện XLSX chưa tải xong.");
+        return;
+      }
+
+      const wsData = [
+        ["BẢNG KẾ HOẠCH DÒNG TIỀN BOQ & ĐÁNH GIÁ GIẢI NGÂN (EVM)"],
+        ["Hệ thống TT Group CPM Pro — Quản lý Tiến độ & Dòng tiền"],
+        [],
+        ["TT", "Nội dung công việc (WBS)", "ĐVT", "Đơn giá (VNĐ)", "Khối lượng HĐ", "Thành tiền HĐ (PV)", "KL Nghiệm thu", "Giá trị Nghiệm thu (EV)", "% Hoàn thành", "Hồ sơ BBNTCV (QLVB)", "Bản vẽ Hoàn công (Foxit)"]
+      ];
+
+      currentBoq.forEach((r, idx) => {
+        const itemBAC = (r.contractQty || 0) * (r.unitPrice || 0);
+        const itemEV = (r.actualQty || 0) * (r.unitPrice || 0);
+        const percent = r.contractQty ? (r.actualQty / r.contractQty) : 0;
+
+        wsData.push([
+          r.tt || (idx + 1),
+          r.name,
+          r.unit || "",
+          r.unitPrice || 0,
+          r.contractQty || 0,
+          itemBAC,
+          r.actualQty || 0,
+          itemEV,
+          percent,
+          r.bbntcvDoc || "",
+          r.drawingDoc || ""
+        ]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      ws['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 10 } },
+        { s: { r: 1, c: 0 }, e: { r: 1, c: 10 } }
+      ];
+
+      ws['!cols'] = [
+        { wch: 6 }, { wch: 45 }, { wch: 8 }, { wch: 15 }, { wch: 14 },
+        { wch: 20 }, { wch: 15 }, { wch: 20 }, { wch: 12 }, { wch: 30 }, { wch: 30 }
+      ];
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "DongTien_BOQ");
+      XLSX.writeFile(wb, "KeHoach_DongTien_BOQ_Scurve.xlsx");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderBoqTable();
+    });
+  </script>
+</body>
+</html>

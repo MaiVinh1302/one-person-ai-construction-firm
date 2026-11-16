@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo Đánh Giá Tiến Độ Trong Các Đợt Thanh Toán — TT Group CPM Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Thư viện SheetJS để xuất Excel chuẩn 100% định dạng -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    body { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .table-container::-webkit-scrollbar { height: 8px; width: 8px; }
+    .table-container::-webkit-scrollbar-track { background: #0f172a; }
+    .table-container::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .table-container::-webkit-scrollbar-thumb:hover { background: #475569; }
+    
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      .table-container { overflow: visible !important; }
+      table { border-collapse: collapse !important; width: 100% !important; font-size: 8.5pt !important; }
+      th, td { border: 1px solid #333 !important; color: black !important; padding: 4px 5px !important; }
+      th { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-amber-500 selection:text-white">
+
+  <!-- TOP HEADER / TOOLBAR -->
+  <header class="border-b border-slate-800 bg-slate-950/90 backdrop-blur-md px-5 py-3 sticky top-0 z-50 no-print">
+    <div class="max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <a href="./" class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-500 flex items-center justify-center hover:bg-amber-500/20 transition" title="Quay lại Biểu đồ Gantt CPM">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold px-2 py-0.5 rounded">QS & PM REPORT</span>
+            <h1 class="text-base font-extrabold text-white tracking-tight">Báo Cáo Đánh Giá Tiến Độ Trong Các Đợt Thanh Toán</h1>
+          </div>
+          <p class="text-[11px] text-slate-400">Đối chiếu Kế hoạch - Giảm trừ gia hạn - Tiến độ thi công thực tế & Đánh giá rủi ro mốc hoàn thành</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center flex-wrap gap-2">
+        <button onclick="loadSampleData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center space-x-1.5" title="Nạp bộ dữ liệu mẫu công trường giao thông, kè mương, thoát nước">
+          <i class="fa-solid fa-rotate text-amber-400"></i>
+          <span>Nạp Mẫu Thanh Toán Chuẩn</span>
+        </button>
+
+        <button onclick="syncFromCpmStore()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center space-x-1.5" title="Đồng bộ danh mục công việc từ Tiến độ CPM đang mở">
+          <i class="fa-solid fa-network-wired text-sky-400"></i>
+          <span>Lấy từ Tiến Độ CPM</span>
+        </button>
+
+        <button onclick="addNewRow()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-plus text-emerald-400"></i>
+          <span>Thêm Dòng Việc</span>
+        </button>
+
+        <button onclick="exportToExcel()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-emerald-600/20 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-file-excel text-sm"></i>
+          <span>Xuất File Excel (.xlsx)</span>
+        </button>
+
+        <button onclick="window.print()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-indigo-600/20 transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-print text-sm"></i>
+          <span>In Báo Cáo / Xuất PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- METADATA & KPI CONTROL PANEL -->
+  <section class="max-w-[1700px] w-full mx-auto p-5 space-y-4">
+    
+    <!-- Thông tin đợt thanh toán -->
+    <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 shadow-xl no-print">
+      <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-3 text-xs">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Tên Dự án / Công trình:</label>
+          <input type="text" id="project_name" value="DỰ ÁN XÂY DỰNG KHU ĐÔ THỊ & HẠ TẦNG KỸ THUẬT" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-semibold focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Gói thầu số:</label>
+          <input type="text" id="package_name" value="Gói thầu số 08: Thi công Giao thông, Thoát nước, Kè mương" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-semibold focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Kỳ / Đợt thanh toán:</label>
+          <input type="text" id="payment_period" value="Đợt 06 (Lũy kế đến 15/04/2026)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-amber-400 font-bold focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Ngày chốt số liệu:</label>
+          <input type="date" id="cutoff_date" value="2026-04-15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Đơn vị thi công:</label>
+          <input type="text" id="contractor_name" value="CÔNG TY CỔ PHẦN XÂY DỰNG HẠ TẦNG ĐỒ THỊ" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Tư vấn giám sát:</label>
+          <input type="text" id="consultant_name" value="LIÊN DANH TƯ VẤN GIÁM SÁT CONINCO - ADCC" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI TỔNG HỢP TIẾN ĐỘ ĐỢT THANH TOÁN -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 no-print">
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+        <span class="text-[10px] uppercase font-bold text-slate-400 block">Tổng số hạng mục</span>
+        <span id="kpi_total_items" class="text-xl font-black text-white font-mono">0</span>
+      </div>
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+        <span class="text-[10px] uppercase font-bold text-emerald-400 block">Đã hoàn thành</span>
+        <span id="kpi_completed" class="text-xl font-black text-emerald-400 font-mono">0</span>
+      </div>
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+        <span class="text-[10px] uppercase font-bold text-sky-400 block">Đảm bảo tiến độ</span>
+        <span id="kpi_ontrack" class="text-xl font-black text-sky-400 font-mono">0</span>
+      </div>
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+        <span class="text-[10px] uppercase font-bold text-amber-400 block">Nguy cơ chậm mốc</span>
+        <span id="kpi_atrisk" class="text-xl font-black text-amber-400 font-mono">0</span>
+      </div>
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+        <span class="text-[10px] uppercase font-bold text-rose-400 block">Chậm tiến độ</span>
+        <span id="kpi_delayed" class="text-xl font-black text-rose-400 font-mono">0</span>
+      </div>
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3">
+        <span class="text-[10px] uppercase font-bold text-purple-400 block">% Lũy kế chung</span>
+        <span id="kpi_avg_progress" class="text-xl font-black text-purple-400 font-mono">0.0%</span>
+      </div>
+    </div>
+
+    <!-- KHUNG IN TIÊU ĐỀ TRÊN BẢN IN (PRINT-ONLY) -->
+    <div class="hidden print-only text-black mb-4">
+      <div class="flex justify-between items-start border-b-2 border-black pb-2 mb-3">
+        <div class="text-left w-2/3">
+          <div class="text-[11pt] font-black uppercase" id="print_project">DỰ ÁN XÂY DỰNG KHU ĐÔ THỊ & HẠ TẦNG KỸ THUẬT</div>
+          <div class="text-[10pt] font-bold text-slate-800" id="print_package">Gói thầu: Thi công Giao thông, Thoát nước, Kè mương</div>
+          <div class="text-[9pt] italic">Nhà thầu: <span id="print_contractor">CÔNG TY CỔ PHẦN XÂY DỰNG HẠ TẦNG ĐỒ THỊ</span></div>
+        </div>
+        <div class="text-center w-1/3">
+          <div class="text-[9.5pt] font-black uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div class="text-[9pt] font-bold">Độc lập – Tự do – Hạnh phúc</div>
+          <div class="w-16 h-[0.5px] bg-black mx-auto my-1"></div>
+          <div class="text-[8.5pt] italic" id="print_date">Ngày ... tháng ... năm 2026</div>
+        </div>
+      </div>
+      <div class="text-center my-3">
+        <h2 class="text-[13pt] font-black uppercase">BÁO CÁO ĐÁNH GIÁ TIẾN ĐỘ THI CÔNG TRONG ĐỢT THANH TOÁN</h2>
+        <div class="text-[10pt] font-bold text-slate-700" id="print_period">(Kèm theo Hồ sơ đề nghị nghiệm thu thanh toán đợt 06)</div>
+      </div>
+    </div>
+
+    <!-- MAIN DATA TABLE -->
+    <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="table-container overflow-x-auto max-h-[70vh]">
+        <table id="report_table" class="w-full text-left border-collapse text-[11px] whitespace-nowrap">
+          <thead class="sticky top-0 z-20 bg-slate-900 border-b border-slate-700 text-slate-200 uppercase font-bold tracking-wider select-none text-[10.5px]">
+            <!-- Header Hàng 1 -->
+            <tr>
+              <th rowspan="2" class="px-2.5 py-2 text-center border-r border-slate-700 bg-slate-900/95 w-10">TT<br><span class="text-[9px] font-normal text-slate-400">(1)</span></th>
+              <th rowspan="2" class="px-3 py-2 border-r border-slate-700 bg-slate-900/95 min-w-[260px]">Nội dung công việc<br><span class="text-[9px] font-normal text-slate-400">(2)</span></th>
+              <th colspan="5" class="px-2 py-1 text-center border-r border-slate-700 bg-slate-800/80">Khối lượng</th>
+              <th colspan="3" class="px-2 py-1 text-center border-r border-slate-700 bg-slate-800/60">Kế hoạch tiến độ</th>
+              <th rowspan="2" class="px-2.5 py-2 text-center border-r border-slate-700 bg-slate-900/95 min-w-[70px]">Giảm<br>trừ (ngày)</th>
+              <th colspan="2" class="px-2 py-1 text-center border-r border-slate-700 bg-slate-800/60">Tiến độ sau giảm trừ</th>
+              <th colspan="2" class="px-2 py-1 text-center border-r border-slate-700 bg-slate-800/80">Tiến độ thi công thực tế</th>
+              <th rowspan="2" class="px-2.5 py-2 text-center border-r border-slate-700 bg-slate-900/95 min-w-[80px]">Số ngày<br>chậm TĐ</th>
+              <th rowspan="2" class="px-2.5 py-2 text-center border-r border-slate-700 bg-slate-900/95 min-w-[95px]">Dự kiến<br>kết thúc</th>
+              <th rowspan="2" class="px-3 py-2 border-r border-slate-700 bg-slate-900/95 min-w-[220px]">Đánh giá tiến độ / Thời gian kết thúc</th>
+              <th rowspan="2" class="px-3 py-2 border-r border-slate-700 bg-slate-900/95 min-w-[260px]">Nguyên nhân</th>
+              <th rowspan="2" class="px-2 py-2 text-center bg-slate-900/95 w-12 no-print">Thao tác</th>
+            </tr>
+            <!-- Header Hàng 2 -->
+            <tr class="border-b border-slate-700 bg-slate-900/95 text-[9.5px]">
+              <!-- Khối lượng -->
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-14">Đơn vị</th>
+              <th class="px-2 py-1.5 text-right border-r border-slate-700 w-20">Hợp đồng</th>
+              <th class="px-2 py-1.5 text-right border-r border-slate-700 w-20">KL kỳ này</th>
+              <th class="px-2 py-1.5 text-right border-r border-slate-700 w-20">KL lũy kế</th>
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-16">%</th>
+              <!-- Kế hoạch -->
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-16">Tiến độ<br>(ngày)</th>
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-24">Bắt đầu</th>
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-24">Kết thúc</th>
+              <!-- Sau giảm trừ -->
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-24">Bắt đầu</th>
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-24">Kết thúc</th>
+              <!-- Thực tế -->
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-24">Bắt đầu</th>
+              <th class="px-2 py-1.5 text-center border-r border-slate-700 w-24">Kết thúc</th>
+            </tr>
+          </thead>
+          <tbody id="table_body" class="divide-y divide-slate-800 text-slate-200 font-normal">
+            <!-- Data rows injected via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- KHUNG CHỮ KÝ IN ẤN (PRINT-ONLY) -->
+    <div class="hidden print-only mt-8 text-black page-break-inside-avoid">
+      <div class="grid grid-cols-3 gap-4 text-center">
+        <div>
+          <div class="font-bold text-[9.5pt] uppercase">ĐẠI DIỆN ĐƠN VỊ THI CÔNG</div>
+          <div class="text-[8.5pt] italic text-slate-600">(Ký, ghi rõ họ tên & đóng dấu)</div>
+          <div class="h-16"></div>
+          <div class="font-bold text-[9.5pt]" id="print_sign_contractor">Chỉ huy trưởng công trường</div>
+        </div>
+        <div>
+          <div class="font-bold text-[9.5pt] uppercase">ĐƠN VỊ TƯ VẤN GIÁM SÁT</div>
+          <div class="text-[8.5pt] italic text-slate-600">(Ký, ghi rõ họ tên)</div>
+          <div class="h-16"></div>
+          <div class="font-bold text-[9.5pt]">Trưởng đoàn Tư vấn giám sát</div>
+        </div>
+        <div>
+          <div class="font-bold text-[9.5pt] uppercase">ĐẠI DIỆN CHỦ ĐẦU TƯ / BAN QLDA</div>
+          <div class="text-[8.5pt] italic text-slate-600">(Ký, ghi rõ họ tên & chức vụ)</div>
+          <div class="h-16"></div>
+          <div class="font-bold text-[9.5pt]">Giám đốc Ban QLDA</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800 py-3 px-6 text-center text-xs text-slate-500 no-print">
+    <span>TT GROUP CPM Pro — Phân hệ Quản trị & Đánh giá Tiến độ Đợt thanh toán chuẩn QS & TVGS.</span>
+  </footer>
+
+  <script>
+    // Dữ liệu mẫu chuẩn trích xuất từ file Excel đính kèm của người dùng
+    const initialData = [
+      {
+        tt: "1",
+        name: "Rải thảm mặt đường BTN C19 - Chiều dày mặt đường đã lèn ép 7cm",
+        isSummary: false,
+        unit: "m2",
+        contractQty: 7575,
+        periodQty: null,
+        accumQty: null,
+        planDays: 10,
+        planStart: "2025-10-16",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2026-01-04",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-05-25",
+        statusDesc: "Đảm bảo theo tiến độ nhận bàn giao tuyến\nChưa có PL bổ sung thảm nhựa",
+        reason: "Chỉ trong tuyến N4, D11 chưa nhận bàn giao"
+      },
+      {
+        tt: "3",
+        name: "3. BÓ VỈA, VỈA HÈ, KHÓA HÈ, TRỒNG CÂY",
+        isSummary: true,
+        unit: "",
+        contractQty: null,
+        periodQty: null,
+        accumQty: null,
+        planDays: 25,
+        planStart: "2025-10-01",
+        planEnd: "2025-10-25",
+        deductDays: null,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "",
+        reason: ""
+      },
+      {
+        tt: "",
+        name: "Bê tông lót móng bó vỉa, tấm đan, M150",
+        isSummary: false,
+        unit: "md",
+        contractQty: 5494,
+        periodQty: null,
+        accumQty: null,
+        planDays: 10,
+        planStart: "2025-10-01",
+        planEnd: "2025-10-10",
+        deductDays: 80,
+        adjStart: "2025-12-20",
+        adjEnd: "2025-12-29",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-05-10",
+        statusDesc: "Nguy cơ chậm tiến độ mốc hoàn thành",
+        reason: "Nhận bàn giao 1/4 vỉa hè B16 ngày 25/3"
+      },
+      {
+        tt: "",
+        name: "Lắp đặt Bó vỉa đá",
+        isSummary: false,
+        unit: "md",
+        contractQty: 5494,
+        periodQty: null,
+        accumQty: null,
+        planDays: 20,
+        planStart: "2025-10-06",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2025-12-25",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-05-10",
+        statusDesc: "Nguy cơ chậm tiến độ mốc hoàn thành",
+        reason: "Nhận bàn giao 1/4 vỉa hè B16 ngày 25/3\nThi công hoàn thành 10/4/26"
+      },
+      {
+        tt: "",
+        name: "Thi công lắp đặt Tấm đan rãnh, bê tông vỉa hè",
+        isSummary: false,
+        unit: "tấm",
+        contractQty: 10595,
+        periodQty: null,
+        accumQty: null,
+        planDays: 10,
+        planStart: "2025-10-16",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2026-01-04",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-05-12",
+        statusDesc: "Nguy cơ chậm tiến độ mốc hoàn thành",
+        reason: "Nhận bàn giao 1/4 vỉa hè B16 ngày 25/3"
+      },
+      {
+        tt: "",
+        name: "Bê tông lót móng, xây, trát hố cây",
+        isSummary: false,
+        unit: "%",
+        contractQty: 100,
+        periodQty: null,
+        accumQty: null,
+        planDays: 5,
+        planStart: "2025-10-21",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2026-01-09",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-05-16",
+        statusDesc: "Nguy cơ chậm tiến độ mốc hoàn thành",
+        reason: "Nhận bàn giao 1/4 vỉa hè B16 ngày 25/3"
+      },
+      {
+        tt: "4",
+        name: "4. AN TOÀN GIAO THÔNG",
+        isSummary: true,
+        unit: "",
+        contractQty: null,
+        periodQty: null,
+        accumQty: null,
+        planDays: null,
+        planStart: "2025-10-16",
+        planEnd: "2025-10-25",
+        deductDays: null,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "",
+        reason: ""
+      },
+      {
+        tt: "",
+        name: "Đào đất, đổ bê tông cột, lắp biển báo, đắp đất móng cột biển báo.",
+        isSummary: false,
+        unit: "%",
+        contractQty: 100,
+        periodQty: null,
+        accumQty: null,
+        planDays: 10,
+        planStart: "2025-10-16",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2026-01-04",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-04-20",
+        statusDesc: "Nguy cơ chậm tiến độ mốc hoàn thành",
+        reason: "Chưa nhận bàn giao vỉa hè"
+      },
+      {
+        tt: "II",
+        name: "II. KÈ MƯƠNG",
+        isSummary: true,
+        unit: "",
+        contractQty: null,
+        periodQty: null,
+        accumQty: null,
+        planDays: 45,
+        planStart: "2025-09-11",
+        planEnd: "2025-10-25",
+        deductDays: null,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "",
+        reason: ""
+      },
+      {
+        tt: "",
+        name: "Đào đất, đóng cọc tre, dải đá dăm đệm móng.",
+        isSummary: false,
+        unit: "%",
+        contractQty: 100,
+        periodQty: 10,
+        accumQty: 90,
+        planDays: 10,
+        planStart: "2025-09-11",
+        planEnd: "2025-09-20",
+        deductDays: 80,
+        adjStart: "2025-11-30",
+        adjEnd: "2025-12-09",
+        actStart: "2026-12-20",
+        actEnd: "",
+        forecastEnd: "2026-04-05",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Thi công theo BP bổ sung, chậm nhận bàn giao 1/2 kè"
+      },
+      {
+        tt: "",
+        name: "Đá hộc xếp khan",
+        isSummary: false,
+        unit: "m3",
+        contractQty: 268,
+        periodQty: 10,
+        accumQty: 150,
+        planDays: 10,
+        planStart: "2025-09-21",
+        planEnd: "2025-09-30",
+        deductDays: 80,
+        adjStart: "2025-12-10",
+        adjEnd: "2025-12-19",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-04-10",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Thi công theo BP bổ sung, chậm nhận bàn giao 1/2 kè"
+      },
+      {
+        tt: "",
+        name: "Xây đá hộc, vữa XM M100",
+        isSummary: false,
+        unit: "m3",
+        contractQty: 1086,
+        periodQty: 10,
+        accumQty: 300,
+        planDays: 20,
+        planStart: "2025-09-26",
+        planEnd: "2025-10-15",
+        deductDays: 80,
+        adjStart: "2025-12-15",
+        adjEnd: "2026-01-03",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-04-25",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Thi công theo BP bổ sung, chậm nhận bàn giao 1/2 kè"
+      },
+      {
+        tt: "",
+        name: "Ván khuôn, bê tông M200 giằng đỉnh",
+        isSummary: false,
+        unit: "m3",
+        contractQty: 53,
+        periodQty: null,
+        accumQty: null,
+        planDays: 5,
+        planStart: "2025-10-16",
+        planEnd: "2025-10-20",
+        deductDays: 80,
+        adjStart: "2026-01-04",
+        adjEnd: "2026-01-08",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-04-30",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Thi công theo BP bổ sung, chậm nhận bàn giao 1/2 kè"
+      },
+      {
+        tt: "",
+        name: "Đắp đất hoàn trả kênh mương",
+        isSummary: false,
+        unit: "%",
+        contractQty: 100,
+        periodQty: null,
+        accumQty: null,
+        planDays: 5,
+        planStart: "2025-10-21",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2026-01-09",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-04-30",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Thi công theo BP bổ sung, chậm nhận bàn giao 1/2 kè"
+      },
+      {
+        tt: "",
+        name: "Lát mái tường kè, Đắp đất màu, trồng cỏ mái bờ kênh mương",
+        isSummary: false,
+        unit: "m2",
+        contractQty: 298,
+        periodQty: null,
+        accumQty: null,
+        planDays: 10,
+        planStart: "2025-10-16",
+        planEnd: "2025-10-25",
+        deductDays: 80,
+        adjStart: "2026-01-04",
+        adjEnd: "2026-01-13",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "2026-05-05",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Thi công theo BP bổ sung, chậm nhận bàn giao 1/2 kè"
+      },
+      {
+        tt: "III",
+        name: "III. THOÁT NƯỚC MƯA",
+        isSummary: true,
+        unit: "",
+        contractQty: null,
+        periodQty: null,
+        accumQty: null,
+        planDays: 25,
+        planStart: "2025-08-22",
+        planEnd: "2025-09-15",
+        deductDays: null,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "",
+        reason: ""
+      },
+      {
+        tt: "",
+        name: "Đào đất, lắp đặt ống cống, thi công hố ga các loại.",
+        isSummary: false,
+        unit: "md",
+        contractQty: 2913,
+        periodQty: 200,
+        accumQty: 2200,
+        planDays: 20,
+        planStart: "2025-08-22",
+        planEnd: "2025-09-10",
+        deductDays: 80,
+        adjStart: "2025-11-10",
+        adjEnd: "2025-11-29",
+        actStart: "2025-09-26",
+        actEnd: "",
+        forecastEnd: "2026-04-17",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến\nDự kiến với tuyến N9B nhận bàn giao 14/3/2026",
+        reason: "Hoàn thành các tuyến đã nhận bàn giao"
+      },
+      {
+        tt: "",
+        name: "Đắp đất, cát, đầm chặt, độ chặt yêu cầu K=0,95",
+        isSummary: false,
+        unit: "%",
+        contractQty: 100,
+        periodQty: null,
+        accumQty: 70,
+        planDays: 5,
+        planStart: "2025-09-11",
+        planEnd: "2025-09-15",
+        deductDays: 80,
+        adjStart: "2025-11-30",
+        adjEnd: "2025-12-04",
+        actStart: "2025-10-22",
+        actEnd: "",
+        forecastEnd: "2026-04-17",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến\nDự kiến với tuyến N9B nhận bàn giao 14/3/2026",
+        reason: "Hoàn thành các tuyến đã nhận bàn giao"
+      },
+      {
+        tt: "IV",
+        name: "IV. THOÁT NƯỚC THẢI",
+        isSummary: true,
+        unit: "",
+        contractQty: null,
+        periodQty: null,
+        accumQty: null,
+        planDays: 25,
+        planStart: "2025-09-01",
+        planEnd: "2025-09-25",
+        deductDays: null,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "",
+        reason: ""
+      },
+      {
+        tt: "",
+        name: "Đào đất, thi công lắp đặt ống cống.",
+        isSummary: false,
+        unit: "md",
+        contractQty: 2310,
+        periodQty: 200,
+        accumQty: 1100,
+        planDays: 20,
+        planStart: "2025-09-01",
+        planEnd: "2025-09-20",
+        deductDays: 80,
+        adjStart: "2025-11-20",
+        adjEnd: "2025-12-09",
+        actStart: "2026-12-02",
+        actEnd: "",
+        forecastEnd: "2026-04-25",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Đã hoàn thành tuyến N9a và N11, Lô D16,D22,D18,D21"
+      },
+      {
+        tt: "",
+        name: "Thi công xây dựng hố ga các loại",
+        isSummary: false,
+        unit: "md",
+        contractQty: 1,
+        periodQty: null,
+        accumQty: null,
+        planDays: 20,
+        planStart: "2025-09-06",
+        planEnd: "2025-09-25",
+        deductDays: 80,
+        adjStart: "2025-11-25",
+        adjEnd: "2025-12-14",
+        actStart: "2026-12-04",
+        actEnd: "",
+        forecastEnd: "2026-04-25",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Đã hoàn thành tuyến N9a và N11, Lô D16,D22,D18,D21"
+      },
+      {
+        tt: "",
+        name: "Đắp đất, cát, đầm chặt, độ chặt yêu cầu K=0,95",
+        isSummary: false,
+        unit: "%",
+        contractQty: 100,
+        periodQty: null,
+        accumQty: null,
+        planDays: 20,
+        planStart: "2025-09-06",
+        planEnd: "2025-09-25",
+        deductDays: 80,
+        adjStart: "2025-11-25",
+        adjEnd: "2025-12-14",
+        actStart: "2026-12-06",
+        actEnd: "",
+        forecastEnd: "2026-04-25",
+        statusDesc: "Đảm bảo theo tiến độ bàn giao tuyến",
+        reason: "Đã hoàn thành tuyến N9a và N11, Lô D16,D22,D18,D21"
+      },
+      {
+        tt: "V",
+        name: "V. CỐNG HỘP BTCT 3x3M",
+        isSummary: true,
+        unit: "",
+        contractQty: null,
+        periodQty: null,
+        accumQty: null,
+        planDays: 45,
+        planStart: "2025-09-11",
+        planEnd: "2025-10-25",
+        deductDays: null,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "",
+        reason: ""
+      },
+      {
+        tt: "",
+        name: "Thi công ép cọc tre, móng cống.",
+        isSummary: false,
+        unit: "cống",
+        contractQty: 2,
+        periodQty: 0.1,
+        accumQty: 1.7,
+        planDays: 30,
+        planStart: "2025-09-11",
+        planEnd: "2025-10-10",
+        deductDays: 80,
+        adjStart: "2025-11-30",
+        adjEnd: "2025-12-29",
+        actStart: "2025-09-27",
+        actEnd: "2026-04-05",
+        forecastEnd: "",
+        statusDesc: "Đã hoàn thành",
+        reason: "Đã hoàn thành."
+      }
+    ];
+
+    let currentRows = JSON.parse(JSON.stringify(initialData));
+
+    // Format ngày hiển thị YYYY-MM-DD -> DD/MM/YYYY
+    function formatDate(str) {
+      if (!str || str.length < 10) return str || "";
+      const [y, m, d] = str.split("-");
+      return `${d}/${m}/${y}`;
+    }
+
+    // Parse DD/MM/YYYY hoặc YYYY-MM-DD sang timestamp
+    function parseDateObj(str) {
+      if (!str) return null;
+      if (str.includes("/")) {
+        const [d, m, y] = str.split("/");
+        return new Date(y, m - 1, d);
+      }
+      return new Date(str);
+    }
+
+    // Tính số ngày chậm trễ giữa Thực tế / Dự kiến kết thúc so với Tiến độ sau giảm trừ
+    function calcDelayDays(row) {
+      if (row.isSummary) return "";
+      const targetEndStr = row.actEnd || row.forecastEnd;
+      const compareEndStr = row.adjEnd || row.planEnd;
+      if (!targetEndStr || !compareEndStr) return "";
+      
+      const target = parseDateObj(targetEndStr);
+      const compare = parseDateObj(compareEndStr);
+      if (!target || !compare) return "";
+      
+      const diffMs = target - compare;
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      return diffDays > 0 ? `+${diffDays}` : (diffDays < 0 ? `${diffDays}` : "0");
+    }
+
+    // Render toàn bộ bảng dữ liệu
+    function renderTable() {
+      const tbody = document.getElementById("table_body");
+      tbody.innerHTML = "";
+
+      let totalItems = 0, completed = 0, ontrack = 0, atrisk = 0, delayed = 0;
+      let totalProgress = 0, countProgress = 0;
+
+      currentRows.forEach((row, index) => {
+        if (!row.isSummary) {
+          totalItems++;
+          const p = (row.contractQty && row.accumQty) ? (row.accumQty / row.contractQty) * 100 : (row.accumQty != null ? row.accumQty : 0);
+          totalProgress += Math.min(100, Math.max(0, p));
+          countProgress++;
+
+          if (row.actEnd || (row.statusDesc && row.statusDesc.toLowerCase().includes("đã hoàn thành"))) {
+            completed++;
+          } else if (row.statusDesc && row.statusDesc.toLowerCase().includes("nguy cơ chậm")) {
+            atrisk++;
+          } else if (row.statusDesc && row.statusDesc.toLowerCase().includes("chậm")) {
+            delayed++;
+          } else {
+            ontrack++;
+          }
+        }
+
+        const delay = calcDelayDays(row);
+        const percent = (row.contractQty && row.accumQty != null) ? ((row.accumQty / row.contractQty) * 100).toFixed(1) + "%" : (row.accumQty != null ? row.accumQty + "%" : "");
+
+        const tr = document.createElement("tr");
+        if (row.isSummary) {
+          tr.className = "bg-slate-800/90 font-bold text-amber-300 border-t border-b border-amber-500/20";
+        } else {
+          tr.className = "hover:bg-slate-800/50 transition border-b border-slate-800/80";
+        }
+
+        // Định dạng badge trạng thái
+        let statusBadge = "";
+        if (row.statusDesc) {
+          const s = row.statusDesc.toLowerCase();
+          if (s.includes("đã hoàn thành")) {
+            statusBadge = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+          } else if (s.includes("nguy cơ chậm")) {
+            statusBadge = "bg-amber-500/10 text-amber-400 border border-amber-500/20";
+          } else if (s.includes("chậm")) {
+            statusBadge = "bg-rose-500/10 text-rose-400 border border-rose-500/20";
+          } else {
+            statusBadge = "bg-sky-500/10 text-sky-400 border border-sky-500/20";
+          }
+        }
+
+        tr.innerHTML = `
+          <td class="px-2.5 py-2 text-center border-r border-slate-800 ${row.isSummary ? 'font-black' : 'font-mono text-slate-400'}">
+            <input type="text" value="${row.tt || ''}" onchange="updateCell(${index}, 'tt', this.value)" class="w-full bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-3 py-2 border-r border-slate-800 ${row.isSummary ? 'font-black uppercase tracking-wide' : 'font-medium'}">
+            <input type="text" value="${row.name || ''}" onchange="updateCell(${index}, 'name', this.value)" class="w-full bg-transparent focus:bg-slate-900 focus:outline-none truncate" title="${row.name}">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 text-slate-400">
+            <input type="text" value="${row.unit || ''}" onchange="updateCell(${index}, 'unit', this.value)" class="w-full bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-right border-r border-slate-800 font-mono">
+            <input type="number" step="any" value="${row.contractQty != null ? row.contractQty : ''}" onchange="updateCell(${index}, 'contractQty', parseFloat(this.value)||null)" class="w-full bg-transparent text-right focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-right border-r border-slate-800 font-mono text-amber-300">
+            <input type="number" step="any" value="${row.periodQty != null ? row.periodQty : ''}" onchange="updateCell(${index}, 'periodQty', parseFloat(this.value)||null)" class="w-full bg-transparent text-right focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-right border-r border-slate-800 font-mono text-emerald-400 font-semibold">
+            <input type="number" step="any" value="${row.accumQty != null ? row.accumQty : ''}" onchange="updateCell(${index}, 'accumQty', parseFloat(this.value)||null)" class="w-full bg-transparent text-right focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono font-bold text-sky-400">
+            ${percent}
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono">
+            <input type="number" value="${row.planDays != null ? row.planDays : ''}" onchange="updateCell(${index}, 'planDays', parseInt(this.value)||null)" class="w-full bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px]">
+            <input type="date" value="${row.planStart || ''}" onchange="updateCell(${index}, 'planStart', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px]">
+            <input type="date" value="${row.planEnd || ''}" onchange="updateCell(${index}, 'planEnd', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-amber-400">
+            <input type="number" value="${row.deductDays != null ? row.deductDays : ''}" onchange="updateCell(${index}, 'deductDays', parseInt(this.value)||null)" class="w-full bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px] text-slate-300">
+            <input type="date" value="${row.adjStart || ''}" onchange="updateCell(${index}, 'adjStart', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px] text-slate-300">
+            <input type="date" value="${row.adjEnd || ''}" onchange="updateCell(${index}, 'adjEnd', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px] text-emerald-400">
+            <input type="date" value="${row.actStart || ''}" onchange="updateCell(${index}, 'actStart', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px] text-emerald-400">
+            <input type="date" value="${row.actEnd || ''}" onchange="updateCell(${index}, 'actEnd', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono font-bold ${delay.startsWith('+') ? 'text-rose-400' : 'text-slate-400'}">
+            ${delay}
+          </td>
+          <td class="px-2 py-2 text-center border-r border-slate-800 font-mono text-[10.5px] text-purple-300">
+            <input type="date" value="${row.forecastEnd || ''}" onchange="updateCell(${index}, 'forecastEnd', this.value)" class="bg-transparent text-center focus:bg-slate-900 focus:outline-none">
+          </td>
+          <td class="px-3 py-2 border-r border-slate-800 text-[10.5px]">
+            <div class="space-y-1">
+              ${row.statusDesc ? `<span class="inline-block px-1.5 py-0.5 rounded text-[9.5px] font-bold ${statusBadge}">${row.statusDesc.split('\n')[0]}</span>` : ''}
+              <textarea rows="1" onchange="updateCell(${index}, 'statusDesc', this.value)" class="w-full bg-transparent text-slate-300 focus:bg-slate-900 focus:outline-none resize-none leading-tight" placeholder="Đánh giá tiến độ...">${row.statusDesc || ''}</textarea>
+            </div>
+          </td>
+          <td class="px-3 py-2 border-r border-slate-800 text-[10.5px]">
+            <textarea rows="1" onchange="updateCell(${index}, 'reason', this.value)" class="w-full bg-transparent text-slate-400 focus:bg-slate-900 focus:outline-none resize-none leading-tight" placeholder="Nguyên nhân thực tế...">${row.reason || ''}</textarea>
+          </td>
+          <td class="px-2 py-2 text-center no-print">
+            <button onclick="deleteRow(${index})" class="text-slate-500 hover:text-rose-400 transition" title="Xóa dòng">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Cập nhật KPIs
+      document.getElementById("kpi_total_items").innerText = totalItems;
+      document.getElementById("kpi_completed").innerText = completed;
+      document.getElementById("kpi_ontrack").innerText = ontrack;
+      document.getElementById("kpi_atrisk").innerText = atrisk;
+      document.getElementById("kpi_delayed").innerText = delayed;
+      document.getElementById("kpi_avg_progress").innerText = countProgress > 0 ? (totalProgress / countProgress).toFixed(1) + "%" : "0.0%";
+
+      // Cập nhật print metadata
+      document.getElementById("print_project").innerText = document.getElementById("project_name").value;
+      document.getElementById("print_package").innerText = "Gói thầu: " + document.getElementById("package_name").value;
+      document.getElementById("print_contractor").innerText = document.getElementById("contractor_name").value;
+      document.getElementById("print_period").innerText = "(Kèm theo Hồ sơ đề nghị nghiệm thu thanh toán " + document.getElementById("payment_period").value + ")";
+      const cut = document.getElementById("cutoff_date").value.split("-");
+      if (cut.length === 3) {
+        document.getElementById("print_date").innerText = `Ngày ${cut[2]} tháng ${cut[1]} năm ${cut[0]}`;
+      }
+    }
+
+    function updateCell(index, field, value) {
+      currentRows[index][field] = value;
+      // Nếu có giảm trừ và ngày kết thúc kế hoạch, tự động tính ngày kết thúc sau giảm trừ
+      if (field === 'deductDays' || field === 'planEnd') {
+        const row = currentRows[index];
+        if (row.planEnd && row.deductDays) {
+          const d = parseDateObj(row.planEnd);
+          d.setDate(d.getDate() + row.deductDays);
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          row.adjEnd = `${y}-${m}-${day}`;
+        }
+      }
+      renderTable();
+    }
+
+    function addNewRow() {
+      currentRows.push({
+        tt: String(currentRows.length + 1),
+        name: "Công tác thi công mới...",
+        isSummary: false,
+        unit: "m2",
+        contractQty: 100,
+        periodQty: 0,
+        accumQty: 0,
+        planDays: 10,
+        planStart: "",
+        planEnd: "",
+        deductDays: 0,
+        adjStart: "",
+        adjEnd: "",
+        actStart: "",
+        actEnd: "",
+        forecastEnd: "",
+        statusDesc: "Đang triển khai",
+        reason: ""
+      });
+      renderTable();
+    }
+
+    function deleteRow(index) {
+      if (confirm(`Bạn có chắc chắn muốn xóa dòng "${currentRows[index].name}"?`)) {
+        currentRows.splice(index, 1);
+        renderTable();
+      }
+    }
+
+    function loadSampleData() {
+      currentRows = JSON.parse(JSON.stringify(initialData));
+      renderTable();
+      alert("Đã nạp toàn bộ dữ liệu mẫu theo biểu mẫu Excel đợt thanh toán!");
+    }
+
+    // Đồng bộ danh mục công tác từ IndexedDB của Tiến độ CPM
+    async function syncFromCpmStore() {
+      try {
+        let project = null;
+        // Thử đọc từ localStorage fallback trước
+        const localData = localStorage.getItem("cpm_project_backup");
+        if (localData) {
+          project = JSON.parse(localData);
+        }
+
+        // Hoặc mở IndexedDB
+        if (!project && window.indexedDB) {
+          project = await new Promise((resolve) => {
+            const req = indexedDB.open("CpmTiendoDB", 2);
+            req.onsuccess = (e) => {
+              const db = e.target.result;
+              if (db.objectStoreNames.contains("active_project")) {
+                const tx = db.transaction("active_project", "readonly");
+                const store = tx.objectStore("active_project");
+                const getReq = store.get("current");
+                getReq.onsuccess = () => resolve(getReq.result);
+                getReq.onerror = () => resolve(null);
+              } else {
+                resolve(null);
+              }
+            };
+            req.onerror = () => resolve(null);
+          });
+        }
+
+        if (project && project.tasks && project.tasks.length > 0) {
+          if (confirm(`Tìm thấy dự án "${project.name || 'Tiến độ CPM'}" với ${project.tasks.length} công việc. Bạn có muốn đồng bộ danh mục vào báo cáo đợt thanh toán này?`)) {
+            currentRows = project.tasks.map((t, idx) => ({
+              tt: t.code || String(idx + 1),
+              name: t.name,
+              isSummary: t.kind === 'summary',
+              unit: "%",
+              contractQty: 100,
+              periodQty: null,
+              accumQty: t.progress || 0,
+              planDays: t.durationDays || null,
+              planStart: t.startDate || "",
+              planEnd: t.endDate || "",
+              deductDays: 0,
+              adjStart: t.startDate || "",
+              adjEnd: t.endDate || "",
+              actStart: t.actualStart || "",
+              actEnd: t.actualEnd || "",
+              forecastEnd: t.endDate || "",
+              statusDesc: (t.progress >= 100) ? "Đã hoàn thành" : (t.isCritical ? "Công việc trên đường găng" : "Đang triển khai"),
+              reason: ""
+            }));
+            renderTable();
+            alert("Đồng bộ thành công từ Tiến độ CPM!");
+          }
+        } else {
+          alert("Chưa có dự án nào được lưu trong kho dữ liệu CPM của trình duyệt. Vui lòng mở Tiến độ CPM và lưu dự án trước!");
+        }
+      } catch (err) {
+        console.error("Lỗi đồng bộ:", err);
+        alert("Không thể đọc kho dữ liệu CPM: " + err.message);
+      }
+    }
+
+    // XUẤT FILE EXCEL (.XLSX) CHUẨN 100% VỚI MERGE CELLS VÀ STYLE
+    function exportToExcel() {
+      if (typeof XLSX === "undefined") {
+        alert("Lỗi: Thư viện XLSX chưa sẵn sàng.");
+        return;
+      }
+
+      const projectName = document.getElementById("project_name").value;
+      const packageName = document.getElementById("package_name").value;
+      const periodName = document.getElementById("payment_period").value;
+
+      // Chuẩn bị mảng 2 chiều
+      const wsData = [
+        ["BÁO CÁO ĐÁNH GIÁ TIẾN ĐỘ THI CÔNG TRONG CÁC ĐỢT THANH TOÁN"],
+        [`Dự án: ${projectName}`],
+        [`Gói thầu: ${packageName} | Đợt thanh toán: ${periodName}`],
+        [],
+        // Row 5 (Header hàng 1)
+        [
+          "TT\n(1)", "Nội dung công việc\n(2)", 
+          "Khối lượng", "", "", "", "", 
+          "Kế hoạch tiến độ", "", "", 
+          "Giảm trừ\n(ngày)", 
+          "Tiến độ sau giảm trừ", "", 
+          "Tiến độ thi công thực tế", "", 
+          "Số ngày chậm TĐ", "Dự kiến kết thúc", 
+          "Đánh giá tiến độ/Thời gian kết thúc", "Nguyên nhân"
+        ],
+        // Row 6 (Header hàng 2)
+        [
+          "", "", 
+          "Đơn vị", "Hợp đồng", "KL kỳ này", "KL lũy kế", "%",
+          "Tiến độ (ngày)", "Bắt đầu", "Kết thúc",
+          "",
+          "Bắt đầu", "Kết thúc",
+          "Bắt đầu", "Kết thúc",
+          "", "", "", ""
+        ]
+      ];
+
+      // Đưa từng dòng dữ liệu vào wsData
+      currentRows.forEach((r) => {
+        const percentVal = (r.contractQty && r.accumQty != null) ? (r.accumQty / r.contractQty) : (r.accumQty != null ? (r.accumQty / 100) : "");
+        const delayVal = calcDelayDays(r);
+
+        wsData.push([
+          r.tt || "",
+          r.name || "",
+          r.unit || "",
+          r.contractQty != null ? r.contractQty : "",
+          r.periodQty != null ? r.periodQty : "",
+          r.accumQty != null ? r.accumQty : "",
+          percentVal,
+          r.planDays != null ? r.planDays : "",
+          formatDate(r.planStart),
+          formatDate(r.planEnd),
+          r.deductDays != null ? r.deductDays : "",
+          formatDate(r.adjStart),
+          formatDate(r.adjEnd),
+          formatDate(r.actStart),
+          formatDate(r.actEnd),
+          delayVal,
+          formatDate(r.forecastEnd),
+          r.statusDesc || "",
+          r.reason || ""
+        ]);
+      });
+
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+      // Định nghĩa các vùng Merge cells
+      ws['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 18 } }, // Title
+        { s: { r: 1, c: 0 }, e: { r: 1, c: 18 } }, // Subtitle 1
+        { s: { r: 2, c: 0 }, e: { r: 2, c: 18 } }, // Subtitle 2
+
+        // Headers merge
+        { s: { r: 4, c: 0 }, e: { r: 5, c: 0 } },  // TT
+        { s: { r: 4, c: 1 }, e: { r: 5, c: 1 } },  // Nội dung
+        { s: { r: 4, c: 2 }, e: { r: 4, c: 6 } },  // Khối lượng (C-G)
+        { s: { r: 4, c: 7 }, e: { r: 4, c: 9 } },  // Kế hoạch (H-J)
+        { s: { r: 4, c: 10 }, e: { r: 5, c: 10 } }, // Giảm trừ (K)
+        { s: { r: 4, c: 11 }, e: { r: 4, c: 12 } }, // Sau giảm trừ (L-M)
+        { s: { r: 4, c: 13 }, e: { r: 4, c: 14 } }, // Thực tế (N-O)
+        { s: { r: 4, c: 15 }, e: { r: 5, c: 15 } }, // Chậm TĐ (P)
+        { s: { r: 4, c: 16 }, e: { r: 5, c: 16 } }, // Dự kiến kết thúc (Q)
+        { s: { r: 4, c: 17 }, e: { r: 5, c: 17 } }, // Đánh giá (R)
+        { s: { r: 4, c: 18 }, e: { r: 5, c: 18 } }, // Nguyên nhân (S)
+      ];
+
+      // Độ rộng các cột
+      ws['!cols'] = [
+        { wch: 6 },  // TT
+        { wch: 42 }, // Tên công việc
+        { wch: 8 },  // ĐVT
+        { wch: 12 }, // HĐ
+        { wch: 12 }, // Kỳ này
+        { wch: 12 }, // Lũy kế
+        { wch: 9 },  // %
+        { wch: 10 }, // Ngày KH
+        { wch: 12 }, // Bắt đầu KH
+        { wch: 12 }, // Kết thúc KH
+        { wch: 10 }, // Giảm trừ
+        { wch: 12 }, // Bắt đầu sau GT
+        { wch: 12 }, // Kết thúc sau GT
+        { wch: 12 }, // Bắt đầu TT
+        { wch: 12 }, // Kết thúc TT
+        { wch: 11 }, // Số ngày chậm
+        { wch: 13 }, // Dự kiến kết thúc
+        { wch: 35 }, // Đánh giá
+        { wch: 40 }  // Nguyên nhân
+      ];
+
+      // Áp dụng định dạng phong cách ô (cell styles)
+      const range = XLSX.utils.decode_range(ws['!ref']);
+      for (let R = range.s.r; R <= range.e.r; ++R) {
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+          const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
+          if (!ws[cellRef]) continue;
+
+          // Tiêu đề lớn
+          if (R === 0) {
+            ws[cellRef].s = {
+              font: { bold: true, sz: 14, color: { rgb: "0F1E36" } },
+              alignment: { horizontal: "center", vertical: "center" }
+            };
+          } else if (R >= 4 && R <= 5) {
+            // Header bảng
+            ws[cellRef].s = {
+              fill: { fgColor: { rgb: "E2E8F0" } },
+              font: { bold: true, sz: 10, color: { rgb: "0F172A" } },
+              alignment: { horizontal: "center", vertical: "center", wrapText: true },
+              border: {
+                top: { style: "thin", color: { rgb: "94A3B8" } },
+                bottom: { style: "thin", color: { rgb: "94A3B8" } },
+                left: { style: "thin", color: { rgb: "94A3B8" } },
+                right: { style: "thin", color: { rgb: "94A3B8" } }
+              }
+            };
+          } else if (R > 5) {
+            // Hàng dữ liệu
+            const rowIdx = R - 6;
+            const rowObj = currentRows[rowIdx];
+            const isSummary = rowObj && rowObj.isSummary;
+
+            let align = "left";
+            if (C === 0 || C === 2 || (C >= 7 && C <= 16)) align = "center";
+            if (C >= 3 && C <= 5) align = "right";
+
+            ws[cellRef].s = {
+              fill: isSummary ? { fgColor: { rgb: "F1F5F9" } } : undefined,
+              font: { bold: isSummary, sz: 9.5, color: { rgb: isSummary ? "000000" : "1E293B" } },
+              alignment: { horizontal: align, vertical: "center", wrapText: true },
+              border: {
+                top: { style: "thin", color: { rgb: "CBD5E1" } },
+                bottom: { style: "thin", color: { rgb: "CBD5E1" } },
+                left: { style: "thin", color: { rgb: "CBD5E1" } },
+                right: { style: "thin", color: { rgb: "CBD5E1" } }
+              }
+            };
+
+            // Định dạng % cho cột 6 (G)
+            if (C === 6 && typeof ws[cellRef].v === "number") {
+              ws[cellRef].z = "0.0%";
+            }
+            // Định dạng số có dấu phẩy cho cột Khối lượng
+            if ((C >= 3 && C <= 5) && typeof ws[cellRef].v === "number") {
+              ws[cellRef].z = "#,##0.00";
+            }
+          }
+        }
+      }
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "DanhGiaTienDo_ThanhToan");
+
+      const cleanFileName = `BaoCao_DanhGia_TienDo_${periodName.replace(/[^a-zA-Z0-9]/g, "_")}.xlsx`;
+      XLSX.writeFile(wb, cleanFileName);
+    }
+
+    // Tự động khởi chạy hiển thị bảng lần đầu
+    window.addEventListener("DOMContentLoaded", () => {
+      renderTable();
+    });
+  </script>
+</body>
+</html>
