@@ -41,6 +41,7 @@ from departments.dept_qa_qc_site import (
 )
 from departments.dept_settlement_audit import SettlementAuditDepartment, SettlementSpecialistAgent, SettlementHeadReviewerAgent
 from departments.dept_marketing_media import MarketingMediaDepartment, ContentSpecialistAgent, VideoSpecialistAgent, MarketingHeadReviewerAgent
+from departments.dept_planning_schedule import PlanningScheduleDepartment, PlanningScheduleSpecialistAgent, PlanningScheduleHeadReviewerAgent
 from core.reporting_engine import reporting_engine
 
 class ConstructionCompanyOrchestrator:
@@ -233,6 +234,24 @@ class ConstructionCompanyOrchestrator:
                 }
             },
             {
+                "id": "DEPT_PLANNING",
+                "department_name": "Phòng Kế Hoạch & Kiểm Soát Tiến Độ Thi Công (CPM & EVM)",
+                "code": "PLANNING",
+                "corporate_sop": "Quy trình Lập & Kiểm soát Tiến độ CPM, Đồ thị S-Curve EVM & Báo cáo Tiến độ (NĐ 210/2026/NĐ-CP & NĐ 207/2026/NĐ-CP)",
+                "specialist": {
+                    "name": PlanningScheduleSpecialistAgent.AGENT_NAME,
+                    "title": PlanningScheduleSpecialistAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_2_SPECIALIST.name,
+                    "mission": "Lập cây WBS, tính đường găng CPM (Forward/Backward Pass), cân bằng tài nguyên & tính dòng tiền S-Curve."
+                },
+                "head": {
+                    "name": PlanningScheduleHeadReviewerAgent.AGENT_NAME,
+                    "title": PlanningScheduleHeadReviewerAgent.ROLE_TITLE,
+                    "level": RoleLevel.LEVEL_3_HEAD.name,
+                    "mission": "Kiểm toán logic mạng găng, phân tích SPI/CPI, đề xuất nén tiến độ & lập Báo cáo Tiến độ Chủ đầu tư."
+                }
+            },
+            {
                 "id": "DEPT_SERVICES_WELLNESS",
                 "department_name": "Bộ Phận Dịch Vụ & Đời Sống (Căn Tin - Giải Trí - Wellness)",
                 "code": "WELLNESS",
@@ -331,6 +350,18 @@ class ConstructionCompanyOrchestrator:
                 video_duration_seconds=int(payload.get("video_duration_seconds", 60)),
                 key_video_scenes=payload.get("key_video_scenes"),
                 campaign_budget=float(payload.get("campaign_budget", 0))
+            )
+
+        elif wf == "PLANNING":
+            result = PlanningScheduleDepartment.audit_schedule_and_progress(
+                project_name=payload.get("project_name", "Dự án 1 (Tổ hợp Thương mại & Văn phòng T&T Tower)"),
+                tasks=payload.get("tasks", [
+                    {"id": "1", "code": "WBS-1", "name": "Chuẩn bị mặt bằng & Ép cọc đại trà", "durationDays": 20, "progress": 100, "budget": 4500000000, "predecessors": []},
+                    {"id": "2", "code": "WBS-2", "name": "Thi công Đài móng & Giằng móng", "durationDays": 25, "progress": 80, "budget": 6200000000, "predecessors": [{"fromId": "1", "type": "FS", "lag": 0}]},
+                    {"id": "3", "code": "WBS-3", "name": "Thi công Kết cấu Thân Tầng 1-5", "durationDays": 45, "progress": 35, "budget": 18500000000, "predecessors": [{"fromId": "2", "type": "FS", "lag": 2}]},
+                    {"id": "4", "code": "WBS-4", "name": "Hoàn thiện & Lắp đặt Cơ điện MEP", "durationDays": 35, "progress": 0, "budget": 12000000000, "predecessors": [{"fromId": "3", "type": "SS", "lag": 20}]}
+                ]),
+                actual_cost=float(payload.get("actual_cost", 15000000000))
             )
 
         else:

@@ -99,6 +99,10 @@
       <div class="nav-item" onclick="switchTab('sops')" style="color:#a78bfa; border:1px solid rgba(167,139,250,0.3);">📋 Quy Trình & Mẫu T&T</div>
       <div class="nav-item" onclick="switchTab('gdrive')" style="color:#38bdf8; border:1px solid rgba(56,189,248,0.3);">☁️ Kho Hồ Sơ Drive</div>
       <div class="nav-item" onclick="switchTab('floor3d')" style="color:#fbbf24; border:1px solid rgba(245,158,11,0.35);">🏛️ Mô Hình 3D Sàn Văn Phòng</div>
+      <div class="nav-item" onclick="switchTab('planning')" style="color:#fb923c; border:1px solid rgba(251,146,60,0.45);">⏱️ 7. Phòng Kế Hoạch &amp; Tiến Độ</div>
+      <a class="nav-item" href="./tiendo/" target="_blank" style="color:#fb923c; border:1px solid rgba(251,146,60,0.25); text-decoration:none; display:block; font-size:0.82rem;">↳ 🚀 Mở Tiến Độ CPM Pro</a>
+      <a class="nav-item" href="./cashflow_scurve.html" target="_blank" style="color:#2dd4bf; border:1px solid rgba(45,212,191,0.25); text-decoration:none; display:block; font-size:0.82rem;">↳ 📈 Dòng Tiền S-Curve EVM</a>
+      <a class="nav-item" href="./payment_report.html" target="_blank" style="color:#f87171; border:1px solid rgba(248,113,113,0.25); text-decoration:none; display:block; font-size:0.82rem;">↳ 🧾 Báo Cáo Thanh Toán</a>
       <a class="nav-item" href="./tiendo/" target="_blank" style="color:#fb923c; border:1px solid rgba(251,146,60,0.4); text-decoration:none; display:block;">⏱️ Tiến Độ CPM &amp; Gantt Pro</a>
       <a class="nav-item" href="./cashflow_scurve.html" target="_blank" style="color:#2dd4bf; border:1px solid rgba(45,212,191,0.35); text-decoration:none; display:block;">📈 Dòng Tiền S-Curve EVM</a>
       <a class="nav-item" href="./payment_report.html" target="_blank" style="color:#f87171; border:1px solid rgba(248,113,113,0.35); text-decoration:none; display:block;">🧾 Báo Cáo Tiến Độ Thanh Toán</a>
@@ -759,6 +763,153 @@
         </div>
 
         <div id="marketing-result" class="result-box" style="display:none;"></div>
+      </section>
+
+      <!-- 7. TAB: PHÒNG KẾ HOẠCH & TIẾN ĐỘ THI CÔNG (CPM, GANTT, EVM & BÁO CÁO TIẾN ĐỘ) -->
+      <section id="pane-planning" class="tab-pane">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+          <div>
+            <h2 class="page-title" style="margin-bottom:4px;">⏱️ 7. Phòng Kế Hoạch &amp; Kiểm Soát Tiến Độ Thi Công (CPM &amp; EVM)</h2>
+            <p class="page-desc" style="margin-bottom:0;">Lập tiến độ đường găng CPM cho từng dự án, theo dõi Look-Ahead, tính dòng tiền S-Curve EVM &amp; xuất Báo cáo Tiến độ chuẩn NĐ 210/2026/NĐ-CP &amp; NĐ 207/2026/NĐ-CP.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="./tiendo/" target="_blank" class="btn-primary" style="background:#ea580c; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              🚀 Mở Tiến Độ CPM Pro (Full)
+            </a>
+            <a href="./cashflow_scurve.html" target="_blank" class="btn-primary" style="background:#0f766e; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              📈 S-Curve EVM
+            </a>
+            <a href="./payment_report.html" target="_blank" class="btn-primary" style="background:#dc2626; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              🧾 Báo Cáo Thanh Toán
+            </a>
+          </div>
+        </div>
+
+        <!-- Nhân sự AI Phòng Kế hoạch & Tiến độ -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-bottom:16px;">
+          <div class="card" style="padding:14px; border-left:3px solid #fb923c;">
+            <div style="font-size:0.75rem; color:#fb923c; font-weight:700;">CHUYÊN VIÊN LEVEL 2</div>
+            <div style="font-size:1rem; font-weight:700; color:#f8fafc; margin:2px 0;">Trần Tiến Độ</div>
+            <div style="font-size:0.82rem; color:#94a3b8;">Kỹ sư Lập Tiến độ CPM, WBS, Cân bằng Tài nguyên &amp; S-Curve.</div>
+          </div>
+          <div class="card" style="padding:14px; border-left:3px solid #38bdf8;">
+            <div style="font-size:0.75rem; color:#38bdf8; font-weight:700;">TRƯỞNG PHÒNG LEVEL 1</div>
+            <div style="font-size:1rem; font-weight:700; color:#f8fafc; margin:2px 0;">Nguyễn Kế Hoạch</div>
+            <div style="font-size:0.82rem; color:#94a3b8;">Kiểm toán logic mạng găng, phân tích SPI/CPI &amp; Báo cáo Chủ đầu tư.</div>
+          </div>
+        </div>
+
+        <!-- Chọn Dự Án & Thêm Dự Án -->
+        <div class="card" style="padding:16px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1;">
+              <label style="font-size:0.85rem; font-weight:700; color:#e2e8f0;">📁 Dự án đang lập tiến độ:</label>
+              <select id="planProjectSelect" onchange="planSwitchProject(this.value)" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:7px 12px; font-size:0.86rem; min-width:280px;"></select>
+              <button class="btn-primary" style="background:#2563eb; padding:7px 12px; font-size:0.8rem;" onclick="planCreateNewProject()">➕ Thêm Dự Án Mới</button>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <label style="font-size:0.78rem; color:#94a3b8;">Ngày khởi công:</label>
+              <input id="planStartDate" type="date" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:5px 8px; font-size:0.82rem;" />
+              <label style="font-size:0.78rem; color:#94a3b8;">Chi phí thực tế AC (VNĐ):</label>
+              <input id="planActualCost" type="number" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:5px 8px; font-size:0.82rem; width:140px;" />
+            </div>
+          </div>
+
+          <!-- 5 KPI Cards -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px;">
+            <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
+              <div style="font-size:0.72rem; color:#94a3b8;">Tổng Thời Gian CPM</div>
+              <div id="kpiPlanDuration" style="font-size:1.25rem; font-weight:800; color:#38bdf8;">0 ngày</div>
+            </div>
+            <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
+              <div style="font-size:0.72rem; color:#94a3b8;">Tiến Độ Chung</div>
+              <div id="kpiPlanProgress" style="font-size:1.25rem; font-weight:800; color:#34d399;">0%</div>
+            </div>
+            <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
+              <div style="font-size:0.72rem; color:#94a3b8;">Công Việc Đường Găng</div>
+              <div id="kpiPlanCritical" style="font-size:1.25rem; font-weight:800; color:#f87171;">0 việc</div>
+            </div>
+            <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
+              <div style="font-size:0.72rem; color:#94a3b8;">Chỉ Số SPI (EVM)</div>
+              <div id="kpiPlanSpi" style="font-size:1.25rem; font-weight:800; color:#fbbf24;">1.00</div>
+            </div>
+            <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
+              <div style="font-size:0.72rem; color:#94a3b8;">Giá Trị Hoàn Thành (EV)</div>
+              <div id="kpiPlanEv" style="font-size:1.05rem; font-weight:800; color:#a78bfa;">0 tỷ</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Thêm Công Việc + Bộ Lọc + Xuất File -->
+        <div class="card" style="padding:16px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="margin:0; font-size:0.95rem; color:#f8fafc;">📊 Bảng WBS &amp; Biểu Đồ Gantt Đường Găng (CPM)</h3>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <select id="planFilterMode" onchange="planRenderSchedule()" style="background:#0f172a; color:#e2e8f0; border:1px solid #334155; border-radius:6px; padding:5px 10px; font-size:0.78rem;">
+                <option value="all">Hiển thị: Tất cả công việc</option>
+                <option value="critical">Chỉ Đường găng (TF ≤ 0)</option>
+                <option value="lookahead">Look-Ahead 14 ngày tới</option>
+              </select>
+              <button onclick="planExportMsProjectXml()" style="background:#1e293b; border:1px solid #475569; color:#38bdf8; border-radius:6px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">📤 MS Project XML</button>
+              <button onclick="planExportJson()" style="background:#1e293b; border:1px solid #475569; color:#34d399; border-radius:6px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">💾 JSON (.tiendo)</button>
+              <button onclick="planExportCsv()" style="background:#1e293b; border:1px solid #475569; color:#fbbf24; border-radius:6px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">📊 Excel CSV</button>
+            </div>
+          </div>
+
+          <!-- Add Task Row -->
+          <div style="display:grid; grid-template-columns:90px 2fr 80px 130px 75px 130px auto; gap:6px; margin-bottom:12px; align-items:center;">
+            <input id="newTaskCode" type="text" placeholder="Mã WBS" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
+            <input id="newTaskName" type="text" placeholder="Tên công tác thi công (vd: Đổ bê tông dầm sàn T3)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
+            <input id="newTaskDur" type="number" min="0" value="10" title="Số ngày" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
+            <input id="newTaskPred" type="text" placeholder="Tiền nhiệm (vd: 2:FS+0)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
+            <input id="newTaskProg" type="number" min="0" max="100" value="0" title="% Hoàn thành" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
+            <input id="newTaskBudget" type="number" min="0" value="1000000000" title="Giá trị BOQ (VNĐ)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
+            <button onclick="planAddTask()" class="btn-primary" style="background:#10b981; padding:6px 12px; font-size:0.8rem;">➕ Thêm</button>
+          </div>
+
+          <div id="planCycleAlert" style="display:none; background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#fca5a5; padding:8px 12px; border-radius:8px; font-size:0.82rem; margin-bottom:10px;"></div>
+
+          <!-- Schedule + Gantt Table -->
+          <div style="overflow-x:auto; border:1px solid #1e293b; border-radius:10px;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.8rem; min-width:920px;">
+              <thead>
+                <tr style="background:#0f172a; color:#94a3b8; text-align:left; border-bottom:1px solid #1e293b;">
+                  <th style="padding:8px;">ID / WBS</th>
+                  <th style="padding:8px;">Tên Công Tác</th>
+                  <th style="padding:8px; width:68px;">Ngày</th>
+                  <th style="padding:8px; width:100px;">Tiền nhiệm</th>
+                  <th style="padding:8px; width:64px;">% HT</th>
+                  <th style="padding:8px; width:56px;">TF</th>
+                  <th style="padding:8px; width:260px;">Biểu Đồ Gantt (Đỏ = Đường găng)</th>
+                  <th style="padding:8px; width:46px;">Xóa</th>
+                </tr>
+              </thead>
+              <tbody id="planGanttBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tạo Báo Cáo Tiến Độ Thi Công & Kiểm Toán AI -->
+        <div class="card" style="padding:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <h3 style="margin:0; font-size:0.95rem; color:#f8fafc;">📑 Trung Tâm Lập Báo Cáo Tiến Độ &amp; Kiểm Toán AI</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <select id="planReportType" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:6px 10px; font-size:0.82rem;">
+                <option value="weekly">Báo Cáo Tiến Độ Tuần (Chủ Đầu Tư)</option>
+                <option value="monthly">Báo Cáo Tiến Độ Tháng &amp; EVM S-Curve</option>
+                <option value="payment">Báo Cáo Tiến Độ Đợt Thanh Toán (Mẫu 03.a/TT - NĐ 254/2025)</option>
+                <option value="delay">Cảnh Báo Chậm Tiến Độ &amp; Gia Hạn (NĐ 210/2026/NĐ-CP)</option>
+              </select>
+              <button class="btn-primary" style="background:#ea580c; padding:7px 14px; font-size:0.82rem;" onclick="planGenerateProgressReport()">📝 Sinh Báo Cáo Tiến Độ</button>
+              <button class="btn-primary" style="background:#0284c7; padding:7px 14px; font-size:0.82rem;" onclick="planRunAiAudit()">🤖 Kiểm Toán Logic CPM (AI)</button>
+              <button onclick="planPrintReport()" style="background:#1e293b; border:1px solid #475569; color:#e2e8f0; border-radius:8px; padding:6px 12px; font-size:0.82rem; cursor:pointer;">🖨️ In / PDF</button>
+              <button onclick="planCopyReportText()" style="background:#1e293b; border:1px solid #475569; color:#34d399; border-radius:8px; padding:6px 12px; font-size:0.82rem; cursor:pointer;">📋 Copy Zalo</button>
+            </div>
+          </div>
+          <div id="planReportOutput" style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:16px; font-size:0.84rem; color:#cbd5e1; line-height:1.6;">
+            Nhấn <b>"Sinh Báo Cáo Tiến Độ"</b> để tự động tổng hợp dữ liệu CPM, đường găng, chỉ số EVM (SPI/EV/BAC), công việc Look-Ahead 14 ngày tới và căn cứ pháp lý 2026 cho dự án đang chọn.
+          </div>
+        </div>
       </section>
 
       <!-- TAB: CORPORATE SOPS & TEMPLATES (QUY TRÌNH & BIỂU MẪU TẬP ĐOÀN T&T) -->
@@ -3317,6 +3468,390 @@
       }
     };
 
+    // =========================================================================
+    // PHÒNG KẾ HOẠCH & TIẾN ĐỘ THI CÔNG (CPM, GANTT, EVM & BÁO CÁO TIẾN ĐỘ)
+    // =========================================================================
+    const DEFAULT_PLAN_TASKS = [
+      { id: '1', code: 'WBS-1.1', name: 'Chuẩn bị mặt bằng, định vị tim mốc & ép cọc đại trà', durationDays: 20, predecessors: [], progress: 100, budget: 4500000000 },
+      { id: '2', code: 'WBS-1.2', name: 'Đào đất hố móng, bê tông lót & gia công cốt thép đài giằng', durationDays: 18, predecessors: [{ fromId: '1', type: 'FS', lag: 0 }], progress: 100, budget: 3800000000 },
+      { id: '3', code: 'WBS-1.3', name: 'Đổ bê tông đài móng, giằng móng & nghiệm thu phần ngầm', durationDays: 12, predecessors: [{ fromId: '2', type: 'FS', lag: 0 }], progress: 85, budget: 4200000000 },
+      { id: '4', code: 'WBS-2.1', name: 'Thi công kết cấu thân Cột - Dầm - Sàn Tầng 1 đến Tầng 5', durationDays: 45, predecessors: [{ fromId: '3', type: 'FS', lag: 2 }], progress: 40, budget: 18500000000 },
+      { id: '5', code: 'WBS-2.2', name: 'Xây trát tường bao & vách ngăn kỹ thuật', durationDays: 30, predecessors: [{ fromId: '4', type: 'SS', lag: 18 }], progress: 15, budget: 6400000000 },
+      { id: '6', code: 'WBS-3.1', name: 'Lắp đặt hệ thống Cơ điện MEP, PCCC & Thang máy', durationDays: 35, predecessors: [{ fromId: '5', type: 'SS', lag: 10 }], progress: 0, budget: 11200000000 },
+      { id: '7', code: 'WBS-4.1', name: 'Hoàn thiện sơn bả, ốp lát, chạy thử liên động & bàn giao', durationDays: 20, predecessors: [{ fromId: '6', type: 'FS', lag: 0 }], progress: 0, budget: 5400000000 }
+    ];
+
+    let PLAN_STORE = { activeProjectId: 'DU_AN_1', projects: {} };
+
+    function planLoadStore() {
+      try {
+        const raw = localStorage.getItem('one_person_firm_planning_v1');
+        if (raw) PLAN_STORE = JSON.parse(raw);
+      } catch (e) {}
+
+      const driveProjs = (typeof DRIVE_DATA !== 'undefined' && DRIVE_DATA && DRIVE_DATA.projects) ? DRIVE_DATA.projects : {};
+      Object.keys(driveProjs).forEach(k => {
+        if (!PLAN_STORE.projects[k]) {
+          PLAN_STORE.projects[k] = {
+            id: k,
+            name: driveProjs[k].project_display_name || k,
+            startDate: '2026-07-01',
+            actualCost: 16500000000,
+            tasks: JSON.parse(JSON.stringify(DEFAULT_PLAN_TASKS))
+          };
+        }
+      });
+
+      if (!Object.keys(PLAN_STORE.projects).length) {
+        PLAN_STORE.projects['DU_AN_1'] = {
+          id: 'DU_AN_1',
+          name: 'Dự án 1 (Tổ hợp Thương mại & Văn phòng T&T Tower)',
+          startDate: '2026-07-01',
+          actualCost: 16500000000,
+          tasks: JSON.parse(JSON.stringify(DEFAULT_PLAN_TASKS))
+        };
+      }
+      if (!PLAN_STORE.projects[PLAN_STORE.activeProjectId]) {
+        PLAN_STORE.activeProjectId = Object.keys(PLAN_STORE.projects)[0];
+      }
+      planSaveStore();
+      planPopulateProjectSelect();
+      planRenderSchedule();
+    }
+
+    function planSaveStore() {
+      localStorage.setItem('one_person_firm_planning_v1', JSON.stringify(PLAN_STORE));
+    }
+
+    function planPopulateProjectSelect() {
+      const sel = document.getElementById('planProjectSelect');
+      if (!sel) return;
+      sel.innerHTML = Object.values(PLAN_STORE.projects).map(p =>
+        `<option value="${p.id}" ${p.id === PLAN_STORE.activeProjectId ? 'selected' : ''}>${p.name}</option>`
+      ).join('');
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (cur) {
+        document.getElementById('planStartDate').value = cur.startDate || '2026-07-01';
+        document.getElementById('planActualCost').value = cur.actualCost || 0;
+      }
+    }
+
+    window.planSwitchProject = function(pid) {
+      PLAN_STORE.activeProjectId = pid;
+      planSaveStore();
+      planPopulateProjectSelect();
+      planRenderSchedule();
+    };
+
+    window.planCreateNewProject = function() {
+      const name = prompt('Nhập tên Dự án mới cần lập tiến độ:');
+      if (!name || !name.trim()) return;
+      const id = 'DU_AN_' + Date.now();
+      PLAN_STORE.projects[id] = {
+        id,
+        name: name.trim(),
+        startDate: new Date().toISOString().slice(0, 10),
+        actualCost: 0,
+        tasks: JSON.parse(JSON.stringify(DEFAULT_PLAN_TASKS))
+      };
+      PLAN_STORE.activeProjectId = id;
+      planSaveStore();
+      planPopulateProjectSelect();
+      planRenderSchedule();
+    };
+
+    window.planUpdateMeta = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      cur.startDate = document.getElementById('planStartDate').value;
+      cur.actualCost = parseFloat(document.getElementById('planActualCost').value) || 0;
+      planSaveStore();
+      planRenderSchedule();
+    };
+
+    function planParsePredString(str) {
+      if (!str || !str.trim()) return [];
+      return str.split(',').map(part => {
+        const m = part.trim().match(/^([^\s:+-]+)(?::(FS|SS|FF|SF))?([+-]\d+)?$/i);
+        if (!m) return null;
+        return { fromId: m[1], type: (m[2] || 'FS').toUpperCase(), lag: m[3] ? parseInt(m[3], 10) : 0 };
+      }).filter(Boolean);
+    }
+
+    function planFormatPredString(preds) {
+      if (!preds || !preds.length) return '';
+      return preds.map(l => `${l.fromId}:${l.type || 'FS'}${l.lag ? (l.lag > 0 ? '+' + l.lag : l.lag) : ''}`).join(', ');
+    }
+
+    function planComputeCpm(proj) {
+      const tasks = (proj.tasks || []).map(t => ({ ...t, es: 0, ef: t.durationDays, ls: 0, lf: t.durationDays, tf: 0, isCritical: false }));
+      const map = new Map(tasks.map(t => [String(t.id), t]));
+      let hasCycle = false;
+
+      for (let iter = 0; iter <= tasks.length + 2; iter++) {
+        let changed = false;
+        for (const t of tasks) {
+          let es = 0;
+          for (const l of (t.predecessors || [])) {
+            const p = map.get(String(l.fromId));
+            if (!p) continue;
+            let cand = p.ef + (l.lag || 0);
+            if (l.type === 'SS') cand = p.es + (l.lag || 0);
+            else if (l.type === 'FF') cand = p.ef + (l.lag || 0) - t.durationDays;
+            else if (l.type === 'SF') cand = p.es + (l.lag || 0) - t.durationDays;
+            if (cand > es) es = cand;
+          }
+          const ef = es + Number(t.durationDays || 0);
+          if (es !== t.es || ef !== t.ef) { t.es = es; t.ef = ef; changed = true; }
+        }
+        if (!changed) break;
+        if (iter === tasks.length + 2) hasCycle = true;
+      }
+
+      const totalDur = Math.max(1, ...tasks.map(t => t.ef));
+      const succ = new Map(tasks.map(t => [String(t.id), []]));
+      tasks.forEach(t => {
+        (t.predecessors || []).forEach(l => {
+          if (succ.has(String(l.fromId))) succ.get(String(l.fromId)).push({ to: t, type: l.type || 'FS', lag: l.lag || 0 });
+        });
+      });
+
+      tasks.forEach(t => { t.lf = totalDur; t.ls = totalDur - t.durationDays; });
+      for (let iter = 0; iter <= tasks.length + 2; iter++) {
+        let changed = false;
+        for (let i = tasks.length - 1; i >= 0; i--) {
+          const t = tasks[i];
+          let lf = totalDur;
+          for (const sl of (succ.get(String(t.id)) || [])) {
+            const s = sl.to;
+            let cand = s.ls - sl.lag;
+            if (sl.type === 'SS') cand = s.ls - sl.lag + t.durationDays;
+            else if (sl.type === 'FF') cand = s.lf - sl.lag;
+            else if (sl.type === 'SF') cand = s.lf - sl.lag + t.durationDays;
+            if (cand < lf) lf = cand;
+          }
+          const ls = lf - t.durationDays;
+          if (lf !== t.lf || ls !== t.ls) { t.lf = lf; t.ls = ls; changed = true; }
+        }
+        if (!changed) break;
+      }
+
+      let bac = 0, ev = 0, weightedProg = 0, totalW = 0, criticalCount = 0;
+      tasks.forEach(t => {
+        t.tf = t.ls - t.es;
+        t.isCritical = (t.tf <= 0 && t.durationDays > 0);
+        if (t.isCritical) criticalCount++;
+        const b = Number(t.budget || 0);
+        const w = b > 0 ? b : Math.max(1, t.durationDays);
+        bac += b;
+        ev += b * ((Number(t.progress) || 0) / 100);
+        weightedProg += w * (Number(t.progress) || 0);
+        totalW += w;
+      });
+
+      const overallProg = totalW > 0 ? (weightedProg / totalW) : 0;
+      const pv = bac * 0.5;
+      const spi = pv > 0 ? (ev / pv) : 1.0;
+
+      return { tasks, totalDur, hasCycle, criticalCount, bac, ev, pv, spi, overallProg };
+    }
+
+    window.planRenderSchedule = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const res = planComputeCpm(cur);
+
+      document.getElementById('kpiPlanDuration').textContent = `${res.totalDur} ngày`;
+      document.getElementById('kpiPlanProgress').textContent = `${res.overallProg.toFixed(1)}%`;
+      document.getElementById('kpiPlanCritical').textContent = `${res.criticalCount} việc`;
+      document.getElementById('kpiPlanSpi').textContent = res.spi.toFixed(2);
+      document.getElementById('kpiPlanSpi').style.color = res.spi >= 0.95 ? '#34d399' : res.spi >= 0.85 ? '#fbbf24' : '#f87171';
+      document.getElementById('kpiPlanEv').textContent = `${(res.ev / 1e9).toFixed(2)} / ${(res.bac / 1e9).toFixed(2)} tỷ`;
+
+      const alertEl = document.getElementById('planCycleAlert');
+      if (res.hasCycle) {
+        alertEl.style.display = 'block';
+        alertEl.textContent = '⚠️ CẢNH BÁO: Phát hiện vòng lặp logic tiền nhiệm (Cycle) trong mạng CPM! Vui lòng kiểm tra lại cột Tiền nhiệm.';
+      } else {
+        alertEl.style.display = 'none';
+      }
+
+      const filter = document.getElementById('planFilterMode').value;
+      const visible = res.tasks.filter(t => {
+        if (filter === 'critical') return t.isCritical;
+        if (filter === 'lookahead') return t.progress < 100 && t.es <= (res.totalDur * 0.55 + 14);
+        return true;
+      });
+
+      const tbody = document.getElementById('planGanttBody');
+      tbody.innerHTML = visible.map(t => {
+        const leftPct = (t.es / res.totalDur) * 100;
+        const widthPct = Math.max(2, (t.durationDays / res.totalDur) * 100);
+        const barColor = t.isCritical ? '#ef4444' : '#38bdf8';
+        return `
+          <tr style="border-bottom:1px solid #1e293b;">
+            <td style="padding:7px 8px; color:#94a3b8;"><b>#${t.id}</b> <span style="color:#64748b;">${t.code}</span></td>
+            <td style="padding:7px 8px; color:${t.isCritical ? '#fecaca' : '#e2e8f0'}; font-weight:${t.isCritical ? '700' : '500'};">${t.name}</td>
+            <td style="padding:7px 8px;"><input type="number" min="0" value="${t.durationDays}" onchange="planEditTaskField('${t.id}','durationDays',this.value)" style="width:52px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
+            <td style="padding:7px 8px;"><input type="text" value="${planFormatPredString(t.predecessors)}" onchange="planEditTaskPred('${t.id}',this.value)" style="width:88px; background:#0f172a; color:#cbd5e1; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.76rem;"></td>
+            <td style="padding:7px 8px;"><input type="number" min="0" max="100" value="${t.progress}" onchange="planEditTaskField('${t.id}','progress',this.value)" style="width:52px; background:#0f172a; color:#34d399; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
+            <td style="padding:7px 8px; font-weight:700; color:${t.isCritical ? '#f87171' : '#34d399'};">${t.tf}d</td>
+            <td style="padding:7px 8px;">
+              <div style="position:relative; height:18px; background:#0f172a; border-radius:4px; border:1px solid #1e293b; overflow:hidden;">
+                <div style="position:absolute; left:${leftPct}%; width:${widthPct}%; top:2px; bottom:2px; background:${barColor}; border-radius:3px; opacity:0.88;">
+                  <div style="height:100%; width:${t.progress}%; background:rgba(255,255,255,0.38);"></div>
+                </div>
+              </div>
+            </td>
+            <td style="padding:7px 8px; text-align:center;"><button onclick="planDeleteTask('${t.id}')" style="background:none; border:none; color:#f87171; cursor:pointer;">🗑️</button></td>
+          </tr>
+        `;
+      }).join('');
+    };
+
+    window.planAddTask = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const name = document.getElementById('newTaskName').value.trim();
+      if (!name) return alert('Vui lòng nhập tên công tác!');
+      const nextId = String((cur.tasks.reduce((m, t) => Math.max(m, parseInt(t.id, 10) || 0), 0)) + 1);
+      cur.tasks.push({
+        id: nextId,
+        code: document.getElementById('newTaskCode').value.trim() || `WBS-${nextId}`,
+        name,
+        durationDays: Math.max(0, parseInt(document.getElementById('newTaskDur').value, 10) || 5),
+        predecessors: planParsePredString(document.getElementById('newTaskPred').value),
+        progress: Math.max(0, Math.min(100, parseFloat(document.getElementById('newTaskProg').value) || 0)),
+        budget: Math.max(0, parseFloat(document.getElementById('newTaskBudget').value) || 0)
+      });
+      document.getElementById('newTaskName').value = '';
+      planSaveStore();
+      planRenderSchedule();
+    };
+
+    window.planEditTaskField = function(tid, field, val) {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const t = cur?.tasks.find(x => String(x.id) === String(tid));
+      if (!t) return;
+      t[field] = Math.max(0, parseFloat(val) || 0);
+      if (field === 'progress') t[field] = Math.min(100, t[field]);
+      planSaveStore();
+      planRenderSchedule();
+    };
+
+    window.planEditTaskPred = function(tid, val) {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const t = cur?.tasks.find(x => String(x.id) === String(tid));
+      if (!t) return;
+      t.predecessors = planParsePredString(val);
+      planSaveStore();
+      planRenderSchedule();
+    };
+
+    window.planDeleteTask = function(tid) {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      cur.tasks = cur.tasks.filter(x => String(x.id) !== String(tid));
+      planSaveStore();
+      planRenderSchedule();
+    };
+
+    function planDownloadText(filename, content, mime = 'text/plain;charset=utf-8') {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    }
+
+    window.planExportJson = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      planDownloadText(`${cur.id}_tiendo.json`, JSON.stringify(cur, null, 2), 'application/json');
+    };
+
+    window.planExportCsv = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const res = planComputeCpm(cur);
+      const rows = [['ID', 'Ma WBS', 'Ten Cong Tac', 'Thoi Luong (Ngay)', 'ES', 'EF', 'TF', 'Duong Gang', '% Hoan Thanh', 'Gia Tri BOQ'].join(',')];
+      res.tasks.forEach(t => rows.push([t.id, t.code, `"${t.name.replace(/"/g, '""')}"`, t.durationDays, t.es, t.ef, t.tf, t.isCritical ? 'CO' : 'KHONG', t.progress, t.budget].join(',')));
+      planDownloadText(`${cur.id}_tiendo.csv`, '\uFEFF' + rows.join('\n'), 'text/csv;charset=utf-8');
+    };
+
+    window.planExportMsProjectXml = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const res = planComputeCpm(cur);
+      const tasksXml = res.tasks.map((t, idx) => `
+    <Task><UID>${idx + 1}</UID><ID>${idx + 1}</ID><Name>${t.name.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</Name><WBS>${t.code}</WBS><Duration>PT${t.durationDays * 8}H0M0S</Duration><PercentComplete>${t.progress}</PercentComplete><Critical>${t.isCritical ? 1 : 0}</Critical></Task>`).join('');
+      const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Project xmlns="http://schemas.microsoft.com/project">\n  <Name>${cur.name}</Name>\n  <Tasks>${tasksXml}\n  </Tasks>\n</Project>`;
+      planDownloadText(`${cur.id}_msproject.xml`, xml, 'application/xml');
+    };
+
+    window.planGenerateProgressReport = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const res = planComputeCpm(cur);
+      const rType = document.getElementById('planReportType').value;
+      const titles = {
+        weekly: 'BÁO CÁO TIẾN ĐỘ THI CÔNG TUẦN (GỬI CHỦ ĐẦU TƯ)',
+        monthly: 'BÁO CÁO TIẾN ĐỘ THÁNG & PHÂN TÍCH DÒNG TIỀN EVM S-CURVE',
+        payment: 'BÁO CÁO ĐÁNH GIÁ TIẾN ĐỘ ĐỢT THANH TOÁN (MẪU 03.a/TT - NĐ 254/2025/NĐ-CP)',
+        delay: 'BÁO CÁO CẢNH BÁO CHẬM TIẾN ĐỘ & ĐỀ XUẤT GIA HẠN (NĐ 210/2026/NĐ-CP)'
+      };
+      const critList = res.tasks.filter(t => t.isCritical).map(t => `<li><b>${t.code}</b>: ${t.name} (${t.durationDays} ngày, hoàn thành <b>${t.progress}%</b>)</li>`).join('');
+      const lookAhead = res.tasks.filter(t => t.progress < 100).slice(0, 5).map(t => `<li><b>${t.code}</b>: ${t.name} (Còn lại: ${(100 - t.progress).toFixed(0)}%)</li>`).join('');
+
+      document.getElementById('planReportOutput').innerHTML = `
+        <div style="border-bottom:1px solid #334155; padding-bottom:10px; margin-bottom:12px;">
+          <div style="font-size:1rem; font-weight:800; color:#fb923c;">${titles[rType]}</div>
+          <div style="font-size:0.82rem; color:#94a3b8;">Dự án: <b style="color:#f8fafc;">${cur.name}</b> | Ngày lập: ${new Date().toLocaleDateString('vi-VN')} | Người lập: Trần Tiến Độ &amp; Nguyễn Kế Hoạch</div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:8px; margin-bottom:12px;">
+          <div>• Tổng thời gian CPM: <b>${res.totalDur} ngày</b></div>
+          <div>• Tiến độ lũy kế: <b style="color:#34d399;">${res.overallProg.toFixed(1)}%</b></div>
+          <div>• Chỉ số SPI (EVM): <b style="color:#fbbf24;">${res.spi.toFixed(2)}</b></div>
+          <div>• Giá trị hoàn thành (EV): <b>${(res.ev / 1e9).toFixed(2)} / ${(res.bac / 1e9).toFixed(2)} tỷ VNĐ</b></div>
+        </div>
+        <div style="margin-bottom:10px;">
+          <b style="color:#f87171;">1. Các công tác thuộc Đường Găng (TF ≤ 0):</b>
+          <ul style="margin:4px 0 0 18px;">${critList || '<li>Không có</li>'}</ul>
+        </div>
+        <div style="margin-bottom:10px;">
+          <b style="color:#38bdf8;">2. Kế hoạch Look-Ahead kỳ tới:</b>
+          <ul style="margin:4px 0 0 18px;">${lookAhead || '<li>Đã hoàn thành 100%</li>'}</ul>
+        </div>
+        <div style="background:rgba(56,189,248,0.08); border-left:3px solid #38bdf8; padding:8px 12px; font-size:0.8rem;">
+          <b>3. Căn cứ Pháp lý 2026:</b> Đối chiếu Điều khoản Tiến độ &amp; Phạt vi phạm theo <b>Nghị định 210/2026/NĐ-CP</b>; Nhật ký thi công điện tử &amp; BBNTCV theo <b>Nghị định 207/2026/NĐ-CP</b>; Hồ sơ thanh toán khối lượng hoàn thành theo <b>Mẫu 03.a/TT - Nghị định 254/2025/NĐ-CP</b>.
+        </div>
+      `;
+    };
+
+    window.planRunAiAudit = async function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const res = planComputeCpm(cur);
+      const dangling = res.tasks.filter(t => !res.tasks.some(o => (o.predecessors || []).some(l => String(l.fromId) === String(t.id))) && t.ef < res.totalDur);
+      const status = res.hasCycle ? 'BLOCKED (Có vòng lặp CPM)' : (dangling.length || res.spi < 0.9 ? 'WARNING (Cần xử lý)' : 'APPROVED (Đạt chuẩn CPM)');
+      document.getElementById('planReportOutput').innerHTML = `
+        <div style="font-size:0.95rem; font-weight:800; color:#38bdf8; margin-bottom:8px;">🤖 KẾT QUẢ KIỂM TOÁN LOGIC CPM &amp; EVM — PHÒNG KẾ HOẠCH &amp; TIẾN ĐỘ</div>
+        <div>• <b>Trạng thái Gate Clearance:</b> <span style="color:#fbbf24; font-weight:700;">${status}</span></div>
+        <div>• <b>Trưởng phòng Nguyễn Kế Hoạch kết luận:</b> Mạng tiến độ gồm ${res.tasks.length} công tác, ${res.criticalCount} công tác găng, tổng thời gian ${res.totalDur} ngày, SPI = ${res.spi.toFixed(2)}.</div>
+        <div>• <b>Công việc treo (Dangling Tasks):</b> ${dangling.length ? dangling.map(d => d.code).join(', ') : 'Không có công việc treo.'}</div>
+        <div>• <b>Khuyến nghị:</b> ${res.spi < 0.95 ? 'Kích hoạt nén tiến độ (Fast-tracking / Crashing) trên các công tác đường găng và cập nhật Nhật ký điện tử theo NĐ 207/2026/NĐ-CP.' : 'Tiến độ đang bám sát kế hoạch, đủ điều kiện lập Mẫu 03.a/TT theo NĐ 254/2025/NĐ-CP.'}</div>
+      `;
+    };
+
+    window.planPrintReport = function() {
+      const html = document.getElementById('planReportOutput').innerHTML;
+      const w = window.open('', '_blank');
+      w.document.write(`<html><head><title>Báo Cáo Tiến Độ</title></head><body style="font-family:system-ui,sans-serif;padding:24px;color:#0f172a;">${html}</body></html>`);
+      w.document.close();
+      w.print();
+    };
+
+    window.planCopyReportText = function() {
+      const txt = document.getElementById('planReportOutput').innerText;
+      navigator.clipboard.writeText(txt).then(() => alert('Đã sao chép Báo cáo Tiến độ để gửi Zalo / Email!'));
+    };
+
+    planLoadStore();
     updateApprovalCount();
   </script>
 
