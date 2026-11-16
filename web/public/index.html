@@ -1116,6 +1116,7 @@
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#f97316; color:#fb923c;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QAQC')">🏗️ Ban QA/QC</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#ec4899; color:#f472b6;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('SETTLEMENT')">💰 Ban Quyết Toán</button>
           <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#d946ef; color:#f0abfc;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('MARKETING')">🎬 Ban Marketing</button>
+          <button class="btn-preset" style="padding:4px 10px; font-size:0.78rem; border-color:#fb923c; color:#fb923c;" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('PLANNING')">⏱️ Phòng Kế Hoạch</button>
         </div>
 
         <!-- TOP WORKFLOW PIPELINE BAR (PAN DIGITAL STYLE) -->
@@ -3762,18 +3763,40 @@
         return true;
       });
 
+      const VN_HOLIDAYS = new Set(['01-01', '04-30', '05-01', '09-02', '09-03']);
+      const workDays = parseInt(document.getElementById('planWorkDays')?.value || '6', 10);
+      function planAddWorkingDays(startIso, offsetDays) {
+        const d = new Date((startIso || '2026-07-01') + 'T00:00:00');
+        let left = Math.max(0, Math.round(offsetDays));
+        while (left > 0) {
+          d.setDate(d.getDate() + 1);
+          const dow = d.getDay();
+          const mmdd = `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+          if (VN_HOLIDAYS.has(mmdd)) continue;
+          if (workDays === 5 && (dow === 0 || dow === 6)) continue;
+          if (workDays === 6 && dow === 0) continue;
+          left--;
+        }
+        return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
+      }
+
       const baseMap = new Map(((cur.baseline && cur.baseline.tasks) || []).map(b => [String(b.id), b]));
       const tbody = document.getElementById('planGanttBody');
       tbody.innerHTML = visible.map(t => {
         const leftPct = (t.es / res.totalDur) * 100;
         const widthPct = Math.max(2, (t.durationDays / res.totalDur) * 100);
         const barColor = t.isCritical ? '#ef4444' : '#38bdf8';
+        const sDate = planAddWorkingDays(cur.startDate, t.es);
+        const eDate = planAddWorkingDays(cur.startDate, t.ef);
         const bTask = baseMap.get(String(t.id));
         const bBar = bTask ? `<div style="position:absolute; left:${(bTask.es / res.totalDur) * 100}%; width:${Math.max(2, (bTask.durationDays / res.totalDur) * 100)}%; bottom:1px; height:4px; background:#64748b; border-radius:2px;"></div>` : '';
         return `
           <tr style="border-bottom:1px solid #1e293b;">
             <td style="padding:7px 8px; color:#94a3b8;"><b>#${t.id}</b> <span style="color:#64748b;">${t.code}</span></td>
-            <td style="padding:7px 8px; color:${t.isCritical ? '#fecaca' : '#e2e8f0'}; font-weight:${t.isCritical ? '700' : '500'};">${t.kind === 'milestone' ? '◆ ' : ''}${t.name}</td>
+            <td style="padding:7px 8px; color:${t.isCritical ? '#fecaca' : '#e2e8f0'}; font-weight:${t.isCritical ? '700' : '500'};">
+              <div>${t.kind === 'milestone' ? '◆ ' : ''}${t.name}</div>
+              <div style="font-size:0.7rem; color:#94a3b8; margin-top:2px;">📅 ${sDate} ➔ ${eDate} ${t.isCritical ? '• <span style="color:#f87171;font-weight:700;">GĂNG</span>' : ''}</div>
+            </td>
             <td style="padding:7px 8px;"><input type="number" min="0" value="${t.durationDays}" onchange="planEditTaskField('${t.id}','durationDays',this.value)" style="width:48px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
             <td style="padding:7px 8px;"><input type="text" value="${planFormatPredString(t.predecessors)}" onchange="planEditTaskPred('${t.id}',this.value)" style="width:82px; background:#0f172a; color:#cbd5e1; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.76rem;"></td>
             <td style="padding:7px 8px;"><input type="text" value="${t.resource || 'Đội thi công'}" onchange="planEditTaskText('${t.id}','resource',this.value)" style="width:94px; background:#0f172a; color:#93c5fd; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.75rem;"></td>

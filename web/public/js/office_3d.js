@@ -54,6 +54,7 @@ class Office3DFloorEngine {
       QAQC: { name: "Ban Quản Lý Chất Lượng QA/QC", center: { x: 21.5, z: 12 }, color: 0xf97316 },
       SETTLEMENT: { name: "Ban Kiểm Toán Thanh & Quyết Toán", center: { x: -8, z: -15 }, color: 0xec4899 },
       MARKETING: { name: "Ban Marketing & Truyền Thông Studio", center: { x: 6, z: -15 }, color: 0xd946ef },
+      PLANNING: { name: "Phòng Kế Hoạch & Kiểm Soát Tiến Độ CPM", center: { x: -9.5, z: -1 }, color: 0xfb923c },
       RECREATION: { name: "Phòng Giải Trí & Thể Dục Wellness", center: { x: -22, z: -1 }, color: 0x10b981 },
       CANTEEN: { name: "Căn Tin & Quầy Bar Doanh Nghiệp", center: { x: 20, z: -1 }, color: 0xf59e0b },
       LOUNGE: { name: "Sảnh Lễ Tân & Tiếp Khách Trung Tâm", center: { x: 0, z: -2 }, color: 0x64748b }
@@ -327,6 +328,33 @@ class Office3DFloorEngine {
         statusText: "Render Storyboard & Video năng lực 4K",
         taskProgress: 81
       },
+      // 6b. Phòng Kế Hoạch & Kiểm Soát Tiến Độ Thi Công (2 nhân sự)
+      {
+        id: "planning_head",
+        name: "Nguyễn Kế Hoạch",
+        role: "Trưởng phòng Kiểm soát Tiến độ, EVM & Báo cáo CĐT",
+        level: "Level 3",
+        dept: "PLANNING",
+        color: 0xea580c,
+        deskPos: { x: -7.5, z: -2.2, rot: 0 },
+        meetPos: { x: 15.5, z: -12, rot: Math.PI / 2 },
+        statusType: "WORKING",
+        statusText: "Kiểm toán Đường găng CPM & chỉ số SPI/EVM",
+        taskProgress: 90
+      },
+      {
+        id: "planning_spec",
+        name: "Trần Tiến Độ",
+        role: "Kỹ sư Lập Tiến độ CPM, WBS & Cân bằng Tài nguyên",
+        level: "Level 2",
+        dept: "PLANNING",
+        color: 0xf97316,
+        deskPos: { x: -11.5, z: -2.2, rot: 0 },
+        meetPos: { x: 24.5, z: -12, rot: -Math.PI / 2 },
+        statusType: "WORKING",
+        statusText: "Cập nhật Gantt & Look-Ahead 14 ngày tới",
+        taskProgress: 84
+      },
       // 7. Nhân sự Căn Tin & Dịch Vụ Văn Phòng (2 nhân sự)
       {
         id: "canteen_barista",
@@ -515,6 +543,9 @@ class Office3DFloorEngine {
     // Vách kính Phòng Giải Trí & Thể Dục Wellness
     this.buildGlassRoom(-22, -1, 14, 9, "PHÒNG GIẢI TRÍ & CHĂM SÓC SỨC KHỎE");
 
+    // Vách kính Phòng Kế Hoạch & Tiến Độ Thi Công CPM
+    this.buildGlassRoom(-9.5, -1, 9.5, 8.5, "PHÒNG KẾ HOẠCH & KIỂM SOÁT TIẾN ĐỘ CPM");
+
     // Vách kính Căn Tin & Quầy Bar Doanh Nghiệp
     this.buildGlassRoom(20, -1, 16, 9, "CĂN TIN & QUẦY BAR DOANH NGHIỆP");
 
@@ -528,6 +559,7 @@ class Office3DFloorEngine {
     this.createGlowSignboard("💰 BAN KIỂM TOÁN QUYẾT TOÁN", -8, 4.8, -20.8, 0xec4899);
     this.createGlowSignboard("🎬 BAN MARKETING & TRUYỀN THÔNG", 6, 4.8, -20.8, 0xd946ef);
     this.createGlowSignboard("🎮 PHÒNG GIẢI TRÍ & WELLNESS", -22, 4.2, 3.6, 0x10b981);
+    this.createGlowSignboard("⏱️ PHÒNG KẾ HOẠCH & TIẾN ĐỘ CPM", -9.5, 4.2, 3.3, 0xfb923c);
     this.createGlowSignboard("☕ CĂN TIN & QUẦY BAR DOANH NGHIỆP", 20, 4.2, 3.6, 0xf59e0b);
   }
 
@@ -660,6 +692,50 @@ class Office3DFloorEngine {
 
     // 11. Căn Tin & Quầy Bar Doanh Nghiệp
     this.createCanteenRoom(20, -1);
+
+    // 12. Phòng Kế Hoạch & Tiến Độ Thi Công CPM (2 nhân sự + Bảng Gantt 3D)
+    this.createWorkstation(-7.5, -2.2, "Nguyễn Kế Hoạch", "Trưởng phòng CPM & EVM");
+    this.createWorkstation(-11.5, -2.2, "Trần Tiến Độ", "Kỹ sư Gantt & Look-Ahead");
+    this.createBookshelf(-13.8, -1, Math.PI / 2, "KỆ HỒ SƠ TIẾN ĐỘ & MS PROJECT");
+    this.buildPlanningCommandWall(-9.5, -4.8);
+  }
+
+  buildPlanningCommandWall(x, z) {
+    const group = new THREE.Group();
+    group.position.set(x, 2.2, z);
+
+    // Khung màn hình Command Wall Gantt & S-Curve
+    const frame = new THREE.Mesh(
+      new THREE.BoxGeometry(6.2, 2.6, 0.16),
+      new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.3, metalness: 0.6 })
+    );
+    group.add(frame);
+
+    const screen = new THREE.Mesh(
+      new THREE.PlaneGeometry(5.9, 2.3),
+      new THREE.MeshBasicMaterial({ color: 0x020617 })
+    );
+    screen.position.z = 0.09;
+    group.add(screen);
+
+    // Vẽ 5 thanh Gantt 3D phát sáng (Đỏ = Đường găng, Xanh = Bình thường)
+    const bars = [
+      { x: -1.8, y: 0.72, w: 1.4, color: 0xef4444 },
+      { x: -0.9, y: 0.36, w: 1.6, color: 0xef4444 },
+      { x: 0.1,  y: 0.0,  w: 1.8, color: 0x38bdf8 },
+      { x: 0.8,  y: -0.36, w: 1.9, color: 0xef4444 },
+      { x: 1.6,  y: -0.72, w: 1.3, color: 0x10b981 }
+    ];
+    bars.forEach(b => {
+      const bar = new THREE.Mesh(
+        new THREE.BoxGeometry(b.w, 0.22, 0.05),
+        new THREE.MeshBasicMaterial({ color: b.color })
+      );
+      bar.position.set(b.x, b.y, 0.12);
+      group.add(bar);
+    });
+
+    this.scene.add(group);
   }
 
   // --- HÀM TẠO NỘI THẤT CHI TIẾT ---
