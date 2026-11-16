@@ -100,7 +100,7 @@
       <div class="nav-item" onclick="switchTab('gdrive')" style="color:#38bdf8; border:1px solid rgba(56,189,248,0.3);">☁️ Kho Hồ Sơ Drive</div>
       <div class="nav-item" onclick="switchTab('floor3d')" style="color:#fbbf24; border:1px solid rgba(245,158,11,0.35);">🏛️ Mô Hình 3D Sàn Văn Phòng</div>
       <div class="nav-item" onclick="switchTab('planning')" style="color:#fb923c; border:1px solid rgba(251,146,60,0.45);">⏱️ 7. Phòng Kế Hoạch &amp; Tiến Độ</div>
-      <a class="nav-item" href="./tiendo/" target="_blank" style="color:#fb923c; border:1px solid rgba(251,146,60,0.25); text-decoration:none; display:block; font-size:0.82rem;">↳ 🚀 Mở Tiến Độ CPM Pro</a>
+      <div class="nav-item" onclick="openTienDoCpmWorkspace('./tiendo/')" style="color:#fb923c; border:1px solid rgba(251,146,60,0.25); font-size:0.82rem;">↳ ⏱️ Tiến Độ CPM (Full UI)</div>
       <a class="nav-item" href="./cashflow_scurve.html" target="_blank" style="color:#2dd4bf; border:1px solid rgba(45,212,191,0.25); text-decoration:none; display:block; font-size:0.82rem;">↳ 📈 Dòng Tiền S-Curve EVM</a>
       <a class="nav-item" href="./payment_report.html" target="_blank" style="color:#f87171; border:1px solid rgba(248,113,113,0.25); text-decoration:none; display:block; font-size:0.82rem;">↳ 🧾 Báo Cáo Thanh Toán</a>
       <a class="nav-item" href="./tiendo/" target="_blank" style="color:#fb923c; border:1px solid rgba(251,146,60,0.4); text-decoration:none; display:block;">⏱️ Tiến Độ CPM &amp; Gantt Pro</a>
@@ -773,9 +773,9 @@
             <p class="page-desc" style="margin-bottom:0;">Lập tiến độ đường găng CPM cho từng dự án, theo dõi Look-Ahead, tính dòng tiền S-Curve EVM &amp; xuất Báo cáo Tiến độ chuẩn NĐ 210/2026/NĐ-CP &amp; NĐ 207/2026/NĐ-CP.</p>
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <a href="./tiendo/" target="_blank" class="btn-primary" style="background:#ea580c; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-              🚀 Mở Tiến Độ CPM Pro (Full)
-            </a>
+            <button onclick="openTienDoCpmWorkspace('./tiendo/')" class="btn-primary" style="background:#ea580c; display:inline-flex; align-items:center; gap:6px; border:none; cursor:pointer;">
+              ⏱️ Tiến độ CPM
+            </button>
             <a href="./cashflow_scurve.html" target="_blank" class="btn-primary" style="background:#0f766e; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
               📈 S-Curve EVM
             </a>
@@ -4235,5 +4235,54 @@
       </div>
     </div>
   </div>
+
+  <!-- EMBEDDED TIẾN ĐỘ CPM WORKSPACE MODAL (TIENDOTHICONG.VERCEL.APP / ./TIENDO/) -->
+  <div id="tiendo-cpm-modal" style="display:none; position:fixed; inset:0; z-index:99999; background:#0b1120; flex-direction:column;">
+    <div style="height:48px; background:#0f172a; border-bottom:1px solid #334155; padding:0 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-shrink:0;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:1.1rem;">⏱️</span>
+        <strong style="color:#f8fafc; font-size:0.9rem;">Không Gian Lập &amp; Chỉnh Sửa Tiến Độ CPM (tiendothicong.vercel.app)</strong>
+        <span id="tiendoProjectBadge" style="background:rgba(251,146,60,0.15); color:#fb923c; border:1px solid rgba(251,146,60,0.35); padding:2px 8px; border-radius:6px; font-size:0.74rem; font-weight:700;"></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <button id="btnSrcLocalTienDo" onclick="switchTienDoIframeSrc('./tiendo/')" style="background:#ea580c; color:#fff; border:none; border-radius:6px; padding:5px 10px; font-size:0.76rem; font-weight:700; cursor:pointer;">⚡ Bản Tích Hợp (Offline/Nhanh)</button>
+        <button id="btnSrcVercelTienDo" onclick="switchTienDoIframeSrc('https://tiendothicong.vercel.app/')" style="background:#1e293b; color:#cbd5e1; border:1px solid #475569; border-radius:6px; padding:5px 10px; font-size:0.76rem; font-weight:600; cursor:pointer;">🌐 Bản Live (tiendothicong.vercel.app)</button>
+        <a id="tiendoExternalLink" href="./tiendo/" target="_blank" style="background:#1e293b; color:#38bdf8; border:1px solid #475569; border-radius:6px; padding:5px 10px; font-size:0.76rem; font-weight:600; text-decoration:none;">↗️ Mở Tab Riêng</a>
+        <button onclick="closeTienDoCpmWorkspace()" style="background:#dc2626; color:#fff; border:none; border-radius:6px; padding:5px 12px; font-size:0.78rem; font-weight:700; cursor:pointer;">✖ Đóng &amp; Quay Lại</button>
+      </div>
+    </div>
+    <iframe id="tiendoCpmIframe" src="about:blank" style="flex:1; width:100%; height:calc(100vh - 48px); border:none; background:#fff;"></iframe>
+  </div>
+
+  <script>
+    window.openTienDoCpmWorkspace = function(srcUrl = './tiendo/') {
+      const modal = document.getElementById('tiendo-cpm-modal');
+      const curProj = (typeof PLAN_STORE !== 'undefined' && PLAN_STORE.projects) ? PLAN_STORE.projects[PLAN_STORE.activeProjectId] : null;
+      document.getElementById('tiendoProjectBadge').textContent = curProj ? curProj.name : 'Phòng Kế Hoạch & Tiến Độ';
+      modal.style.display = 'flex';
+      switchTienDoIframeSrc(srcUrl);
+    };
+
+    window.switchTienDoIframeSrc = function(srcUrl) {
+      const iframe = document.getElementById('tiendoCpmIframe');
+      const extLink = document.getElementById('tiendoExternalLink');
+      const btnLocal = document.getElementById('btnSrcLocalTienDo');
+      const btnVercel = document.getElementById('btnSrcVercelTienDo');
+      const isLive = srcUrl.startsWith('http');
+      if (iframe.getAttribute('data-src') !== srcUrl) {
+        iframe.src = srcUrl;
+        iframe.setAttribute('data-src', srcUrl);
+      }
+      extLink.href = srcUrl;
+      btnLocal.style.background = isLive ? '#1e293b' : '#ea580c';
+      btnLocal.style.color = isLive ? '#cbd5e1' : '#fff';
+      btnVercel.style.background = isLive ? '#0284c7' : '#1e293b';
+      btnVercel.style.color = isLive ? '#fff' : '#cbd5e1';
+    };
+
+    window.closeTienDoCpmWorkspace = function() {
+      document.getElementById('tiendo-cpm-modal').style.display = 'none';
+    };
+  </script>
 </body>
 </html>
