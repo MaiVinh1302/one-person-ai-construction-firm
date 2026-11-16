@@ -799,19 +799,26 @@
           </div>
         </div>
 
-        <!-- Chọn Dự Án & Thêm Dự Án -->
-        <div class="card" style="padding:16px; margin-bottom:16px;">
+        <!-- Chọn Dự Án, Lịch Công Trường & Chốt Baseline -->
+        <div class="card" style="padding:16px; margin-bottom:14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; flex:1;">
-              <label style="font-size:0.85rem; font-weight:700; color:#e2e8f0;">📁 Dự án đang lập tiến độ:</label>
-              <select id="planProjectSelect" onchange="planSwitchProject(this.value)" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:7px 12px; font-size:0.86rem; min-width:280px;"></select>
-              <button class="btn-primary" style="background:#2563eb; padding:7px 12px; font-size:0.8rem;" onclick="planCreateNewProject()">➕ Thêm Dự Án Mới</button>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1;">
+              <label style="font-size:0.84rem; font-weight:700; color:#e2e8f0;">📁 Dự án:</label>
+              <select id="planProjectSelect" onchange="planSwitchProject(this.value)" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:8px; padding:6px 10px; font-size:0.84rem; min-width:250px;"></select>
+              <button class="btn-primary" style="background:#2563eb; padding:6px 10px; font-size:0.78rem;" onclick="planCreateNewProject()">➕ Dự Án Mới</button>
+              <button class="btn-primary" style="background:#7c3aed; padding:6px 10px; font-size:0.78rem;" onclick="planSaveBaseline()">📌 Chốt Baseline</button>
             </div>
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-              <label style="font-size:0.78rem; color:#94a3b8;">Ngày khởi công:</label>
-              <input id="planStartDate" type="date" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:5px 8px; font-size:0.82rem;" />
-              <label style="font-size:0.78rem; color:#94a3b8;">Chi phí thực tế AC (VNĐ):</label>
-              <input id="planActualCost" type="number" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:5px 8px; font-size:0.82rem; width:140px;" />
+              <label style="font-size:0.76rem; color:#94a3b8;">Khởi công:</label>
+              <input id="planStartDate" type="date" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:4px 7px; font-size:0.8rem;" />
+              <label style="font-size:0.76rem; color:#94a3b8;">Lịch:</label>
+              <select id="planWorkDays" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:4px 7px; font-size:0.8rem;">
+                <option value="6">6 ngày/tuần (T2-T7)</option>
+                <option value="7">7 ngày/tuần (3 ca)</option>
+                <option value="5">5 ngày/tuần (T2-T6)</option>
+              </select>
+              <label style="font-size:0.76rem; color:#94a3b8;">AC (VNĐ):</label>
+              <input id="planActualCost" type="number" onchange="planUpdateMeta()" style="background:#0f172a; color:#f8fafc; border:1px solid #334155; border-radius:6px; padding:4px 7px; font-size:0.8rem; width:125px;" />
             </div>
           </div>
 
@@ -819,19 +826,19 @@
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px;">
             <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
               <div style="font-size:0.72rem; color:#94a3b8;">Tổng Thời Gian CPM</div>
-              <div id="kpiPlanDuration" style="font-size:1.25rem; font-weight:800; color:#38bdf8;">0 ngày</div>
+              <div id="kpiPlanDuration" style="font-size:1.2rem; font-weight:800; color:#38bdf8;">0 ngày</div>
             </div>
             <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
               <div style="font-size:0.72rem; color:#94a3b8;">Tiến Độ Chung</div>
-              <div id="kpiPlanProgress" style="font-size:1.25rem; font-weight:800; color:#34d399;">0%</div>
+              <div id="kpiPlanProgress" style="font-size:1.2rem; font-weight:800; color:#34d399;">0%</div>
             </div>
             <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
               <div style="font-size:0.72rem; color:#94a3b8;">Công Việc Đường Găng</div>
-              <div id="kpiPlanCritical" style="font-size:1.25rem; font-weight:800; color:#f87171;">0 việc</div>
+              <div id="kpiPlanCritical" style="font-size:1.2rem; font-weight:800; color:#f87171;">0 việc</div>
             </div>
             <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
               <div style="font-size:0.72rem; color:#94a3b8;">Chỉ Số SPI (EVM)</div>
-              <div id="kpiPlanSpi" style="font-size:1.25rem; font-weight:800; color:#fbbf24;">1.00</div>
+              <div id="kpiPlanSpi" style="font-size:1.2rem; font-weight:800; color:#fbbf24;">1.00</div>
             </div>
             <div style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:10px;">
               <div style="font-size:0.72rem; color:#94a3b8;">Giá Trị Hoàn Thành (EV)</div>
@@ -840,48 +847,66 @@
           </div>
         </div>
 
-        <!-- Form Thêm Công Việc + Bộ Lọc + Xuất File -->
-        <div class="card" style="padding:16px; margin-bottom:16px;">
+        <!-- SUB-TABS TRONG PHÒNG KẾ HOẠCH & TIẾN ĐỘ (MÔ PHỎNG ĐẦY ĐỦ 11 MODULE TIENDOTHICONG.VERCEL.APP) -->
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
+          <button id="planSubBtn-gantt" onclick="planSwitchSubTab('gantt')" class="btn-primary" style="background:#ea580c; padding:7px 12px; font-size:0.8rem;">📊 1. WBS &amp; Gantt CPM</button>
+          <button id="planSubBtn-scurve" onclick="planSwitchSubTab('scurve')" class="btn-primary" style="background:#1e293b; border:1px solid #334155; padding:7px 12px; font-size:0.8rem;">📈 2. S-Curve EVM &amp; Baseline</button>
+          <button id="planSubBtn-lookahead" onclick="planSwitchSubTab('lookahead')" class="btn-primary" style="background:#1e293b; border:1px solid #334155; padding:7px 12px; font-size:0.8rem;">🔭 3. Look-Ahead &amp; Chốt Tuần</button>
+          <button id="planSubBtn-compress" onclick="planSwitchSubTab('compress')" class="btn-primary" style="background:#1e293b; border:1px solid #334155; padding:7px 12px; font-size:0.8rem;">⚡ 4. Nén Tiến Độ &amp; Nguồn Lực</button>
+          <button id="planSubBtn-subcon" onclick="planSwitchSubTab('subcon')" class="btn-primary" style="background:#1e293b; border:1px solid #334155; padding:7px 12px; font-size:0.8rem;">🤝 5. Gói Thầu Phụ &amp; Kiểm Toán</button>
+          <button id="planSubBtn-report" onclick="planSwitchSubTab('report')" class="btn-primary" style="background:#1e293b; border:1px solid #334155; padding:7px 12px; font-size:0.8rem;">📑 6. Báo Cáo Tiến Độ &amp; Thanh Toán</button>
+        </div>
+
+        <!-- SUB-TAB 1: WBS & GANTT CPM -->
+        <div id="planSub-gantt" class="card" style="padding:16px; margin-bottom:14px;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-            <h3 style="margin:0; font-size:0.95rem; color:#f8fafc;">📊 Bảng WBS &amp; Biểu Đồ Gantt Đường Găng (CPM)</h3>
-            <div style="display:flex; gap:6px; flex-wrap:wrap;">
-              <select id="planFilterMode" onchange="planRenderSchedule()" style="background:#0f172a; color:#e2e8f0; border:1px solid #334155; border-radius:6px; padding:5px 10px; font-size:0.78rem;">
+            <h3 style="margin:0; font-size:0.94rem; color:#f8fafc;">📊 Bảng WBS, Lịch Công Trường &amp; Biểu Đồ Gantt Đường Găng</h3>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+              <select id="planFilterMode" onchange="planRenderSchedule()" style="background:#0f172a; color:#e2e8f0; border:1px solid #334155; border-radius:6px; padding:5px 8px; font-size:0.78rem;">
                 <option value="all">Hiển thị: Tất cả công việc</option>
                 <option value="critical">Chỉ Đường găng (TF ≤ 0)</option>
                 <option value="lookahead">Look-Ahead 14 ngày tới</option>
               </select>
-              <button onclick="planExportMsProjectXml()" style="background:#1e293b; border:1px solid #475569; color:#38bdf8; border-radius:6px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">📤 MS Project XML</button>
-              <button onclick="planExportJson()" style="background:#1e293b; border:1px solid #475569; color:#34d399; border-radius:6px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">💾 JSON (.tiendo)</button>
-              <button onclick="planExportCsv()" style="background:#1e293b; border:1px solid #475569; color:#fbbf24; border-radius:6px; padding:5px 10px; font-size:0.78rem; cursor:pointer;">📊 Excel CSV</button>
+              <label style="background:#1e293b; border:1px solid #475569; color:#a78bfa; border-radius:6px; padding:5px 9px; font-size:0.76rem; cursor:pointer;">
+                📥 Nhập JSON/XML <input type="file" accept=".json,.xml" onchange="planImportFile(this)" style="display:none;" />
+              </label>
+              <button onclick="planExportMsProjectXml()" style="background:#1e293b; border:1px solid #475569; color:#38bdf8; border-radius:6px; padding:5px 9px; font-size:0.76rem; cursor:pointer;">📤 MS Project XML</button>
+              <button onclick="planExportJson()" style="background:#1e293b; border:1px solid #475569; color:#34d399; border-radius:6px; padding:5px 9px; font-size:0.76rem; cursor:pointer;">💾 JSON</button>
+              <button onclick="planExportCsv()" style="background:#1e293b; border:1px solid #475569; color:#fbbf24; border-radius:6px; padding:5px 9px; font-size:0.76rem; cursor:pointer;">📊 Excel CSV</button>
             </div>
           </div>
 
-          <!-- Add Task Row -->
-          <div style="display:grid; grid-template-columns:90px 2fr 80px 130px 75px 130px auto; gap:6px; margin-bottom:12px; align-items:center;">
-            <input id="newTaskCode" type="text" placeholder="Mã WBS" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
-            <input id="newTaskName" type="text" placeholder="Tên công tác thi công (vd: Đổ bê tông dầm sàn T3)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
-            <input id="newTaskDur" type="number" min="0" value="10" title="Số ngày" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
-            <input id="newTaskPred" type="text" placeholder="Tiền nhiệm (vd: 2:FS+0)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
-            <input id="newTaskProg" type="number" min="0" max="100" value="0" title="% Hoàn thành" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
-            <input id="newTaskBudget" type="number" min="0" value="1000000000" title="Giá trị BOQ (VNĐ)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 8px; font-size:0.8rem;" />
-            <button onclick="planAddTask()" class="btn-primary" style="background:#10b981; padding:6px 12px; font-size:0.8rem;">➕ Thêm</button>
+          <div style="display:grid; grid-template-columns:80px 1.8fr 85px 68px 110px 65px 115px 115px auto; gap:6px; margin-bottom:12px; align-items:center;">
+            <input id="newTaskCode" type="text" placeholder="WBS" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <input id="newTaskName" type="text" placeholder="Tên công tác (vd: Đổ BT sàn T3)" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <select id="newTaskKind" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 5px; font-size:0.78rem;">
+              <option value="task">Công việc</option>
+              <option value="milestone">Mốc (0d)</option>
+              <option value="summary">Hạng mục</option>
+            </select>
+            <input id="newTaskDur" type="number" min="0" value="10" title="Số ngày" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <input id="newTaskPred" type="text" placeholder="2:FS+0" title="Tiền nhiệm" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <input id="newTaskProg" type="number" min="0" max="100" value="0" title="% Hoàn thành" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <input id="newTaskRes" type="text" placeholder="Tổ đội / Thầu phụ" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <input id="newTaskBudget" type="number" min="0" value="1000000000" title="Giá trị BOQ" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 7px; font-size:0.78rem;" />
+            <button onclick="planAddTask()" class="btn-primary" style="background:#10b981; padding:6px 10px; font-size:0.78rem;">➕ Thêm</button>
           </div>
 
           <div id="planCycleAlert" style="display:none; background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#fca5a5; padding:8px 12px; border-radius:8px; font-size:0.82rem; margin-bottom:10px;"></div>
 
-          <!-- Schedule + Gantt Table -->
           <div style="overflow-x:auto; border:1px solid #1e293b; border-radius:10px;">
-            <table style="width:100%; border-collapse:collapse; font-size:0.8rem; min-width:920px;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.78rem; min-width:1020px;">
               <thead>
                 <tr style="background:#0f172a; color:#94a3b8; text-align:left; border-bottom:1px solid #1e293b;">
-                  <th style="padding:8px;">ID / WBS</th>
-                  <th style="padding:8px;">Tên Công Tác</th>
-                  <th style="padding:8px; width:68px;">Ngày</th>
-                  <th style="padding:8px; width:100px;">Tiền nhiệm</th>
-                  <th style="padding:8px; width:64px;">% HT</th>
-                  <th style="padding:8px; width:56px;">TF</th>
-                  <th style="padding:8px; width:260px;">Biểu Đồ Gantt (Đỏ = Đường găng)</th>
-                  <th style="padding:8px; width:46px;">Xóa</th>
+                  <th style="padding:7px 8px;">ID / WBS</th>
+                  <th style="padding:7px 8px;">Tên Công Tác</th>
+                  <th style="padding:7px 8px; width:56px;">Ngày</th>
+                  <th style="padding:7px 8px; width:90px;">Tiền nhiệm</th>
+                  <th style="padding:7px 8px; width:100px;">Tổ đội / TP</th>
+                  <th style="padding:7px 8px; width:56px;">% HT</th>
+                  <th style="padding:7px 8px; width:46px;">TF</th>
+                  <th style="padding:7px 8px; width:250px;">Biểu Đồ Gantt (Đỏ=Găng | Xám=Baseline)</th>
+                  <th style="padding:7px 8px; width:44px;">Xóa</th>
                 </tr>
               </thead>
               <tbody id="planGanttBody"></tbody>
@@ -889,8 +914,62 @@
           </div>
         </div>
 
-        <!-- Tạo Báo Cáo Tiến Độ Thi Công & Kiểm Toán AI -->
-        <div class="card" style="padding:16px;">
+        <!-- SUB-TAB 2: S-CURVE EVM & BASELINE VARIANCE -->
+        <div id="planSub-scurve" class="card" style="display:none; padding:16px; margin-bottom:14px;">
+          <h3 style="margin:0 0 10px 0; font-size:0.95rem; color:#f8fafc;">📈 Đồ Thị Dòng Tiền Lũy Kế S-Curve (EVM) &amp; So Sánh Baseline</h3>
+          <canvas id="planSCurveCanvas" width="900" height="280" style="width:100%; max-height:290px; background:#0f172a; border:1px solid #1e293b; border-radius:10px; margin-bottom:12px;"></canvas>
+          <div id="planBaselineCompareBox" style="font-size:0.82rem; color:#cbd5e1;"></div>
+        </div>
+
+        <!-- SUB-TAB 3: LOOK-AHEAD & CHỐT TUẦN -->
+        <div id="planSub-lookahead" class="card" style="display:none; padding:16px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="margin:0; font-size:0.95rem; color:#f8fafc;">🔭 Kế Hoạch Cuốn Chiếu (Look-Ahead) &amp; Chốt Tuần Thi Công</h3>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <select id="planLookAheadDays" onchange="planRenderLookAhead()" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:5px 10px; font-size:0.8rem;">
+                <option value="14">2 Tuần tới (14 ngày)</option>
+                <option value="21">3 Tuần tới (21 ngày)</option>
+                <option value="30">1 Tháng tới (30 ngày)</option>
+              </select>
+              <button onclick="planSaveWeeklySnapshot()" class="btn-primary" style="background:#0f766e; padding:6px 12px; font-size:0.8rem;">📸 Chốt Tuần Hiện Tại</button>
+            </div>
+          </div>
+          <div id="planLookAheadBody" style="font-size:0.82rem; color:#cbd5e1; margin-bottom:14px;"></div>
+          <div id="planWeeklyHistoryBox" style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:12px; font-size:0.8rem; color:#94a3b8;"></div>
+        </div>
+
+        <!-- SUB-TAB 4: NÉN TIẾN ĐỘ & NGUỒN LỰC -->
+        <div id="planSub-compress" class="card" style="display:none; padding:16px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <h3 style="margin:0; font-size:0.95rem; color:#f8fafc;">⚡ Thuật Toán Nén Tiến Độ Đường Găng (Crashing) &amp; Cân Bằng Nguồn Lực</h3>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <label style="font-size:0.8rem; color:#94a3b8;">Mục tiêu rút về (ngày):</label>
+              <input id="planTargetDays" type="number" min="10" value="95" style="width:76px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:5px 8px; font-size:0.82rem;" />
+              <button onclick="planRunCompression()" class="btn-primary" style="background:#ea580c; padding:6px 12px; font-size:0.8rem;">⚡ Đề Xuất Phương Án Nén</button>
+              <button onclick="planApplyCompression()" class="btn-primary" style="background:#10b981; padding:6px 12px; font-size:0.8rem;">✅ Áp Dụng Nén</button>
+            </div>
+          </div>
+          <div id="planCompressionOutput" style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:12px; font-size:0.82rem; color:#cbd5e1; margin-bottom:14px;">Nhập số ngày mục tiêu và bấm <b>Đề Xuất Phương Án Nén</b> để thuật toán tự tính cắt giảm trên Đường Găng.</div>
+          <h4 style="margin:0 0 8px 0; font-size:0.88rem; color:#38bdf8;">👷 Phân Bổ Nguồn Lực &amp; Khối Lượng Theo Tổ Đội / Thầu Phụ</h4>
+          <div id="planResourceHistogram" style="font-size:0.82rem; color:#cbd5e1;"></div>
+        </div>
+
+        <!-- SUB-TAB 5: GÓI THẦU PHỤ & KIỂM TOÁN LOGIC -->
+        <div id="planSub-subcon" class="card" style="display:none; padding:16px; margin-bottom:14px;">
+          <h3 style="margin:0 0 12px 0; font-size:0.95rem; color:#f8fafc;">🤝 Cắt Gói Thầu Phụ, Hợp Nhất Tiến Độ &amp; Kiểm Toán Logic Mạng Găng</h3>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:14px;">
+            <select id="planSubconSelect" style="background:#0f172a; color:#fff; border:1px solid #334155; border-radius:6px; padding:6px 10px; font-size:0.82rem; min-width:200px;"></select>
+            <button onclick="planExportSubconPackage()" class="btn-primary" style="background:#2563eb; padding:6px 12px; font-size:0.8rem;">✂️ Cắt &amp; Tải Gói Thầu Phụ (.json)</button>
+            <label class="btn-primary" style="background:#0f766e; padding:6px 12px; font-size:0.8rem; cursor:pointer;">
+              🔄 Hợp Nhất File Thầu Phụ Gửi Về <input type="file" accept=".json" onchange="planMergeSubconPackage(this)" style="display:none;" />
+            </label>
+            <button onclick="planRunLogicValidator()" class="btn-primary" style="background:#d97706; padding:6px 12px; font-size:0.8rem;">🔍 Quét Lỗi Logic CPM</button>
+          </div>
+          <div id="planValidationOutput" style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:12px; font-size:0.82rem; color:#cbd5e1;"></div>
+        </div>
+
+        <!-- SUB-TAB 6: BÁO CÁO TIẾN ĐỘ & THANH TOÁN -->
+        <div id="planSub-report" class="card" style="display:none; padding:16px;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
             <h3 style="margin:0; font-size:0.95rem; color:#f8fafc;">📑 Trung Tâm Lập Báo Cáo Tiến Độ &amp; Kiểm Toán AI</h3>
             <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -907,7 +986,7 @@
             </div>
           </div>
           <div id="planReportOutput" style="background:#0f172a; border:1px solid #1e293b; border-radius:10px; padding:16px; font-size:0.84rem; color:#cbd5e1; line-height:1.6;">
-            Nhấn <b>"Sinh Báo Cáo Tiến Độ"</b> để tự động tổng hợp dữ liệu CPM, đường găng, chỉ số EVM (SPI/EV/BAC), công việc Look-Ahead 14 ngày tới và căn cứ pháp lý 2026 cho dự án đang chọn.
+            Nhấn <b>"Sinh Báo Cáo Tiến Độ"</b> để tự động tổng hợp dữ liệu CPM, đường găng, chỉ số EVM (SPI/EV/BAC), công việc Look-Ahead và căn cứ pháp lý 2026 cho dự án đang chọn.
           </div>
         </div>
       </section>
@@ -3683,23 +3762,28 @@
         return true;
       });
 
+      const baseMap = new Map(((cur.baseline && cur.baseline.tasks) || []).map(b => [String(b.id), b]));
       const tbody = document.getElementById('planGanttBody');
       tbody.innerHTML = visible.map(t => {
         const leftPct = (t.es / res.totalDur) * 100;
         const widthPct = Math.max(2, (t.durationDays / res.totalDur) * 100);
         const barColor = t.isCritical ? '#ef4444' : '#38bdf8';
+        const bTask = baseMap.get(String(t.id));
+        const bBar = bTask ? `<div style="position:absolute; left:${(bTask.es / res.totalDur) * 100}%; width:${Math.max(2, (bTask.durationDays / res.totalDur) * 100)}%; bottom:1px; height:4px; background:#64748b; border-radius:2px;"></div>` : '';
         return `
           <tr style="border-bottom:1px solid #1e293b;">
             <td style="padding:7px 8px; color:#94a3b8;"><b>#${t.id}</b> <span style="color:#64748b;">${t.code}</span></td>
-            <td style="padding:7px 8px; color:${t.isCritical ? '#fecaca' : '#e2e8f0'}; font-weight:${t.isCritical ? '700' : '500'};">${t.name}</td>
-            <td style="padding:7px 8px;"><input type="number" min="0" value="${t.durationDays}" onchange="planEditTaskField('${t.id}','durationDays',this.value)" style="width:52px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
-            <td style="padding:7px 8px;"><input type="text" value="${planFormatPredString(t.predecessors)}" onchange="planEditTaskPred('${t.id}',this.value)" style="width:88px; background:#0f172a; color:#cbd5e1; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.76rem;"></td>
-            <td style="padding:7px 8px;"><input type="number" min="0" max="100" value="${t.progress}" onchange="planEditTaskField('${t.id}','progress',this.value)" style="width:52px; background:#0f172a; color:#34d399; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
+            <td style="padding:7px 8px; color:${t.isCritical ? '#fecaca' : '#e2e8f0'}; font-weight:${t.isCritical ? '700' : '500'};">${t.kind === 'milestone' ? '◆ ' : ''}${t.name}</td>
+            <td style="padding:7px 8px;"><input type="number" min="0" value="${t.durationDays}" onchange="planEditTaskField('${t.id}','durationDays',this.value)" style="width:48px; background:#0f172a; color:#fff; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
+            <td style="padding:7px 8px;"><input type="text" value="${planFormatPredString(t.predecessors)}" onchange="planEditTaskPred('${t.id}',this.value)" style="width:82px; background:#0f172a; color:#cbd5e1; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.76rem;"></td>
+            <td style="padding:7px 8px;"><input type="text" value="${t.resource || 'Đội thi công'}" onchange="planEditTaskText('${t.id}','resource',this.value)" style="width:94px; background:#0f172a; color:#93c5fd; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.75rem;"></td>
+            <td style="padding:7px 8px;"><input type="number" min="0" max="100" value="${t.progress}" onchange="planEditTaskField('${t.id}','progress',this.value)" style="width:48px; background:#0f172a; color:#34d399; border:1px solid #334155; border-radius:4px; padding:3px 5px; font-size:0.78rem;"></td>
             <td style="padding:7px 8px; font-weight:700; color:${t.isCritical ? '#f87171' : '#34d399'};">${t.tf}d</td>
             <td style="padding:7px 8px;">
-              <div style="position:relative; height:18px; background:#0f172a; border-radius:4px; border:1px solid #1e293b; overflow:hidden;">
-                <div style="position:absolute; left:${leftPct}%; width:${widthPct}%; top:2px; bottom:2px; background:${barColor}; border-radius:3px; opacity:0.88;">
-                  <div style="height:100%; width:${t.progress}%; background:rgba(255,255,255,0.38);"></div>
+              <div style="position:relative; height:20px; background:#0f172a; border-radius:4px; border:1px solid #1e293b; overflow:hidden;">
+                ${bBar}
+                <div style="position:absolute; left:${leftPct}%; width:${widthPct}%; top:2px; bottom:5px; background:${barColor}; border-radius:3px; opacity:0.9;">
+                  <div style="height:100%; width:${t.progress}%; background:rgba(255,255,255,0.4);"></div>
                 </div>
               </div>
             </td>
@@ -3709,18 +3793,29 @@
       }).join('');
     };
 
+    window.planEditTaskText = function(tid, field, val) {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const t = cur?.tasks.find(x => String(x.id) === String(tid));
+      if (!t) return;
+      t[field] = val;
+      planSaveStore();
+    };
+
     window.planAddTask = function() {
       const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
       if (!cur) return;
       const name = document.getElementById('newTaskName').value.trim();
       if (!name) return alert('Vui lòng nhập tên công tác!');
       const nextId = String((cur.tasks.reduce((m, t) => Math.max(m, parseInt(t.id, 10) || 0), 0)) + 1);
+      const kind = document.getElementById('newTaskKind')?.value || 'task';
       cur.tasks.push({
         id: nextId,
         code: document.getElementById('newTaskCode').value.trim() || `WBS-${nextId}`,
         name,
-        durationDays: Math.max(0, parseInt(document.getElementById('newTaskDur').value, 10) || 5),
+        kind,
+        durationDays: kind === 'milestone' ? 0 : Math.max(0, parseInt(document.getElementById('newTaskDur').value, 10) || 5),
         predecessors: planParsePredString(document.getElementById('newTaskPred').value),
+        resource: document.getElementById('newTaskRes')?.value.trim() || 'Đội thi công',
         progress: Math.max(0, Math.min(100, parseFloat(document.getElementById('newTaskProg').value) || 0)),
         budget: Math.max(0, parseFloat(document.getElementById('newTaskBudget').value) || 0)
       });
@@ -3849,6 +3944,278 @@
     window.planCopyReportText = function() {
       const txt = document.getElementById('planReportOutput').innerText;
       navigator.clipboard.writeText(txt).then(() => alert('Đã sao chép Báo cáo Tiến độ để gửi Zalo / Email!'));
+    };
+
+    // =========================================================================
+    // MỞ RỘNG 11 MODULE TIẾN ĐỘ (THEO PHÂN TÍCH REA TIENDOTHICONG.VERCEL.APP)
+    // =========================================================================
+    let _pendingCompressPlan = [];
+
+    window.planSwitchSubTab = function(sub) {
+      ['gantt', 'scurve', 'lookahead', 'compress', 'subcon', 'report'].forEach(s => {
+        const panel = document.getElementById('planSub-' + s);
+        const btn = document.getElementById('planSubBtn-' + s);
+        if (panel) panel.style.display = (s === sub) ? 'block' : 'none';
+        if (btn) {
+          btn.style.background = (s === sub) ? '#ea580c' : '#1e293b';
+          btn.style.border = (s === sub) ? 'none' : '1px solid #334155';
+        }
+      });
+      if (sub === 'scurve') planRenderSCurveAndBaseline();
+      if (sub === 'lookahead') planRenderLookAhead();
+      if (sub === 'compress') planRenderResources();
+      if (sub === 'subcon') { planPopulateSubconSelect(); planRunLogicValidator(); }
+    };
+
+    window.planSaveBaseline = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const res = planComputeCpm(cur);
+      cur.baseline = {
+        savedAt: new Date().toLocaleString('vi-VN'),
+        totalDur: res.totalDur,
+        tasks: res.tasks.map(t => ({ id: t.id, es: t.es, ef: t.ef, durationDays: t.durationDays }))
+      };
+      planSaveStore();
+      planRenderSchedule();
+      alert(`Đã chốt Baseline kế hoạch gốc (${res.totalDur} ngày) lúc ${cur.baseline.savedAt}!`);
+    };
+
+    window.planImportFile = async function(input) {
+      const file = input.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      try {
+        if (file.name.toLowerCase().endsWith('.json')) {
+          const obj = JSON.parse(text);
+          const arr = Array.isArray(obj) ? obj : (obj.tasks || []);
+          if (!arr.length) throw new Error('Không tìm thấy danh sách tasks trong JSON.');
+          cur.tasks = arr.map((t, i) => ({
+            id: String(t.id || i + 1),
+            code: t.code || `WBS-${i + 1}`,
+            name: t.name || `Công việc ${i + 1}`,
+            kind: t.kind || 'task',
+            durationDays: Number(t.durationDays ?? t.duration ?? 5),
+            predecessors: t.predecessors || t.links || [],
+            resource: t.resource || 'Đội thi công chính',
+            progress: Number(t.progress || 0),
+            budget: Number(t.budget || 0)
+          }));
+        } else if (file.name.toLowerCase().endsWith('.xml')) {
+          const doc = new DOMParser().parseFromString(text, 'application/xml');
+          const nodes = Array.from(doc.getElementsByTagName('Task'));
+          const imported = [];
+          nodes.forEach((n, idx) => {
+            const uid = n.getElementsByTagName('UID')[0]?.textContent || String(idx + 1);
+            const name = n.getElementsByTagName('Name')[0]?.textContent;
+            if (!name || uid === '0') return;
+            const durStr = n.getElementsByTagName('Duration')[0]?.textContent || 'PT40H0M0S';
+            const hm = durStr.match(/PT(\d+)H/i);
+            const durDays = hm ? Math.max(0, Math.round(parseInt(hm[1], 10) / 8)) : 5;
+            const prog = parseFloat(n.getElementsByTagName('PercentComplete')[0]?.textContent || '0');
+            imported.push({ id: uid, code: n.getElementsByTagName('WBS')[0]?.textContent || `MSP-${uid}`, name, kind: durDays === 0 ? 'milestone' : 'task', durationDays: durDays, predecessors: [], resource: 'MS Project', progress: prog, budget: 0 });
+          });
+          if (!imported.length) throw new Error('File MS Project XML không có công việc hợp lệ.');
+          cur.tasks = imported;
+        }
+        planSaveStore();
+        planRenderSchedule();
+        alert(`Đã nhập thành công ${cur.tasks.length} công việc từ ${file.name}!`);
+      } catch (err) {
+        alert('Lỗi nhập file: ' + err.message);
+      }
+      input.value = '';
+    };
+
+    function planRenderSCurveAndBaseline() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const res = planComputeCpm(cur);
+      const canvas = document.getElementById('planSCurveCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+        const pad = 42, plotW = W - pad * 2, plotH = H - pad * 2;
+        ctx.strokeStyle = '#334155'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, H - pad); ctx.lineTo(W - pad, H - pad); ctx.stroke();
+
+        const steps = 10;
+        const pvPts = [], evPts = [];
+        for (let i = 0; i <= steps; i++) {
+          const day = (res.totalDur * i) / steps;
+          let pv = 0, ev = 0;
+          res.tasks.forEach(t => {
+            const b = Number(t.budget || 1000000000);
+            const frac = t.durationDays <= 0 ? (day >= t.es ? 1 : 0) : Math.max(0, Math.min(1, (day - t.es) / t.durationDays));
+            pv += b * frac;
+            ev += b * frac * ((Number(t.progress) || 0) / 100);
+          });
+          pvPts.push(pv);
+          evPts.push(ev);
+        }
+        const maxVal = Math.max(1, pvPts[steps]);
+        const drawLine = (pts, color) => {
+          ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.beginPath();
+          pts.forEach((v, i) => {
+            const x = pad + (plotW * i) / steps;
+            const y = H - pad - (v / maxVal) * plotH;
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+        };
+        drawLine(pvPts, '#38bdf8');
+        drawLine(evPts, '#34d399');
+        ctx.fillStyle = '#cbd5e1'; ctx.font = '12px sans-serif';
+        ctx.fillText('— PV (Kế hoạch)', pad + 12, pad + 14);
+        ctx.fillStyle = '#34d399';
+        ctx.fillText('— EV (Thực tế đạt được)', pad + 140, pad + 14);
+      }
+
+      const box = document.getElementById('planBaselineCompareBox');
+      if (!cur.baseline) {
+        box.innerHTML = 'Chưa có dữ liệu Baseline. Hãy bấm nút <b>"📌 Chốt Baseline"</b> ở phía trên để lưu mốc kế hoạch gốc.';
+      } else {
+        const diff = res.totalDur - cur.baseline.totalDur;
+        box.innerHTML = `<div>• <b>Baseline chốt lúc:</b> ${cur.baseline.savedAt} | Tổng thời gian gốc: <b>${cur.baseline.totalDur} ngày</b> | Hiện tại: <b>${res.totalDur} ngày</b> | Chênh lệch: <b style="color:${diff > 0 ? '#f87171' : '#34d399'};">${diff > 0 ? '+' + diff : diff} ngày</b></div>`;
+      }
+    }
+
+    window.planRenderLookAhead = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const res = planComputeCpm(cur);
+      const winDays = parseInt(document.getElementById('planLookAheadDays').value, 10) || 14;
+      const upcoming = res.tasks.filter(t => t.progress < 100 && t.es <= (res.totalDur * 0.5 + winDays));
+      document.getElementById('planLookAheadBody').innerHTML = upcoming.length
+        ? `<ul style="margin:0; padding-left:18px;">${upcoming.map(t => `<li style="margin-bottom:6px;"><b>${t.code} - ${t.name}</b> | Tổ đội: <span style="color:#38bdf8;">${t.resource || 'Đội thi công'}</span> | Tiến độ: <b>${t.progress}%</b> | Sẵn sàng: [✔ Bản vẽ] [✔ Vật tư] [✔ Mặt bằng]</li>`).join('')}</ul>`
+        : 'Tất cả công việc trong giai đoạn này đã hoàn thành 100%.';
+
+      const hist = cur.weeklySnapshots || [];
+      document.getElementById('planWeeklyHistoryBox').innerHTML = hist.length
+        ? `<b>Lịch sử Chốt Tuần (${hist.length} kỳ):</b><ul style="margin:6px 0 0 18px;">${hist.slice(-6).reverse().map(h => `<li>[${h.date}] Tiến độ chung: <b>${h.progress}%</b> | Thời gian CPM: ${h.duration} ngày | SPI: ${h.spi}</li>`).join('')}</ul>`
+        : 'Chưa có kỳ Chốt Tuần nào được lưu.';
+    };
+
+    window.planSaveWeeklySnapshot = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const res = planComputeCpm(cur);
+      cur.weeklySnapshots = cur.weeklySnapshots || [];
+      cur.weeklySnapshots.push({ date: new Date().toLocaleDateString('vi-VN'), progress: res.overallProg.toFixed(1), duration: res.totalDur, spi: res.spi.toFixed(2) });
+      planSaveStore();
+      planRenderLookAhead();
+      alert('Đã lưu Chốt Tuần tiến độ thi công!');
+    };
+
+    window.planRunCompression = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const res = planComputeCpm(cur);
+      const target = parseInt(document.getElementById('planTargetDays').value, 10) || res.totalDur;
+      let needCut = res.totalDur - target;
+      if (needCut <= 0) {
+        _pendingCompressPlan = [];
+        document.getElementById('planCompressionOutput').innerHTML = `Tiến độ hiện tại (${res.totalDur} ngày) đã đạt hoặc nhanh hơn mục tiêu (${target} ngày).`;
+        return;
+      }
+      _pendingCompressPlan = [];
+      const crits = res.tasks.filter(t => t.isCritical && t.durationDays > 2 && t.progress < 100);
+      for (const t of crits) {
+        if (needCut <= 0) break;
+        const maxCut = Math.max(1, Math.floor(t.durationDays * 0.3));
+        const cut = Math.min(needCut, maxCut);
+        _pendingCompressPlan.push({ id: t.id, code: t.code, name: t.name, oldDur: t.durationDays, newDur: t.durationDays - cut, cut });
+        needCut -= cut;
+      }
+      document.getElementById('planCompressionOutput').innerHTML = _pendingCompressPlan.length
+        ? `<b>Đề xuất rút ngắn trên Đường găng:</b><ul style="margin:6px 0 0 18px;">${_pendingCompressPlan.map(p => `<li><b>${p.code}</b> (${p.name}): ${p.oldDur} ngày ➔ <b style="color:#34d399;">${p.newDur} ngày</b> (Giảm ${p.cut} ngày)</li>`).join('')}</ul>`
+        : 'Không còn công việc đường găng khả dụng để rút ngắn thêm.';
+    };
+
+    window.planApplyCompression = function() {
+      if (!_pendingCompressPlan.length) return alert('Hãy bấm "Đề Xuất Phương Án Nén" trước!');
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      _pendingCompressPlan.forEach(p => {
+        const t = cur.tasks.find(x => String(x.id) === String(p.id));
+        if (t) t.durationDays = p.newDur;
+      });
+      _pendingCompressPlan = [];
+      planSaveStore();
+      planRenderSchedule();
+      planRunCompression();
+      alert('Đã áp dụng phương án nén tiến độ vào lịch CPM!');
+    };
+
+    function planRenderResources() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const groups = {};
+      (cur.tasks || []).forEach(t => {
+        const r = (t.resource || 'Chưa phân công').trim();
+        if (!groups[r]) groups[r] = { count: 0, days: 0, budget: 0 };
+        groups[r].count++;
+        groups[r].days += Number(t.durationDays || 0);
+        groups[r].budget += Number(t.budget || 0);
+      });
+      document.getElementById('planResourceHistogram').innerHTML = Object.entries(groups).map(([r, g]) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; background:#0f172a; border:1px solid #1e293b; border-radius:6px; margin-bottom:6px;">
+          <span>👷 <b>${r}</b> (${g.count} công việc)</span>
+          <span style="color:#38bdf8;">Tổng ${g.days} ngày công | ${(g.budget / 1e9).toFixed(2)} tỷ VNĐ</span>
+        </div>
+      `).join('');
+    }
+
+    function planPopulateSubconSelect() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const sel = document.getElementById('planSubconSelect');
+      if (!cur || !sel) return;
+      const set = new Set((cur.tasks || []).map(t => (t.resource || 'Thầu phụ chung').trim()));
+      sel.innerHTML = Array.from(set).map(r => `<option value="${r}">${r}</option>`).join('');
+    }
+
+    window.planExportSubconPackage = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const resName = document.getElementById('planSubconSelect').value;
+      const pkgTasks = (cur.tasks || []).filter(t => (t.resource || 'Thầu phụ chung').trim() === resName);
+      planDownloadText(`${cur.id}_GoiThauPhu_${resName.replace(/\s+/g, '_')}.json`, JSON.stringify({ projectId: cur.id, subcontractor: resName, tasks: pkgTasks }, null, 2), 'application/json');
+    };
+
+    window.planMergeSubconPackage = async function(input) {
+      const file = input.files?.[0];
+      if (!file) return;
+      try {
+        const pkg = JSON.parse(await file.text());
+        const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+        let updated = 0;
+        (pkg.tasks || []).forEach(pt => {
+          const target = cur.tasks.find(t => String(t.id) === String(pt.id));
+          if (target) { target.progress = Number(pt.progress || 0); updated++; }
+        });
+        planSaveStore();
+        planRenderSchedule();
+        alert(`Đã hợp nhất tiến độ của ${updated} công việc từ gói thầu phụ!`);
+      } catch (e) {
+        alert('Lỗi hợp nhất gói thầu phụ: ' + e.message);
+      }
+      input.value = '';
+    };
+
+    window.planRunLogicValidator = function() {
+      const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      const res = planComputeCpm(cur);
+      const issues = [];
+      if (res.hasCycle) issues.push('❌ Lỗi nghiêm trọng: Có vòng lặp logic tiền nhiệm (Cycle).');
+      res.tasks.forEach(t => {
+        const hasSucc = res.tasks.some(o => (o.predecessors || []).some(l => String(l.fromId) === String(t.id)));
+        if (!hasSucc && t.ef < res.totalDur) issues.push(`⚠️ Công việc treo (chưa nối kế nhiệm): <b>${t.code}</b> - ${t.name}`);
+        if (t.durationDays === 0 && t.kind !== 'milestone') issues.push(`ℹ️ <b>${t.code}</b> có thời lượng 0 ngày (nên chuyển loại Milestone).`);
+      });
+      document.getElementById('planValidationOutput').innerHTML = issues.length
+        ? issues.map(i => `<div style="margin-bottom:4px;">${i}</div>`).join('')
+        : '<div style="color:#34d399; font-weight:700;">✅ Mạng tiến độ hợp lệ 100%: Không có vòng lặp, không có công việc treo!</div>';
     };
 
     planLoadStore();
