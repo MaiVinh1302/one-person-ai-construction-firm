@@ -49,6 +49,11 @@ static_dir = os.path.join(os.path.dirname(__file__), "public")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+# Mount tiendo CPM workspace (tiendothicong.vercel.app standalone engine)
+tiendo_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "tiendo")
+if os.path.exists(tiendo_dir):
+    app.mount("/tiendo", StaticFiles(directory=tiendo_dir, html=True), name="tiendo")
+
 @app.get("/api/status")
 def get_system_status():
     return {
@@ -299,6 +304,74 @@ async def sync_all_reports_to_drive(request: Request):
         "synced_files": uploaded,
         "root_drive_url": gdrive_connector.get_structure_summary()["root_url"]
     }
+
+# -------------------------------------------------------------
+# PLANNING & CPM PROGRESS API ENDPOINTS (tiendothicong.vercel.app)
+# -------------------------------------------------------------
+from departments.dept_planning_schedule import (
+    PlanningScheduleDepartment,
+    PlanningScheduleSpecialistAgent,
+    PlanningScheduleHeadReviewerAgent
+)
+
+@app.get("/api/planning/template")
+def get_planning_wbs_template(project_name: str = "Tổ hợp T&T Tower"):
+    """Trả về bộ khung WBS 6 giai đoạn chuẩn thi công xây dựng theo tiendothicong.vercel.app"""
+    tasks = PlanningScheduleSpecialistAgent.generate_standard_6phase_wbs(project_name)
+    return {"status": "SUCCESS", "project_name": project_name, "tasks": tasks}
+
+@app.post("/api/planning/audit")
+async def audit_planning_schedule(request: Request):
+    """Kiểm toán tiến độ CPM, đường găng & EVM qua Orchestrator"""
+    body = await request.json()
+    result = orchestrator.dispatch_workflow("PLANNING", body)
+    return result
+
+@app.post("/api/planning/compress")
+async def compress_planning_schedule(request: Request):
+    """Đề xuất giải pháp nén tiến độ (Fast-Tracking / Crashing)"""
+    body = await request.json()
+    tasks = body.get("tasks", [])
+    dur = int(body.get("target_days", 15))
+    dossier = PlanningScheduleSpecialistAgent.compute_cpm_and_evm(
+        project_name=body.get("project_name", "Dự án T&T Tower"),
+        tasks=tasks,
+        actual_cost=float(body.get("actual_cost", 0))
+    )
+    res = PlanningScheduleHeadReviewerAgent.recommend_compression(dossier, dur)
+    return res
+
+@app.post("/api/planning/export-tiendo-json")
+async def export_tiendo_json(request: Request):
+    """Xuất file cấu trúc .tiendo.json tương thích 100% với tiendothicong.vercel.app"""
+    body = await request.json()
+    proj_name = body.get("project_name", "Dự án mới")
+    start_date = body.get("start_date", "2026-11-21")
+    tasks = body.get("tasks", [])
+    tiendo_payload = {
+        "version": "1.0",
+        "project": {
+            "name": proj_name,
+            "startDate": start_date,
+            "calendar": {
+                "workDaysPerWeek": int(body.get("work_days_per_week", 6)),
+                "holidays": ["2026-01-01", "2026-04-30", "2026-05-01", "2026-09-02"]
+            },
+            "dataDate": body.get("data_date", start_date),
+            "baselineSaved": True
+        },
+        "tasks": tasks
+    }
+    return JSONResponse(content=tiendo_payload)
+
+@app.get("/tiendo_cpm.html")
+def serve_tiendo_cpm_redirect():
+    """Redirect hoặc mở ứng dụng Tiến độ CPM"""
+    cpm_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "tiendo_cpm.html")
+    if os.path.exists(cpm_file):
+        with open(cpm_file, "r", encoding="utf-8") as f:
+            return HTMLResponse(content=f.read())
+    return HTMLResponse(content="<script>window.location.href='/tiendo/';</script>")
 
 @app.get("/", response_class=HTMLResponse)
 def serve_dashboard():

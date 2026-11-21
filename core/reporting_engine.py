@@ -197,6 +197,45 @@ class ConstructionReportingEngine:
             for chk in head_r.get("compliance_checks", []):
                 md_lines.append(f"  - [{chk.get('status', 'PASS')}] **{chk.get('check', '')}:** {chk.get('details', '')}")
 
+        elif wf == "PLANNING":
+            dossier = result_data.get("specialist_dossier", {})
+            head_rev = result_data.get("head_review", {})
+            evm = dossier.get("evm", {})
+            comp = result_data.get("schedule_compression", {})
+            md_lines.extend([
+                f"- **Dự án thi công:** {result_data.get('project_name', project_name)}",
+                f"- **Căn cứ pháp lý tiến độ:** {head_rev.get('applicable_law', 'Nghị định 210/2026/NĐ-CP & 207/2026/NĐ-CP')}",
+                f"- **Chuyên viên Lập tiến độ CPM:** {specialist}",
+                f"- **Trưởng phòng Kiểm soát & EVM:** {head}",
+                f"- **Ngày khởi công:** {dossier.get('start_date', '2026-11-21')} | **Lịch công trường:** {dossier.get('work_days_per_week', 6)} ngày/tuần",
+                f"- **Tổng thời gian hoàn thành (CPM):** **{dossier.get('project_duration_days', 0)} ngày làm việc** (Dự kiến xong: `{dossier.get('project_finish_date', '')}`)",
+                f"- **Tiến độ hoàn thành tích lũy:** **{dossier.get('overall_progress_pct', 0)}%**",
+                f"- **Số lượng công việc trên Đường găng (Critical):** **{dossier.get('critical_path_count', 0)} công tác** (Total Float = 0)",
+                f"- **Giá trị hoàn thành thực tế (EV):** {evm.get('ev', 0):,.0f} VNĐ / Kế hoạch (PV): {evm.get('pv', 0):,.0f} VNĐ",
+                f"- **Chỉ số hiệu suất tiến độ (SPI):** **{evm.get('spi', 1.0):.2f}** {'(Đạt chuẩn)' if evm.get('spi', 1.0) >= 0.95 else '(CẢNH BÁO CHẬM TIẾN ĐỘ)'}",
+                f"- **Chỉ số hiệu suất chi phí (CPI):** **{evm.get('cpi', 1.0):.2f}** | Dự báo chi phí hoàn thành (EAC): {evm.get('eac', 0):,.0f} VNĐ",
+                "\n#### 🔴 Danh sách công việc thuộc Đường găng (Critical Path):"
+            ])
+            for ct in dossier.get("critical_tasks", []):
+                md_lines.append(f"  - ⚡ **[CRITICAL]** `{ct}`")
+
+            if dossier.get("dangling_tasks"):
+                md_lines.append("\n#### ⚠️ Danh mục công việc treo (Dangling Tasks):")
+                for dt in dossier.get("dangling_tasks", []):
+                    md_lines.append(f"  - ⚠️ {dt}")
+
+            if comp.get("fast_tracking_options") or comp.get("crashing_options"):
+                md_lines.append("\n#### ⚡ Đề xuất Kỹ thuật Nén tiến độ (Schedule Compression):")
+                for ft in comp.get("fast_tracking_options", [])[:4]:
+                    md_lines.append(f"  - ⏩ **[Fast-Tracking]** `{ft.get('task_code')}` {ft.get('task_name')}: {ft.get('proposed_link')} (Rút ngắn ~{ft.get('time_saved_days')} ngày)")
+                for cr in comp.get("crashing_options", [])[:4]:
+                    md_lines.append(f"  - 🚀 **[Crashing]** `{cr.get('task_code')}` {cr.get('task_name')}: {cr.get('method')} (Rút ngắn ~{cr.get('time_saved_days')} ngày, chi phí ước tính: {cr.get('estimated_extra_cost', 0):,.0f} VNĐ)")
+
+            if head_rev.get("warnings"):
+                md_lines.append("\n#### 🚨 Cảnh báo & Khuyến nghị của Trưởng phòng:")
+                for w in head_rev.get("warnings", []):
+                    md_lines.append(f"  - ⚠️ {w}")
+
         # Kết luận & Chữ ký
         md_lines.extend([
             "\n---",

@@ -241,7 +241,27 @@
             <button class="btn-quick-assign" style="border-color:#d946ef; color:#f0abfc;" onclick="quickAssignDept('MARKETING')">🎯 Giao Việc Cho Ban Marketing & Media</button>
           </div>
 
-          <!-- Card 7: Legal RAG -->
+          <!-- Card 7: Planning & CPM Schedule -->
+          <div class="card" style="border-left: 4px solid #fb923c;">
+            <h3 style="color:#fdba74;">⏱️ Phòng Kế Hoạch & Kiểm Soát Tiến Độ</h3>
+            <p>Lập WBS 6 giai đoạn, tính mạng găng CPM, dự trữ TF/FF, S-Curve EVM (PV/EV/AC) & nén tiến độ theo tiendothicong.vercel.app.</p>
+            <div class="staff-container">
+              <div class="staff-row">
+                <span class="badge-specialist" style="border-color:#fb923c; color:#fed7aa;">👷 Chuyên viên</span>
+                <span><b>Trần Tiến Độ</b> (Kỹ sư Lập Tiến độ CPM, Gantt & S-Curve)</span>
+              </div>
+              <div class="staff-row">
+                <span class="badge-head" style="border-color:#f97316; color:#ffedd5;">🧑‍⚖️ Trưởng phòng</span>
+                <span><b>Nguyễn Kế Hoạch</b> (Kiểm duyệt Đường găng & Báo cáo Chủ đầu tư)</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button class="btn-quick-assign" style="flex:1; border-color:#fb923c; color:#fdba74;" onclick="quickAssignDept('PLANNING')">🎯 Giao Việc Phòng Kế Hoạch</button>
+              <button class="btn-quick-assign" style="flex:1; border-color:#f97316; color:#fed7aa;" onclick="openTienDoCpmWorkspace('./tiendo/')">⏱️ Mở Workspace CPM</button>
+            </div>
+          </div>
+
+          <!-- Card 8: Legal RAG -->
           <div class="card" style="border-color: #3b82f6;">
             <h3>📚 Thư Viện Pháp Luật 2026</h3>
             <p>Đã nạp 100% dữ liệu gốc tại THU_VIEN_PHAP_LUAT_XAY_DUNG_2026. Truy vết chính xác 100% từng Điều Khoản.</p>
@@ -399,6 +419,23 @@
                     <span id="tag-as-marketing" class="file-name-tag">Brief_Chien_Dich_Marketing_TT_Tower.docx</span>
                   </div>
                   <input type="text" id="link-as-marketing" class="input-link-small" placeholder="🔗 Dán link Google Drive / kịch bản / ảnh flycam công trình..." value="https://drive.google.com/drive/folders/Marketing_Media_TT_Tower.docx">
+                </div>
+              </div>
+
+              <!-- Phòng 7: Kế Hoạch & Tiến Độ CPM -->
+              <div class="dept-assign-card" style="border-left: 3px solid #fb923c;">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px;">
+                  <input type="checkbox" id="as-planning" checked style="width:17px; height:17px;">
+                  <b style="color:#fdba74;">⏱️ 7. Phòng Kế Hoạch & Kiểm Soát Tiến Độ</b>
+                </label>
+                <div style="font-size:0.75rem; color:#94a3b8;">👷 CV: Trần Tiến Độ • 🧑‍⚖️ TP: Nguyễn Kế Hoạch (Mạng CPM, Gantt, EVM & NĐ 210)</div>
+                <div class="dept-file-box">
+                  <div class="file-upload-row">
+                    <label class="btn-upload-file" for="file-as-planning">📂 Tải Hồ Sơ Lên</label>
+                    <input type="file" id="file-as-planning" style="display:none;" onchange="handleDeptFileSelect('PLANNING', this, 'tag-as-planning', 'link-as-planning')">
+                    <span id="tag-as-planning" class="file-name-tag">Ke_Hoach_Tien_Do_WBS_CPM.tiendo.json</span>
+                  </div>
+                  <input type="text" id="link-as-planning" class="input-link-small" placeholder="🔗 Dán link Google Drive file .tiendo.json hoặc bảng tiến độ Excel..." value="https://tiendothicong.vercel.app/">
                 </div>
               </div>
             </div>
@@ -1145,21 +1182,27 @@
             <span class="pipeline-node-status">🟢 4 Trực tuyến</span>
           </div>
           <span class="pipeline-arrow">➔</span>
+          <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('PLANNING')" title="Nhấp để chuyển camera về Phòng Kế Hoạch & Tiến Độ">
+            <span class="pipeline-node-icon">⏱️</span>
+            <span class="pipeline-node-title">5. Kế Hoạch CPM</span>
+            <span class="pipeline-node-status">🟢 2 Trực tuyến</span>
+          </div>
+          <span class="pipeline-arrow">➔</span>
           <div class="pipeline-node active-glow" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('QAQC')" title="Nhấp để chuyển camera về Ban QA/QC">
             <span class="pipeline-node-icon">🏗️</span>
-            <span class="pipeline-node-title">5. QA/QC</span>
+            <span class="pipeline-node-title">6. QA/QC</span>
             <span class="pipeline-node-status" style="color:#fbbf24;">⚡ Đang thẩm định</span>
           </div>
           <span class="pipeline-arrow">➔</span>
           <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('SETTLEMENT')" title="Nhấp để chuyển camera về Ban Quyết Toán">
             <span class="pipeline-node-icon">💰</span>
-            <span class="pipeline-node-title">6. Quyết Toán</span>
+            <span class="pipeline-node-title">7. Quyết Toán</span>
             <span class="pipeline-node-status">🟢 2 Trực tuyến</span>
           </div>
           <span class="pipeline-arrow">➔</span>
           <div class="pipeline-node" onclick="if(window.office3DInstance) window.office3DInstance.focusZone('MARKETING')" title="Nhấp để chuyển camera về Ban Marketing">
             <span class="pipeline-node-icon">🎬</span>
-            <span class="pipeline-node-title">7. Marketing</span>
+            <span class="pipeline-node-title">8. Marketing</span>
             <span class="pipeline-node-status">🟢 3 Trực tuyến</span>
           </div>
         </div>
@@ -1198,8 +1241,8 @@
                 </div>
               </div>
 
-              <!-- Danh sách tiến độ 6 Ban -->
-              <div style="font-size:0.8rem; color:#94a3b8; font-weight:700; text-transform:uppercase;">Tiến Độ 6 Ban & Dịch Vụ</div>
+              <!-- Danh sách tiến độ 7 Ban -->
+              <div style="font-size:0.8rem; color:#94a3b8; font-weight:700; text-transform:uppercase;">Tiến Độ 7 Ban & Dịch Vụ</div>
 
               <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
@@ -1223,6 +1266,14 @@
                   <span style="font-size:0.7rem; color:#34d399;">● 79%</span>
                 </div>
                 <div style="font-size:0.73rem; color:#cbd5e1;">Bóc CAD kết cấu, hạ tầng san nền & MEP TT 09/2024</div>
+              </div>
+
+              <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <span style="font-weight:600; color:#fb923c;">⏱️ Phòng Kế Hoạch (2 NS)</span>
+                  <span style="font-size:0.7rem; color:#34d399;">● 92%</span>
+                </div>
+                <div style="font-size:0.73rem; color:#cbd5e1;">Tiến độ CPM 6 giai đoạn, đường găng &amp; EVM S-Curve</div>
               </div>
 
               <div style="background:#0f172a; border:1px solid #1e293b; border-radius:8px; padding:10px;">
@@ -1736,6 +1787,7 @@
       document.getElementById('as-qaqc').checked = (wf === 'QAQC');
       document.getElementById('as-settlement').checked = (wf === 'SETTLEMENT');
       if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = (wf === 'MARKETING');
+      if (document.getElementById('as-planning')) document.getElementById('as-planning').checked = (wf === 'PLANNING');
 
       const names = {
         'CONTRACT': 'Thẩm tra Pháp lý Hợp đồng & Rà soát 12 Bẫy (NĐ 210/2026)',
@@ -1743,7 +1795,8 @@
         'QS_BOQ': 'Bóc tách Khối lượng BOQ & Áp mã định mức TT 09/2024/TT-BXD',
         'QAQC': 'Kiểm tra Điều kiện Nghiệm thu BBNTCV & Mẫu dấu hoàn công (NĐ 06/2021)',
         'SETTLEMENT': 'Kiểm toán 4 tầng Hồ sơ Thanh toán Mẫu 08a (NĐ 99/2021)',
-        'MARKETING': 'Lập Kế hoạch PR & Sản xuất Video quảng cáo năng lực doanh nghiệp'
+        'MARKETING': 'Lập Kế hoạch PR & Sản xuất Video quảng cáo năng lực doanh nghiệp',
+        'PLANNING': 'Lập & Thẩm định Tiến độ CPM, Đường găng & Phân tích EVM S-Curve (tiendothicong.vercel.app)'
       };
       document.getElementById('task-title').value = names[wf] || 'Giao việc chuyên môn phòng ban';
     }
@@ -1758,6 +1811,7 @@
         document.getElementById('as-qaqc').checked = false;
         document.getElementById('as-settlement').checked = false;
         if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = false;
+        if (document.getElementById('as-planning')) document.getElementById('as-planning').checked = false;
         document.getElementById('task-title').value = "Thẩm định Gói thầu Mua sắm Thiết bị & Rà soát Dự thảo Hợp đồng";
       } else if (num === 3) {
         document.getElementById('as-contract').checked = false;
@@ -1766,6 +1820,7 @@
         document.getElementById('as-qaqc').checked = true;
         document.getElementById('as-settlement').checked = true;
         if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = false;
+        if (document.getElementById('as-planning')) document.getElementById('as-planning').checked = false;
         document.getElementById('task-title').value = "Thẩm tra Khối lượng BOQ, Nghiệm thu QA/QC & Giải ngân Mẫu 08a Đợt 1";
       } else if (num === 4) {
         document.getElementById('as-contract').checked = true;
@@ -1774,7 +1829,8 @@
         document.getElementById('as-qaqc').checked = true;
         document.getElementById('as-settlement').checked = true;
         if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = true;
-        document.getElementById('task-title').value = "Tổng Rà Soát Toàn Diện Dự Án (6 Ban - 13 Nhân Sự AI) & Xuất Hồ Sơ Tổng Thể";
+        if (document.getElementById('as-planning')) document.getElementById('as-planning').checked = true;
+        document.getElementById('task-title').value = "Tổng Rà Soát Toàn Diện Dự Án (7 Ban - 15 Nhân Sự AI) & Xuất Hồ Sơ Tổng Thể";
       } else if (num === 5) {
         document.getElementById('as-contract').checked = false;
         document.getElementById('as-bidding').checked = false;
@@ -1782,7 +1838,17 @@
         document.getElementById('as-qaqc').checked = false;
         document.getElementById('as-settlement').checked = false;
         if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = true;
+        if (document.getElementById('as-planning')) document.getElementById('as-planning').checked = false;
         document.getElementById('task-title').value = "Chiến dịch Truyền thông Nâng tầm Thương hiệu & Sản xuất Video Giới thiệu 2026";
+      } else if (num === 6) {
+        document.getElementById('as-contract').checked = false;
+        document.getElementById('as-bidding').checked = false;
+        document.getElementById('as-qs').checked = false;
+        document.getElementById('as-qaqc').checked = false;
+        document.getElementById('as-settlement').checked = false;
+        if (document.getElementById('as-marketing')) document.getElementById('as-marketing').checked = false;
+        if (document.getElementById('as-planning')) document.getElementById('as-planning').checked = true;
+        document.getElementById('task-title').value = "Thẩm định Mạng Tiến Độ Thi Công CPM, Xác định Đường Găng & S-Curve";
       }
     }
 
@@ -1794,6 +1860,7 @@
       if (document.getElementById('as-qaqc').checked) wfs.push('QAQC');
       if (document.getElementById('as-settlement').checked) wfs.push('SETTLEMENT');
       if (document.getElementById('as-marketing')?.checked) wfs.push('MARKETING');
+      if (document.getElementById('as-planning')?.checked) wfs.push('PLANNING');
 
       if (wfs.length === 0) {
         alert("Vui lòng tích chọn ít nhất 01 Phòng Ban nhận nhiệm vụ!");
@@ -1825,6 +1892,10 @@
         MARKETING: {
           attached_file_name: (document.getElementById('tag-as-marketing')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
           attached_file_link: document.getElementById('link-as-marketing')?.value || ''
+        },
+        PLANNING: {
+          attached_file_name: (document.getElementById('tag-as-planning')?.innerText || '').replace('✅ ', '').replace('⏳ Đang tải: ', ''),
+          attached_file_link: document.getElementById('link-as-planning')?.value || ''
         }
       };
 
@@ -3444,6 +3515,7 @@
         'QAQC': 'QAQC',
         'SETTLEMENT': 'SETTLEMENT',
         'MARKETING': 'MARKETING',
+        'PLANNING': 'PLANNING',
         'CANTEEN': 'MARKETING'
       };
       const wf = deptMap[selected3DStaffData.dept] || 'CONTRACT';
@@ -3493,12 +3565,17 @@
       { type: 'Phòng Ban', name: 'Ban Pháp Chế & Đàm Phán Hợp Đồng (2 NS)', icon: '⚖️', action: () => { switchTab('contract'); } },
       { type: 'Phòng Ban', name: 'Ban Quản Lý Đấu Thầu & Mua Sắm (4 NS)', icon: '📋', action: () => { switchTab('bidding'); } },
       { type: 'Phòng Ban', name: 'Ban Kỹ Sư Dự Toán QS & BOQ (4 NS)', icon: '📐', action: () => { switchTab('qs_boq'); } },
+      { type: 'Phòng Ban', name: 'Phòng Kế Hoạch & Kiểm Soát Tiến Độ CPM (2 NS)', icon: '⏱️', action: () => { switchTab('planning'); } },
       { type: 'Phòng Ban', name: 'Ban Quản Lý Chất Lượng QA/QC (4 NS)', icon: '🏗️', action: () => { switchTab('qaqc'); } },
       { type: 'Phòng Ban', name: 'Ban Kiểm Toán Thanh & Quyết Toán (2 NS)', icon: '💰', action: () => { switchTab('settlement'); } },
       { type: 'Phòng Ban', name: 'Ban Marketing & Truyền Thông (3 NS)', icon: '🎬', action: () => { switchTab('marketing'); } },
+      { type: 'Công Cụ', name: 'Workspace Tiến Độ CPM & Biểu Đồ Gantt (tiendothicong.vercel.app)', icon: '⏱️', action: () => { openTienDoCpmWorkspace('./tiendo/'); } },
+      { type: 'Công Cụ', name: 'Dòng Tiền S-Curve EVM (Earned Value Management)', icon: '📈', action: () => { window.open('./cashflow_scurve.html', '_blank'); } },
+      { type: 'Công Cụ', name: 'Báo Cáo Tiến Độ Thanh Toán Đợt (NĐ 210 & 254)', icon: '🧾', action: () => { window.open('./payment_report.html', '_blank'); } },
       { type: '3D Floor', name: 'Mô hình 3D Sàn Văn Phòng Trực Quan (22 Nhân sự)', icon: '🏛️', action: () => { switchTab('floor3d'); } },
       { type: '3D Cam', name: '3D: Góc nhìn Phòng Founder & CEO Mai Quang Vinh', icon: '👑', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('FOUNDER'); } },
       { type: '3D Cam', name: '3D: Góc nhìn Phòng Họp Lớn & Hội Đồng Xét Thầu', icon: '🏛️', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('BOARDROOM'); } },
+      { type: '3D Cam', name: '3D: Góc nhìn Phòng Kế Hoạch & Tiến Độ Thi Công', icon: '⏱️', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('PLANNING'); } },
       { type: '3D Cam', name: '3D: Góc nhìn Phòng Giải Trí Wellness & Gym', icon: '🎮', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('RECREATION'); } },
       { type: '3D Cam', name: '3D: Góc nhìn Căn Tin & Quầy Bar Phục Vụ', icon: '☕', action: () => { switchTab('floor3d'); if (window.office3DInstance) window.office3DInstance.focusZone('CANTEEN'); } },
       { type: 'Hồ Sơ', name: 'Kho Lưu Trữ Google Drive Dự Án 1 & 2', icon: '☁️', action: () => { switchTab('gdrive'); } },
