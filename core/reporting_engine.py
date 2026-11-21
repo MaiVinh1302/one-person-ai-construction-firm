@@ -236,6 +236,20 @@ class ConstructionReportingEngine:
                 for w in head_rev.get("warnings", []):
                     md_lines.append(f"  - ⚠️ {w}")
 
+            health = result_data.get("schedule_health") or head_rev.get("schedule_health")
+            if health:
+                md_lines.extend([
+                    "\n#### 🩺 Đánh Giá Chất Lượng Mạng Tiến Độ (DCMA 14 Health Audit):",
+                    f"- **Điểm sức khỏe tiến độ:** **{health.get('health_score', 100)}/100** ({health.get('grade', 'N/A')})",
+                    f"- **Số lỗi logic nghiêm trọng:** {health.get('error_count', 0)} | **Số cảnh báo:** {health.get('warning_count', 0)}"
+                ])
+
+            res_hist = result_data.get("resource_histogram") or head_rev.get("resource_histogram")
+            if res_hist and res_hist.get("overlimit_alerts"):
+                md_lines.append("\n#### 🚜 Cảnh Báo Phụ Tải Tài Nguyên & Thiết Bị Thi Công:")
+                for al in res_hist.get("overlimit_alerts", []):
+                    md_lines.append(f"  - ⚠️ {al}")
+
         # Kết luận & Chữ ký
         md_lines.extend([
             "\n---",
@@ -411,6 +425,7 @@ class ConstructionReportingEngine:
         res_qaqc = all_departments_results.get("QAQC", {})
         res_settlement = all_departments_results.get("SETTLEMENT", {})
         res_marketing = all_departments_results.get("MARKETING", {})
+        res_planning = all_departments_results.get("PLANNING", {})
 
         gates = [
             res_contract.get("gate_status", "PENDING"),
@@ -418,10 +433,11 @@ class ConstructionReportingEngine:
             res_qs.get("gate_status", "PENDING"),
             res_qaqc.get("gate_status", "PENDING"),
             res_settlement.get("gate_status", "PENDING"),
-            res_marketing.get("gate_status", "PENDING")
+            res_marketing.get("gate_status", "PENDING"),
+            res_planning.get("gate_status", "PENDING")
         ]
-        approved_count = sum(1 for g in gates if g == "APPROVED_FOR_TRANSFER")
-        blocked_count = sum(1 for g in gates if g == "BLOCKED_REVISE")
+        approved_count = sum(1 for g in gates if g in ["APPROVED_FOR_TRANSFER", "APPROVED"])
+        blocked_count = sum(1 for g in gates if g in ["BLOCKED_REVISE", "BLOCKED"])
 
         contract_val = res_contract.get("specialist_dossier", {}).get("advance_analysis", {}).get("contract_value", 0) or 15_000_000_000
         settlement_paid = res_settlement.get("specialist_dossier", {}).get("net_payable_amount", 0) or 1_500_000_000
@@ -430,15 +446,15 @@ class ConstructionReportingEngine:
             f"# 🏢 {cls.COMPANY_NAME}",
             f"## {report_title.upper()}",
             f"**Mã hồ sơ tổng thể:** `{report_code}` | **Dự án:** {project_name} (`{project_code}`)",
-            f"**Thời gian xuất bản:** {timestamp} | **Phạm vi:** TOÀN DIỆN 6 PHÒNG BAN CHUYÊN MÔN",
+            f"**Thời gian xuất bản:** {timestamp} | **Phạm vi:** TOÀN DIỆN 7 PHÒNG BAN CHUYÊN MÔN",
             f"**Người phê duyệt tối cao:** Founder / CEO {cls.FOUNDER_NAME} (Level 5)\n",
             "---",
             "### 🏛️ PHẦN I: TỔNG QUAN ĐIỀU HÀNH & MA TRẬN CHUYỂN BƯỚC (EXECUTIVE SUMMARY)",
-            f"- **Chỉ số sức khỏe dự án:** Đạt {approved_count}/6 phòng ban được cấp lệnh chuyển bước ({int(approved_count/6*100)}%).",
+            f"- **Chỉ số sức khỏe dự án:** Đạt {approved_count}/7 phòng ban được cấp lệnh chuyển bước ({int(approved_count/7*100)}%).",
             f"- **Số phòng ban bị chặn lại để sửa đổi:** {blocked_count} phòng ban.",
             f"- **Tổng giá trị hợp đồng quản lý:** {contract_val:,.0f} VNĐ.",
             f"- **Tổng giá trị giải ngân đề xuất:** {settlement_paid:,.0f} VNĐ.",
-            "\n#### 📋 Bảng Tổng Hợp Kiểm Soát 6 Phòng Ban (Pháp Luật 2026 & Quy Chế Tập Đoàn):",
+            "\n#### 📋 Bảng Tổng Hợp Kiểm Soát 7 Phòng Ban (Pháp Luật 2026 & Quy Chế Tập Đoàn):",
             "| STT | Phòng Ban | Chuyên Viên Thực Thi | Trưởng Phòng Kiểm Duyệt | Pháp Luật 2026 & Quy Chế Nội Bộ | Lệnh Chuyển Bước |",
             "| :---: | :--- | :--- | :--- | :--- | :---: |",
             f"| 1 | **Pháp chế & Hợp đồng** | Nguyễn Văn Pháp | Trần Thị Tuân Thủ | NĐ 210/2026 & Mẫu QĐ 690/560 | `[{res_contract.get('gate_status', 'N/A')}]` |",
@@ -447,6 +463,7 @@ class ConstructionReportingEngine:
             f"| 4 | **Quản lý Chất lượng QA/QC** | Bùi Văn Nghiệm | Hoàng Văn Chuẩn | NĐ 06/2021 & Checklist 17 BM QA/QC | `[{res_qaqc.get('gate_status', 'N/A')}]` |",
             f"| 5 | **Kiểm toán Thanh Quyết toán** | Ngô Thị Quyết | Đặng Đức Toán | NĐ 99/2021 & QĐ 122/123 (BM-16.1) | `[{res_settlement.get('gate_status', 'N/A')}]` |",
             f"| 6 | **Marketing & Truyền thông** | Trần Thị Lan Tỏa & Nguyễn Huy Dựng | Lê Mai Truyền | Quy chuẩn T&T & Chiến lược Đa kênh | `[{res_marketing.get('gate_status', 'N/A')}]` |",
+            f"| 7 | **Kế hoạch & Tiến độ CPM** | Trần Tiến Độ | Nguyễn Kế Hoạch | NĐ 210/2026, 207/2026 & CPM/EVM | `[{res_planning.get('gate_status', 'N/A')}]` |",
             "\n---",
             "### 📑 PHẦN II: BÁO CÁO CHUYÊN MÔN CHI TIẾT TỪNG PHÒNG BAN",
             "\n#### 1. BAN PHÁP CHẾ & HỢP ĐỒNG (LEGAL & CONTRACT)",
@@ -515,17 +532,32 @@ class ConstructionReportingEngine:
             f"- **Nội dung:** {res_marketing.get('summary', '')}"
         ])
 
+        res_plan_dossier = res_planning.get("specialist_dossier", {})
+        res_plan_evm = res_plan_dossier.get("evm", {})
+        res_plan_health = res_planning.get("schedule_health") or {}
+        md_lines.extend([
+            "\n#### 7. PHÒNG KẾ HOẠCH & KIỂM SOÁT TIẾN ĐỘ THI CÔNG (PLANNING & PROGRESS)",
+            f"- **Chuyên viên Lập tiến độ CPM:** {res_planning.get('personnel', {}).get('specialist', 'Trần Tiến Độ')}",
+            f"- **Trưởng phòng Kiểm soát & EVM:** {res_planning.get('personnel', {}).get('department_head', 'Nguyễn Kế Hoạch')}",
+            f"- **Lệnh chuyển bước:** `[{res_planning.get('gate_status', 'N/A')}]`",
+            f"- **Thời gian hoàn thành (CPM):** {res_plan_dossier.get('project_duration_days', 0)} ngày làm việc | Ngày xong: `{res_plan_dossier.get('project_finish_date', '')}`",
+            f"- **Đường găng (Critical Path):** {res_plan_dossier.get('critical_path_count', 0)} công việc | Sức khỏe tiến độ: **{res_plan_health.get('health_score', 100)}/100** ({res_plan_health.get('grade', 'N/A')})",
+            f"- **Chỉ số EVM:** SPI = {res_plan_evm.get('spi', 1.0):.2f} | CPI = {res_plan_evm.get('cpi', 1.0):.2f} | EV = {res_plan_evm.get('ev', 0):,.0f} VNĐ",
+            f"- **Nội dung:** {res_planning.get('summary', '')}"
+        ])
+
         md_lines.extend([
             "\n---",
             "### 👑 PHẦN III: QUYẾT NGHỊ VÀ PHÊ DUYỆT CỦA FOUNDER / CEO",
-            f"Căn cứ kết quả thẩm tra 6 phòng ban, Founder / CEO **{cls.FOUNDER_NAME}** phê chuẩn:",
-            f"1. **Chấp thuận kết quả chuyển bước** của các phòng ban đạt chuẩn (`APPROVED_FOR_TRANSFER`).",
+            f"Căn cứ kết quả thẩm tra 7 phòng ban, Founder / CEO **{cls.FOUNDER_NAME}** phê chuẩn:",
+            f"1. **Chấp thuận kết quả chuyển bước** của các phòng ban đạt chuẩn (`APPROVED_FOR_TRANSFER` / `APPROVED`).",
             "2. **Yêu cầu đàm phán sửa đổi** các điều khoản hợp đồng vi phạm Nghị định 210/2026/NĐ-CP trước khi ký kết chính thức.",
             "3. **Phê duyệt hạn mức giải ngân** theo Mẫu 08a sau khi đã khấu trừ tạm ứng và bảo hành 5% đúng quy định.",
             "4. **Phê duyệt chiến dịch truyền thông đa kênh** và phát hành các ấn phẩm, video quảng bá hình ảnh doanh nghiệp.",
+            "5. **Phê duyệt tiến độ gốc (Baseline) & S-Curve**; yêu cầu kiểm soát chặt chẽ các công việc trên Đường găng để không chậm hạn bàn giao.",
             "\n| BAN KIỂM SOÁT THẨM TRA | TRƯỞNG BAN ĐIỀU PHỐI AI | CHỦ TỊCH / CEO PHÊ DUYỆT |",
             "| :---: | :---: | :---: |",
-            "| **Hội đồng 6 Trưởng ban** | **Multi-Agent Orchestrator** | **Mai Quang Vinh** |",
+            "| **Hội đồng 7 Trưởng ban** | **Multi-Agent Orchestrator** | **Mai Quang Vinh** |",
             "| *(Ký tên và đóng dấu chuyên môn)* | *(Tự động tổng hợp và kiểm toán)* | *(Ký duyệt cao nhất & Chịu trách nhiệm pháp lý)* |"
         ])
 

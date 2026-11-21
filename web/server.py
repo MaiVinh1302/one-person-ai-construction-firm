@@ -12,7 +12,7 @@ import os
 import sys
 import base64
 import datetime
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Response
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -363,6 +363,100 @@ async def export_tiendo_json(request: Request):
         "tasks": tasks
     }
     return JSONResponse(content=tiendo_payload)
+
+@app.post("/api/planning/health-check")
+async def check_planning_schedule_health(request: Request):
+    """Kiểm toán 12 chỉ tiêu sức khỏe mạng tiến độ chuẩn DCMA 14 & tiendothicong.vercel.app"""
+    body = await request.json()
+    tasks = body.get("tasks", [])
+    dossier = PlanningScheduleSpecialistAgent.compute_cpm_and_evm(
+        project_name=body.get("project_name", "Dự án"),
+        tasks=tasks
+    )
+    health = PlanningScheduleSpecialistAgent.audit_schedule_health(
+        dossier.get("tasks_computed", []),
+        dossier.get("project_duration_days", 0)
+    )
+    return JSONResponse(content=health)
+
+@app.post("/api/planning/resource-histogram")
+async def get_planning_resource_histogram(request: Request):
+    """Tính toán phụ tải tài nguyên nhân lực và ca máy theo từng ngày làm việc"""
+    body = await request.json()
+    tasks = body.get("tasks", [])
+    start_date = body.get("start_date", "2026-11-21")
+    work_days = int(body.get("work_days_per_week", 6))
+    limits = body.get("daily_limits")
+    dossier = PlanningScheduleSpecialistAgent.compute_cpm_and_evm(
+        project_name=body.get("project_name", "Dự án"),
+        tasks=tasks,
+        start_date=start_date,
+        work_days_per_week=work_days
+    )
+    res_hist = PlanningScheduleSpecialistAgent.calculate_resource_histogram(
+        tasks_computed=dossier.get("tasks_computed", []),
+        start_date_str=start_date,
+        work_days_per_week=work_days,
+        daily_limits=limits
+    )
+    return JSONResponse(content=res_hist)
+
+@app.post("/api/planning/export-ms-project-xml")
+async def export_ms_project_xml_endpoint(request: Request):
+    """Xuất chuỗi XML chuẩn Microsoft Project 2013-2021"""
+    body = await request.json()
+    proj_name = body.get("project_name", "Du_An_Tien_Do")
+    start_date = body.get("start_date", "2026-11-21")
+    work_days = int(body.get("work_days_per_week", 6))
+    tasks = body.get("tasks", [])
+    dossier = PlanningScheduleSpecialistAgent.compute_cpm_and_evm(
+        project_name=proj_name,
+        tasks=tasks,
+        start_date=start_date,
+        work_days_per_week=work_days
+    )
+    xml_str = PlanningScheduleSpecialistAgent.export_ms_project_xml(
+        project_name=proj_name,
+        tasks_computed=dossier.get("tasks_computed", []),
+        start_date=start_date,
+        work_days_per_week=work_days
+    )
+    filename = f"{re.sub(r'[^a-zA-Z0-9_-]', '_', proj_name)}_MSP.xml"
+    return Response(
+        content=xml_str,
+        media_type="application/xml",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
+    )
+
+@app.post("/api/planning/subcontractor/extract")
+async def extract_subcontractor_package_endpoint(request: Request):
+    """Bóc tách một nhánh WBS thành file gói thầu phụ độc lập"""
+    body = await request.json()
+    tasks = body.get("tasks", [])
+    filter_key = body.get("filter_key", "")
+    pkg_name = body.get("package_name", "Gói Thầu Phụ")
+    dossier = PlanningScheduleSpecialistAgent.compute_cpm_and_evm(
+        project_name=body.get("project_name", "Dự án"),
+        tasks=tasks
+    )
+    pkg = PlanningScheduleSpecialistAgent.extract_subcontractor_package(
+        tasks_computed=dossier.get("tasks_computed", []),
+        filter_keyword_or_subcon=filter_key,
+        package_name=pkg_name
+    )
+    return JSONResponse(content=pkg)
+
+@app.post("/api/planning/subcontractor/merge")
+async def merge_subcontractor_package_endpoint(request: Request):
+    """Gộp tiến độ thực tế từ Nhà thầu phụ vào Master Schedule"""
+    body = await request.json()
+    master_tasks = body.get("master_tasks", [])
+    sub_tasks = body.get("sub_tasks", [])
+    merged = PlanningScheduleSpecialistAgent.merge_subcontractor_package(
+        master_tasks=master_tasks,
+        sub_package_tasks=sub_tasks
+    )
+    return JSONResponse(content=merged)
 
 @app.get("/tiendo_cpm.html")
 def serve_tiendo_cpm_redirect():

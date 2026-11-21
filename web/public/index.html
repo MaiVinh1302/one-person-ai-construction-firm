@@ -3972,11 +3972,37 @@
       planDownloadText(`${cur.id}_tiendo.csv`, '\uFEFF' + rows.join('\n'), 'text/csv;charset=utf-8');
     };
 
-    window.planExportMsProjectXml = function() {
+    window.planExportMsProjectXml = async function() {
       const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      try {
+        const resp = await fetch('/api/planning/export-ms-project-xml', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            project_name: cur.name,
+            start_date: cur.startDate || '2026-11-21',
+            work_days_per_week: cur.workDaysPerWeek || 6,
+            tasks: cur.tasks || []
+          })
+        });
+        if (resp.ok) {
+          const blob = await resp.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${cur.id}_msproject.xml`;
+          a.click();
+          URL.revokeObjectURL(url);
+          return;
+        }
+      } catch (err) {
+        console.warn('Backend export failed, fallback to client XML generator:', err);
+      }
+      // Fallback
       const res = planComputeCpm(cur);
       const tasksXml = res.tasks.map((t, idx) => `
-    <Task><UID>${idx + 1}</UID><ID>${idx + 1}</ID><Name>${t.name.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</Name><WBS>${t.code}</WBS><Duration>PT${t.durationDays * 8}H0M0S</Duration><PercentComplete>${t.progress}</PercentComplete><Critical>${t.isCritical ? 1 : 0}</Critical></Task>`).join('');
+    <Task><UID>${idx + 1}</UID><ID>${idx + 1}</ID><Name>${t.name.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</Name><WBS>${t.code}</WBS><Duration>PT${t.durationDays * 480}M0S</Duration><PercentComplete>${t.progress}</PercentComplete><Critical>${t.isCritical ? 1 : 0}</Critical></Task>`).join('');
       const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Project xmlns="http://schemas.microsoft.com/project">\n  <Name>${cur.name}</Name>\n  <Tasks>${tasksXml}\n  </Tasks>\n</Project>`;
       planDownloadText(`${cur.id}_msproject.xml`, xml, 'application/xml');
     };
@@ -4303,8 +4329,51 @@
       input.value = '';
     };
 
-    window.planRunLogicValidator = function() {
+    window.planRunLogicValidator = async function() {
       const cur = PLAN_STORE.projects[PLAN_STORE.activeProjectId];
+      if (!cur) return;
+      const outBox = document.getElementById('planValidationOutput');
+      outBox.innerHTML = '<div style="color:#38bdf8;">⏳ Đang chạy kiểm toán 12 chỉ tiêu sức khỏe tiến độ chuẩn DCMA 14 & tiendothicong...</div>';
+
+      try {
+        const resp = await fetch('/api/planning/health-check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            project_name: cur.name,
+            tasks: cur.tasks || []
+          })
+        });
+        if (resp.ok) {
+          const h = await resp.json();
+          const badgeColor = h.health_score >= 90 ? '#34d399' : (h.health_score >= 75 ? '#38bdf8' : (h.health_score >= 50 ? '#fbbf24' : '#f87171'));
+          const issuesHtml = (h.issues || []).map(iss => {
+            const icon = iss.type === 'ERROR' ? '❌' : (iss.type === 'WARNING' ? '⚠️' : 'ℹ️');
+            const color = iss.type === 'ERROR' ? '#f87171' : (iss.type === 'WARNING' ? '#fbbf24' : '#94a3b8');
+            return `<div style="margin-bottom:4px; color:${color}; font-size:0.8rem;">${icon} [${iss.code}] ${iss.message}</div>`;
+          }).join('');
+
+          outBox.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:8px; margin-bottom:8px;">
+              <span style="font-weight:700; color:#f8fafc;">🩺 Kết Quả Kiểm Toán DCMA 14 & tiendothicong.vercel.app:</span>
+              <span style="background:${badgeColor}; color:#000; font-weight:800; padding:2px 10px; border-radius:12px; font-size:0.85rem;">
+                ${h.health_score}/100 - ${h.grade}
+              </span>
+            </div>
+            <div style="font-size:0.82rem; margin-bottom:8px;">
+              ${h.summary}
+            </div>
+            <div style="max-height:220px; overflow-y:auto;">
+              ${issuesHtml || '<div style="color:#34d399; font-weight:700;">✅ Không phát hiện bất kỳ lỗi logic nào. Tiến độ đạt chuẩn chất lượng xuất sắc!</div>'}
+            </div>
+          `;
+          return;
+        }
+      } catch (err) {
+        console.warn('Backend health check error, falling back:', err);
+      }
+
+      // Fallback
       const res = planComputeCpm(cur);
       const issues = [];
       if (res.hasCycle) issues.push('❌ Lỗi nghiêm trọng: Có vòng lặp logic tiền nhiệm (Cycle).');
@@ -4313,7 +4382,7 @@
         if (!hasSucc && t.ef < res.totalDur) issues.push(`⚠️ Công việc treo (chưa nối kế nhiệm): <b>${t.code}</b> - ${t.name}`);
         if (t.durationDays === 0 && t.kind !== 'milestone') issues.push(`ℹ️ <b>${t.code}</b> có thời lượng 0 ngày (nên chuyển loại Milestone).`);
       });
-      document.getElementById('planValidationOutput').innerHTML = issues.length
+      outBox.innerHTML = issues.length
         ? issues.map(i => `<div style="margin-bottom:4px;">${i}</div>`).join('')
         : '<div style="color:#34d399; font-weight:700;">✅ Mạng tiến độ hợp lệ 100%: Không có vòng lặp, không có công việc treo!</div>';
     };
